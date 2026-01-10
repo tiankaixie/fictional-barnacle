@@ -7,14 +7,16 @@
 
 import ExpoModulesCore
 import AVFoundation
-// Note: WhisperKit needs to be added via Swift Package Manager
-// import WhisperKit
+import WhisperKit
 
 public class WhisperKitModule: Module {
+    private var whisperKit: WhisperKit?
     private var audioEngine: AVAudioEngine?
     private var isRecording = false
     private var transcriptionBuffer: String = ""
     private var recordingStartTime: Date?
+    private var audioSamples: [Float] = []
+    private let sampleRate: Double = 16000.0
 
     public func definition() -> ModuleDefinition {
         Name("WhisperKit")
@@ -29,11 +31,15 @@ public class WhisperKitModule: Module {
         // Initialize WhisperKit with specified model
         AsyncFunction("initialize") { (modelName: String?) -> Bool in
             do {
-                // TODO: Initialize WhisperKit
-                // let config = WhisperKitConfig(model: modelName ?? "base.en")
-                // self.whisperKit = try await WhisperKit(config)
+                let model = modelName ?? "base"
+
+                // Initialize WhisperKit with the specified model
+                self.whisperKit = try await WhisperKit(model: model)
+
+                print("[WhisperKit] Initialized with model: \(model)")
                 return true
             } catch {
+                print("[WhisperKit] Initialization error: \(error.localizedDescription)")
                 self.sendEvent("onError", ["message": error.localizedDescription])
                 return false
             }
@@ -42,16 +48,24 @@ public class WhisperKitModule: Module {
         // Start real-time transcription
         AsyncFunction("startRecording") { () -> Bool in
             do {
+                guard self.whisperKit != nil else {
+                    throw NSError(domain: "WhisperKit", code: -1, userInfo: [NSLocalizedDescriptionKey: "WhisperKit not initialized"])
+                }
+
                 try await self.setupAudioSession()
                 self.isRecording = true
                 self.transcriptionBuffer = ""
+                self.audioSamples = []
                 self.recordingStartTime = Date()
                 self.sendEvent("onRecordingStateChange", ["isRecording": true])
 
                 // Start audio capture
                 await self.startAudioCapture()
+
+                print("[WhisperKit] Started recording")
                 return true
             } catch {
+                print("[WhisperKit] Start recording error: \(error.localizedDescription)")
                 self.sendEvent("onError", ["message": error.localizedDescription])
                 return false
             }
@@ -71,9 +85,25 @@ public class WhisperKitModule: Module {
                 duration = 0
             }
 
-            let finalTranscription = self.transcriptionBuffer
+            // Perform final transcription with all collected audio
+            var finalTranscription = self.transcriptionBuffer
+
+            if !self.audioSamples.isEmpty, let whisperKit = self.whisperKit {
+                do {
+                    let result = try await whisperKit.transcribe(audioArray: self.audioSamples)
+                    if let segments = result?.segments {
+                        finalTranscription = segments.map { $0.text }.joined()
+                    }
+                } catch {
+                    print("[WhisperKit] Final transcription error: \(error.localizedDescription)")
+                }
+            }
+
             self.transcriptionBuffer = ""
+            self.audioSamples = []
             self.recordingStartTime = nil
+
+            print("[WhisperKit] Stopped recording, final text: \(finalTranscription)")
 
             return [
                 "text": finalTranscription,
@@ -83,27 +113,32 @@ public class WhisperKitModule: Module {
 
         // Get available WhisperKit models
         Function("getAvailableModels") { () -> [String] in
-            return ["tiny.en", "base.en", "small.en", "medium.en", "large-v3"]
+            return ["tiny", "tiny.en", "base", "base.en", "small", "small.en", "medium", "medium.en", "large-v3"]
         }
 
         // Check if a model is downloaded locally
         AsyncFunction("isModelDownloaded") { (modelName: String) -> Bool in
-            // TODO: Check if model files exist in local storage
-            return false
+            guard let whisperKit = self.whisperKit else { return false }
+
+            do {
+                let models = try await whisperKit.fetchAvailableModels()
+                return models.contains(modelName)
+            } catch {
+                return false
+            }
         }
 
         // Download a specific model
         AsyncFunction("downloadModel") { (modelName: String) -> Bool in
             do {
-                // TODO: Download model with progress reporting
-                // try await WhisperKit.download(variant: modelName) { progress in
-                //     self.sendEvent("onModelLoadProgress", [
-                //         "progress": progress,
-                //         "model": modelName
-                //     ])
-                // }
+                // Download model
+                let whisperKit = try await WhisperKit(model: modelName, downloadBase: .huggingFace)
+                self.whisperKit = whisperKit
+
+                print("[WhisperKit] Downloaded model: \(modelName)")
                 return true
             } catch {
+                print("[WhisperKit] Download error: \(error.localizedDescription)")
                 self.sendEvent("onError", ["message": error.localizedDescription])
                 return false
             }
@@ -121,41 +156,87 @@ public class WhisperKitModule: Module {
         guard let audioEngine = audioEngine else { return }
 
         let inputNode = audioEngine.inputNode
-        let format = inputNode.outputFormat(forBus: 0)
+        let inputFormat = inputNode.outputFormat(forBus: 0)
 
-        inputNode.installTap(onBus: 0, bufferSize: 1024, format: format) { [weak self] buffer, time in
+        // Convert to 16kHz mono format for WhisperKit
+        let outputFormat = AVAudioFormat(commonFormat: .pcmFormatFloat32,
+                                        sampleRate: sampleRate,
+                                        channels: 1,
+                                        interleaved: false)!
+
+        let converter = AVAudioConverter(from: inputFormat, to: outputFormat)!
+
+        inputNode.installTap(onBus: 0, bufferSize: 4096, format: inputFormat) { [weak self] buffer, time in
             guard let self = self, self.isRecording else { return }
 
-            Task {
-                await self.processAudioBuffer(buffer)
+            // Convert buffer to target format
+            let capacity = AVAudioFrameCount(Double(buffer.frameLength) * self.sampleRate / inputFormat.sampleRate)
+            guard let convertedBuffer = AVAudioPCMBuffer(pcmFormat: outputFormat, frameCapacity: capacity) else {
+                return
+            }
+
+            var error: NSError?
+            let inputBlock: AVAudioConverterInputBlock = { inNumPackets, outStatus in
+                outStatus.pointee = .haveData
+                return buffer
+            }
+
+            converter.convert(to: convertedBuffer, error: &error, withInputFrom: inputBlock)
+
+            if error == nil {
+                Task {
+                    await self.processAudioBuffer(convertedBuffer)
+                }
             }
         }
 
         do {
             try audioEngine.start()
+            print("[WhisperKit] Audio engine started")
         } catch {
+            print("[WhisperKit] Failed to start audio engine: \(error.localizedDescription)")
             sendEvent("onError", ["message": "Failed to start audio engine: \(error.localizedDescription)"])
         }
     }
 
     private func processAudioBuffer(_ buffer: AVAudioPCMBuffer) async {
-        // TODO: Process audio through WhisperKit
-        // guard let whisperKit = whisperKit else { return }
-        //
-        // let audioArray = bufferToFloatArray(buffer)
-        // let result = try await whisperKit.transcribe(audioArray: audioArray)
-        //
-        // if let text = result?.text, !text.isEmpty {
-        //     transcriptionBuffer += text
-        //     sendEvent("onTranscriptionUpdate", [
-        //         "text": text,
-        //         "fullText": transcriptionBuffer,
-        //         "isFinal": false
-        //     ])
-        // }
+        guard let whisperKit = whisperKit else { return }
 
-        // For now, emit a placeholder event
-        // This will be replaced with actual WhisperKit transcription
+        // Convert buffer to float array
+        let audioArray = bufferToFloatArray(buffer)
+        audioSamples.append(contentsOf: audioArray)
+
+        // Process audio in chunks for real-time feedback
+        // Transcribe every ~3 seconds of audio
+        let chunkSize = Int(sampleRate * 3.0)
+
+        if audioSamples.count >= chunkSize {
+            let chunk = Array(audioSamples.prefix(chunkSize))
+
+            do {
+                let result = try await whisperKit.transcribe(audioArray: chunk)
+
+                if let segments = result?.segments, !segments.isEmpty {
+                    let text = segments.map { $0.text }.joined()
+
+                    if !text.isEmpty {
+                        transcriptionBuffer = text
+
+                        DispatchQueue.main.async {
+                            self.sendEvent("onTranscriptionUpdate", [
+                                "text": text,
+                                "fullText": self.transcriptionBuffer,
+                                "isFinal": false
+                            ])
+                        }
+
+                        print("[WhisperKit] Transcribed: \(text)")
+                    }
+                }
+            } catch {
+                print("[WhisperKit] Transcription error: \(error.localizedDescription)")
+            }
+        }
     }
 
     private func bufferToFloatArray(_ buffer: AVAudioPCMBuffer) -> [Float] {

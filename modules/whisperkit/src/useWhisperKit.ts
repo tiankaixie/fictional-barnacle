@@ -123,6 +123,7 @@ export function useWhisperKit(model: WhisperKitModel = 'base.en') {
     async function initialize() {
       try {
         if (hasNativeModule) {
+          console.log('[useWhisperKit] Initializing with native WhisperKit module');
           const emitter = new NativeEventEmitter(WhisperKitModule);
 
           const transcriptionSub = emitter.addListener(
@@ -140,15 +141,24 @@ export function useWhisperKit(model: WhisperKitModel = 'base.en') {
           );
 
           const errorSub = emitter.addListener('onError', (event: { message: string }) => {
+            console.error('[useWhisperKit] Native error:', event.message);
             setError(event.message);
           });
 
           subscriptionsRef.current = [transcriptionSub, stateSub, errorSub];
 
+          console.log(`[useWhisperKit] Initializing with model: ${model}`);
           const success = await WhisperKitModule.initialize(model);
-          setIsInitialized(success);
+
+          if (success) {
+            console.log('[useWhisperKit] Native module initialized successfully');
+            setIsInitialized(true);
+          } else {
+            throw new Error('Failed to initialize native WhisperKit');
+          }
         } else {
-          // Use mock for development
+          // Use mock for development/testing
+          console.warn('[useWhisperKit] Native module not found, using mock implementation');
           const transcriptionSub = mockWhisperKit.addListener(
             'onTranscriptionUpdate',
             (event) => {
@@ -169,10 +179,11 @@ export function useWhisperKit(model: WhisperKitModel = 'base.en') {
 
           const success = await mockWhisperKit.initialize(model);
           setIsInitialized(success);
-          console.log('[useWhisperKit] Using mock implementation - native module not available');
+          console.log('[useWhisperKit] Mock implementation initialized');
         }
       } catch (e) {
         const message = e instanceof Error ? e.message : 'Failed to initialize WhisperKit';
+        console.error('[useWhisperKit] Initialization error:', message);
         setError(message);
       }
     }
