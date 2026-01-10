@@ -48,6 +48,10 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
       try {
         const database = await SQLite.openDatabaseAsync(DB_NAME);
         await initializeDatabase(database);
+
+        // Auto-create today's entry on app launch
+        await getOrCreateTodayEntry(database, LOCAL_USER_ID);
+
         setDb(database);
         setIsReady(true);
       } catch (error) {

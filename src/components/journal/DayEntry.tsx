@@ -55,7 +55,12 @@ export function DayEntry({ entryId, date, dateLabel, blocks }: DayEntryProps) {
     transform: [{ scale: scale.value }],
   }));
 
-  if (blocks.length === 0) return null;
+  const isToday = dateLabel === 'Today';
+  const hasContent = blocks.length > 0;
+
+  // Always show today's entry, even if empty
+  // Hide other days if they have no content
+  if (!hasContent && !isToday) return null;
 
   return (
     <View style={styles.container}>
@@ -128,16 +133,24 @@ export function DayEntry({ entryId, date, dateLabel, blocks }: DayEntryProps) {
 
             {/* Content */}
             <View style={styles.contentContainer}>
-              {blocks.map((block, index) => (
-                <TranscriptionBlock
-                  key={block.id}
-                  blockId={block.id}
-                  content={block.content}
-                  createdAt={block.createdAt}
-                  isEditable={isEditMode}
-                  isLast={index === blocks.length - 1}
-                />
-              ))}
+              {hasContent ? (
+                blocks.map((block, index) => (
+                  <TranscriptionBlock
+                    key={block.id}
+                    blockId={block.id}
+                    content={block.content}
+                    createdAt={block.createdAt}
+                    isEditable={isEditMode}
+                    isLast={index === blocks.length - 1}
+                  />
+                ))
+              ) : (
+                <View style={styles.emptyStateContainer}>
+                  <Text style={[styles.emptyStateText, { color: colors.textSecondary }]}>
+                    Tap the microphone below to start recording your thoughts for today
+                  </Text>
+                </View>
+              )}
             </View>
           </BlurView>
         </View>
@@ -210,6 +223,18 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 8,
     marginLeft: 4,
+    fontWeight: '500',
+  },
+  emptyStateContainer: {
+    paddingVertical: 32,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyStateText: {
+    fontSize: 16,
+    textAlign: 'center',
+    lineHeight: 24,
     fontWeight: '500',
   },
 });

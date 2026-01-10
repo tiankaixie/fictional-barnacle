@@ -6,6 +6,12 @@
  */
 
 import * as SQLite from 'expo-sqlite';
+import * as Crypto from 'expo-crypto';
+
+// Generate UUID using expo-crypto
+function generateUUID(): string {
+  return Crypto.randomUUID();
+}
 
 export const DB_NAME = 'cebu.db';
 
@@ -90,7 +96,7 @@ export async function getOrCreateTodayEntry(
   }
 
   // Create new entry
-  const id = crypto.randomUUID();
+  const id = generateUUID();
   await db.runAsync(
     'INSERT INTO journal_entries (id, user_id, date) VALUES (?, ?, ?)',
     [id, userId, today]
@@ -104,7 +110,7 @@ export async function addTranscriptionBlock(
   entryId: string,
   content: string
 ): Promise<string> {
-  const id = crypto.randomUUID();
+  const id = generateUUID();
 
   // Get next position
   const result = await db.getFirstAsync<{ maxPos: number | null }>(
