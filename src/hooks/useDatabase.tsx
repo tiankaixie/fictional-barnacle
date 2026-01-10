@@ -13,6 +13,7 @@ import {
   getOrCreateTodayEntry,
   addTranscriptionBlock,
   updateTranscriptionBlock,
+  deleteTranscriptionBlock,
   getEntriesPaginated,
 } from '../services/database/schema';
 
@@ -25,6 +26,7 @@ interface DatabaseContextValue {
   getTodayEntryId: () => Promise<string>;
   addBlock: (content: string) => Promise<string>;
   updateBlock: (blockId: string, content: string, originalContent: string) => Promise<void>;
+  deleteBlock: (blockId: string) => Promise<void>;
   getEntries: (offset?: number, limit?: number) => Promise<Array<{
     entryId: string;
     date: string;
@@ -81,6 +83,11 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
     return updateTranscriptionBlock(db, blockId, content, originalContent);
   }, [db]);
 
+  const deleteBlock = useCallback(async (blockId: string) => {
+    if (!db) throw new Error('Database not ready');
+    return deleteTranscriptionBlock(db, blockId);
+  }, [db]);
+
   const getEntries = useCallback(async (offset = 0, limit = 20) => {
     if (!db) throw new Error('Database not ready');
     return getEntriesPaginated(db, LOCAL_USER_ID, offset, limit);
@@ -93,9 +100,10 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
       getTodayEntryId,
       addBlock,
       updateBlock,
+      deleteBlock,
       getEntries,
     }),
-    [isReady, db, getTodayEntryId, addBlock, updateBlock, getEntries]
+    [isReady, db, getTodayEntryId, addBlock, updateBlock, deleteBlock, getEntries]
   );
 
   return (

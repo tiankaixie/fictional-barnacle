@@ -152,6 +152,27 @@ export async function updateTranscriptionBlock(
   );
 }
 
+export async function deleteTranscriptionBlock(
+  db: SQLite.SQLiteDatabase,
+  blockId: string
+): Promise<void> {
+  const now = Date.now();
+
+  // Soft delete the block
+  await db.runAsync(
+    'UPDATE transcription_blocks SET is_deleted = 1, updated_at = ? WHERE id = ?',
+    [now, blockId]
+  );
+
+  // Update the entry's sync status
+  await db.runAsync(
+    `UPDATE journal_entries
+     SET updated_at = ?, sync_status = 'pending'
+     WHERE id = (SELECT entry_id FROM transcription_blocks WHERE id = ?)`,
+    [now, blockId]
+  );
+}
+
 export async function getEntriesPaginated(
   db: SQLite.SQLiteDatabase,
   userId: string,
