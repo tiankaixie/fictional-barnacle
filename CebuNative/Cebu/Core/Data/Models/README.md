@@ -13,6 +13,7 @@ Core data models defining the persistent entities and app configuration types fo
 | `TranscriptionBlock.swift` | Production | Core Data entity for individual transcribed voice segments within journal entries |
 | `User.swift` | Production | Core Data entity for user authentication and profile data |
 | `ThemeMode.swift` | Production | Theme configuration enum (auto/light/dark) with display properties for user preferences |
+| `WhisperModel.swift` | Production | WhisperKit model configuration enum (tiny/base/small/medium/large-v3) with metadata and quality levels |
 | `README.md` | Documentation | Model overview and file registry |
 
 ## Entity Relationships

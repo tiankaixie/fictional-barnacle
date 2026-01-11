@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 63;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,7 @@
 		46A36A8AE2638143149EA1B4 /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5318B6B91DD85099CDA52896 /* WaveformView.swift */; };
 		4C7234D2F5159BF204A4C5F2 /* JournalRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1ECFA7382B5D9353FD1B01 /* JournalRepository.swift */; };
 		50F7F64E0E007D68BEC04D5E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553C3AD4AAC11F85C44D2508 /* User.swift */; };
+		5D7C1BBE17C1A1A9D3372938 /* WhisperModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26CC2C8753B87DB5B3EA684 /* WhisperModel.swift */; };
 		6DE23186DC6BB679657926C2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA7699403AB113D3850C1CB /* SettingsView.swift */; };
 		784940DEB6A0452C7876A03E /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F38F1C60CB8DC57BEDD35D5 /* PersistenceController.swift */; };
 		7A663E37341B5036BA6D796A /* LiquidGlassStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2E8EBC00A2BD19E55E100 /* LiquidGlassStyle.swift */; };
@@ -22,6 +23,7 @@
 		88598CD1347E6FB244C8FD5C /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7360C118471A0D2BB1B8CFA /* UserRepository.swift */; };
 		91FA0A8B5B65889E8630D544 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4903DA838E6C823DD88C03AB /* SignInView.swift */; };
 		A1E174899BE03124973F52CC /* Cebu.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 703C218A89B2B5AA93B17982 /* Cebu.xcdatamodeld */; };
+		A83DA1214A0740D1512E6BC0 /* ModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909E76A208FC3AF58BD2FE21 /* ModelManager.swift */; };
 		A86DBF3EA669E39C0B8287FF /* JournalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B45E71F1684CD0C3F8F91E3 /* JournalListView.swift */; };
 		B2AA51D7D8B45238AC19BA8F /* WhisperKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0E94223316BA2A368222F7EA /* WhisperKit */; };
 		B7F9289983D6A883CC473C56 /* DayEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064A0758C4063CB1ED28B576 /* DayEntryView.swift */; };
@@ -59,16 +61,18 @@
 		73FBEFE7215D531B0C892F92 /* JournalListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalListViewModel.swift; sourceTree = "<group>"; };
 		762A0EB0E142D1BE564BA9FF /* Cebu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cebu.entitlements; sourceTree = "<group>"; };
 		7D3D7FCE5142D87D01505020 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		909E76A208FC3AF58BD2FE21 /* ModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelManager.swift; sourceTree = "<group>"; };
 		91363272251C34FFC29415B1 /* CebuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CebuApp.swift; sourceTree = "<group>"; };
 		9C46DBC52A82F7D57967A7F6 /* WhisperKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhisperKitService.swift; sourceTree = "<group>"; };
 		BD6C1205294D1D952A21EE9F /* ThemeMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeMode.swift; sourceTree = "<group>"; };
 		BF30A80650677917CFA6BECB /* RecordingOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingOverlayView.swift; sourceTree = "<group>"; };
 		CE52D70F54F1F2FF5536C01B /* TranscriptionBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionBlock.swift; sourceTree = "<group>"; };
-		CEA835FE7969ACAE1F3B3412 /* Cebu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cebu.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEA835FE7969ACAE1F3B3412 /* Cebu.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Cebu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7360C118471A0D2BB1B8CFA /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		E2CF728558E57A7F0F6CBB5E /* TranscriptionBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionBlockView.swift; sourceTree = "<group>"; };
 		F0F4254591AAACDB212D4721 /* RippleEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RippleEffect.swift; sourceTree = "<group>"; };
 		F17F867C40F645C3B178D66D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F26CC2C8753B87DB5B3EA684 /* WhisperModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhisperModel.swift; sourceTree = "<group>"; };
 		F714BF61A83BCF901B30F9C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,6 +110,7 @@
 				BD6C1205294D1D952A21EE9F /* ThemeMode.swift */,
 				CE52D70F54F1F2FF5536C01B /* TranscriptionBlock.swift */,
 				553C3AD4AAC11F85C44D2508 /* User.swift */,
+				F26CC2C8753B87DB5B3EA684 /* WhisperModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -220,6 +225,7 @@
 			children = (
 				62D8940F277458592E84888F /* AuthenticationService.swift */,
 				24013BDD9C2BD22DCB574EB2 /* LocalAuthService.swift */,
+				909E76A208FC3AF58BD2FE21 /* ModelManager.swift */,
 				43C077E70BB3DF819934BEB2 /* ThemeManager.swift */,
 				9C46DBC52A82F7D57967A7F6 /* WhisperKitService.swift */,
 			);
@@ -321,6 +327,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		"TEMP_0ABEE2C8-8E6D-440D-853E-C07A0C7EDF01" /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -366,6 +379,7 @@
 			packageReferences = (
 				4B7F8E38768C53C5864A3811 /* XCRemoteSwiftPackageReference "WhisperKit" */,
 			);
+			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -402,6 +416,7 @@
 				4C7234D2F5159BF204A4C5F2 /* JournalRepository.swift in Sources */,
 				7A663E37341B5036BA6D796A /* LiquidGlassStyle.swift in Sources */,
 				FC69B1EECB580A282AB7C883 /* LocalAuthService.swift in Sources */,
+				A83DA1214A0740D1512E6BC0 /* ModelManager.swift in Sources */,
 				784940DEB6A0452C7876A03E /* PersistenceController.swift in Sources */,
 				D5EE867A3751737755BC29E3 /* RecordingOverlayView.swift in Sources */,
 				FCBB75642EBE936E103A42F4 /* RecordingViewModel.swift in Sources */,
@@ -417,6 +432,7 @@
 				83484BD1541E075F2EC660C3 /* VoiceInputButtonView.swift in Sources */,
 				46A36A8AE2638143149EA1B4 /* WaveformView.swift in Sources */,
 				DB10B6008113E5C53665C834 /* WhisperKitService.swift in Sources */,
+				5D7C1BBE17C1A1A9D3372938 /* WhisperModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,7 +445,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_ASSET_PATHS = "\"Cebu/Preview Content\"";
-				DEVELOPMENT_TEAM = D4P3DQ9G22;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Cebu/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -450,7 +465,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_ASSET_PATHS = "\"Cebu/Preview Content\"";
-				DEVELOPMENT_TEAM = D4P3DQ9G22;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Cebu/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;

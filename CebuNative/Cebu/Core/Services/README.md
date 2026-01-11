@@ -11,8 +11,9 @@ Observable services managing app-wide state, authentication, AI transcription, a
 |------|--------|---------------|
 | `AuthenticationService.swift` | Production | Core authentication logic and user session management |
 | `LocalAuthService.swift` | Production | ObservableObject wrapper for local authentication flow without Apple Sign In |
-| `WhisperKitService.swift` | Production | WhisperKit integration for on-device speech-to-text transcription (small model, 500MB) |
+| `WhisperKitService.swift` | Production | WhisperKit integration for on-device speech-to-text transcription with dynamic model loading |
 | `ThemeManager.swift` | Production | ObservableObject managing theme mode (auto/light/dark) with UserDefaults persistence and system colorScheme synchronization |
+| `ModelManager.swift` | Production | ObservableObject managing WhisperKit model selection (tiny/base/small/medium/large-v3) with UserDefaults persistence |
 | `README.md` | Documentation | Service overview and file registry |
 
 ## Service Lifecycle

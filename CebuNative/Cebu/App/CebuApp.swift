@@ -19,6 +19,9 @@ struct CebuApp: App {
     // Theme manager for app-wide theme control
     @StateObject private var themeManager = ThemeManager()
 
+    // Model manager for WhisperKit model selection
+    @StateObject private var modelManager = ModelManager()
+
     init() {
         let context = PersistenceController.shared.container.viewContext
         let userRepository = UserRepository(context: context)
@@ -31,6 +34,7 @@ struct CebuApp: App {
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .environmentObject(authService)
                 .environmentObject(themeManager)
+                .environmentObject(modelManager)
                 .task {
                     await authService.checkAuthenticationState()
                 }
@@ -98,6 +102,8 @@ struct MainContentView: View {
     let user: User
     let context: NSManagedObjectContext
 
+    @EnvironmentObject var modelManager: ModelManager
+
     @StateObject private var whisperService = WhisperKitService()
     @StateObject private var journalViewModel: JournalListViewModel
     @StateObject private var recordingViewModel: RecordingViewModel
@@ -127,8 +133,8 @@ struct MainContentView: View {
             recordingViewModel: recordingViewModel
         )
         .task {
-            // Initialize WhisperKit on app launch
-            await recordingViewModel.initialize()
+            // Initialize WhisperKit on app launch with selected model
+            await recordingViewModel.initialize(modelName: modelManager.selectedModel.rawValue)
         }
     }
 }
@@ -138,10 +144,12 @@ struct MainContentView: View {
     let userRepository = UserRepository(context: context)
     let authService = LocalAuthService(userRepository: userRepository)
     let themeManager = ThemeManager()
+    let modelManager = ModelManager()
 
     return ContentView()
         .environmentObject(authService)
         .environmentObject(themeManager)
+        .environmentObject(modelManager)
         .environment(\.themeColors, .light)
         .onAppear {
             Task {
@@ -156,10 +164,12 @@ struct MainContentView: View {
     let userRepository = UserRepository(context: context)
     let authService = LocalAuthService(userRepository: userRepository)
     let themeManager = ThemeManager()
+    let modelManager = ModelManager()
 
     return ContentView()
         .environmentObject(authService)
         .environmentObject(themeManager)
+        .environmentObject(modelManager)
         .environment(\.themeColors, .dark)
         .preferredColorScheme(.dark)
 }

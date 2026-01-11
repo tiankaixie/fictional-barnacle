@@ -69,14 +69,11 @@ class RecordingViewModel: ObservableObject {
 
     // MARK: - Public Methods
 
-    /// Initialize WhisperKit with default model
-    func initialize() async {
+    /// Initialize WhisperKit with specified model
+    func initialize(modelName: String = "large-v3") async {
         do {
-            // Use "small" for better Chinese accuracy (~500MB)
-            // "small" = multilingual (includes Chinese) with higher accuracy
-            // "base" = smaller but less accurate
-            try await whisperService.initialize(modelName: "small")
-            print("[RecordingVM] Initialized WhisperKit with 'small' model for better Chinese accuracy")
+            try await whisperService.initialize(modelName: modelName)
+            print("[RecordingVM] Initialized WhisperKit with '\(modelName)' model")
         } catch {
             self.error = "Failed to initialize: \(error.localizedDescription)"
             print("[RecordingVM] Init error: \(error)")
