@@ -44,6 +44,7 @@ This feature works in conjunction with:
 - **Base** (150MB, ⭐⭐): Quick, basic accuracy
 - **Small** (500MB, ⭐⭐⭐): Balanced speed and accuracy
 - **Medium** (1.5GB, ⭐⭐⭐⭐): Slower, high accuracy
-- **Large V3** (3GB, ⭐⭐⭐⭐⭐): Slowest, highest accuracy (default)
+- **Large V3** (3GB, ⭐⭐⭐⭐⭐): Slowest, highest accuracy
+- **Large V3 Turbo** (1.6GB, ⭐⭐⭐⭐⭐): Fast, highest accuracy (default) ✅
 
 Only multilingual models are shown (supports Chinese).

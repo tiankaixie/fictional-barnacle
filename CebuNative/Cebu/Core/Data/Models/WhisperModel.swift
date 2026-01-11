@@ -17,6 +17,7 @@ enum WhisperModel: String, CaseIterable, Identifiable {
     case medium = "medium"
     case mediumEn = "medium.en"
     case largeV3 = "large-v3"
+    case largeV3Turbo = "large-v3-turbo"
 
     var id: String { rawValue }
 
@@ -31,6 +32,7 @@ enum WhisperModel: String, CaseIterable, Identifiable {
         case .medium: return "Medium (多语言)"
         case .mediumEn: return "Medium (英语)"
         case .largeV3: return "Large V3 (最强)"
+        case .largeV3Turbo: return "Large V3 Turbo (推荐)"
         }
     }
 
@@ -41,6 +43,7 @@ enum WhisperModel: String, CaseIterable, Identifiable {
         case .small, .smallEn: return "~500 MB"
         case .medium, .mediumEn: return "~1.5 GB"
         case .largeV3: return "~3 GB"
+        case .largeV3Turbo: return "~1.6 GB"
         }
     }
 
@@ -56,6 +59,8 @@ enum WhisperModel: String, CaseIterable, Identifiable {
             return "较慢，高准确度"
         case .largeV3:
             return "最慢，最高准确度"
+        case .largeV3Turbo:
+            return "快速，最高准确度"
         }
     }
 
@@ -74,7 +79,7 @@ enum WhisperModel: String, CaseIterable, Identifiable {
         case .base, .baseEn: return "gauge.medium"
         case .small, .smallEn: return "gauge.medium.high"
         case .medium, .mediumEn: return "gauge.high"
-        case .largeV3: return "gauge.high"
+        case .largeV3, .largeV3Turbo: return "gauge.high"
         }
     }
 
@@ -84,7 +89,7 @@ enum WhisperModel: String, CaseIterable, Identifiable {
         case .base, .baseEn: return 2
         case .small, .smallEn: return 3
         case .medium, .mediumEn: return 4
-        case .largeV3: return 5
+        case .largeV3, .largeV3Turbo: return 5
         }
     }
 }

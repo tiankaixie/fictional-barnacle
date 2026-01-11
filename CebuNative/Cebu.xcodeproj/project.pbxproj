@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -67,7 +67,7 @@
 		BD6C1205294D1D952A21EE9F /* ThemeMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeMode.swift; sourceTree = "<group>"; };
 		BF30A80650677917CFA6BECB /* RecordingOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingOverlayView.swift; sourceTree = "<group>"; };
 		CE52D70F54F1F2FF5536C01B /* TranscriptionBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionBlock.swift; sourceTree = "<group>"; };
-		CEA835FE7969ACAE1F3B3412 /* Cebu.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Cebu.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEA835FE7969ACAE1F3B3412 /* Cebu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cebu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7360C118471A0D2BB1B8CFA /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		E2CF728558E57A7F0F6CBB5E /* TranscriptionBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionBlockView.swift; sourceTree = "<group>"; };
 		F0F4254591AAACDB212D4721 /* RippleEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RippleEffect.swift; sourceTree = "<group>"; };
@@ -327,13 +327,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		"TEMP_0ABEE2C8-8E6D-440D-853E-C07A0C7EDF01" /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Utilities;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -379,7 +372,6 @@
 			packageReferences = (
 				4B7F8E38768C53C5864A3811 /* XCRemoteSwiftPackageReference "WhisperKit" */,
 			);
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -445,6 +437,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_ASSET_PATHS = "\"Cebu/Preview Content\"";
+				DEVELOPMENT_TEAM = D4P3DQ9G22;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Cebu/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -465,6 +458,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_ASSET_PATHS = "\"Cebu/Preview Content\"";
+				DEVELOPMENT_TEAM = D4P3DQ9G22;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Cebu/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;

@@ -17,12 +17,12 @@ class ModelManager: ObservableObject {
     private let userDefaultsKey = "app.whisper.model"
 
     init() {
-        // 从 UserDefaults 加载保存的偏好，默认为 large-v3
+        // 从 UserDefaults 加载保存的偏好，默认为 large-v3-turbo
         if let savedModel = UserDefaults.standard.string(forKey: userDefaultsKey),
            let model = WhisperModel(rawValue: savedModel) {
             self.selectedModel = model
         } else {
-            self.selectedModel = .largeV3
+            self.selectedModel = .largeV3Turbo
         }
     }
 
