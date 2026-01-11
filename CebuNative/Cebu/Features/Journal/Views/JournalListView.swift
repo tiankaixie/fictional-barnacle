@@ -12,8 +12,11 @@ struct JournalListView: View {
     @StateObject var viewModel: JournalListViewModel
     @StateObject var recordingViewModel: RecordingViewModel
 
+    @State private var showSettings = false
+
     var body: some View {
-        ZStack {
+        NavigationView {
+            ZStack {
             // Background
             colors.background
                 .ignoresSafeArea()
@@ -157,6 +160,21 @@ struct JournalListView: View {
                         .padding(.bottom, 120)
                 }
                 .transition(.move(edge: .bottom))
+            }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        showSettings = true
+                    } label: {
+                        Image(systemName: "gearshape.fill")
+                            .foregroundColor(colors.textSecondary)
+                    }
+                }
+            }
+            .sheet(isPresented: $showSettings) {
+                SettingsView()
             }
         }
         .fullScreenCover(isPresented: $recordingViewModel.isRecording) {

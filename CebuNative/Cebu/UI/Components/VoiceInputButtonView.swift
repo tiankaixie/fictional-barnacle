@@ -59,66 +59,56 @@ struct VoiceInputButtonView: View {
                     .opacity(ripple.opacity)
             }
 
-            // Main button - Neomorphism Style
+            // Main button - Liquid Glass Style
             Button(action: handlePress) {
                 ZStack {
-                    // Base background matching the app background
+                    // Glass material base
                     Circle()
-                        .fill(
-                            colorScheme == .dark
-                            ? Color(white: 0.12)
-                            : Color(white: 0.95)
-                        )
+                        .fill(.ultraThinMaterial)
                         .frame(width: 68, height: 68)
-
-                    // Subtle color tint when recording
-                    if isRecording {
-                        Circle()
-                            .fill(
-                                RadialGradient(
-                                    colors: [
-                                        colors.recordingRed.opacity(0.08),
-                                        Color.clear
-                                    ],
-                                    center: .center,
-                                    startRadius: 10,
-                                    endRadius: 34
+                        .background(
+                            Circle()
+                                .fill(
+                                    LinearGradient(
+                                        colors: [
+                                            colors.glassBackground,
+                                            colors.cardBackground
+                                        ],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
                                 )
-                            )
-                            .frame(width: 68, height: 68)
-                            .opacity(innerGlow)
-                    }
+                        )
+                        .overlay(
+                            Circle()
+                                .strokeBorder(
+                                    LinearGradient(
+                                        colors: [
+                                            colors.glassHighlight,
+                                            isRecording ? colors.recordingRed.opacity(0.4) : colors.glassBorder
+                                        ],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    ),
+                                    lineWidth: 1.5
+                                )
+                        )
 
-                    // Icon - dark color for light background
+                    // Icon
                     Image(systemName: "mic.fill")
                         .font(.system(size: 28, weight: .semibold))
                         .foregroundColor(
-                            colorScheme == .dark
-                            ? Color.white.opacity(0.8)
-                            : Color.black.opacity(isRecording ? 0.7 : 0.65)
+                            isRecording
+                            ? colors.recordingRed
+                            : colors.text.opacity(0.8)
                         )
                 }
             }
             .buttonStyle(WaterDropButtonStyle(scale: $scale))
             .disabled(isDisabled)
             .frame(width: 68, height: 68)
-            // Neomorphism dual shadows (dark + light)
-            .shadow(
-                color: colorScheme == .dark
-                    ? Color.black.opacity(0.5)
-                    : Color.black.opacity(0.2),
-                radius: 10,
-                x: 6,
-                y: 6
-            )
-            .shadow(
-                color: colorScheme == .dark
-                    ? Color.white.opacity(0.05)
-                    : Color.white.opacity(0.8),
-                radius: 10,
-                x: -6,
-                y: -6
-            )
+            // Glass shadow
+            .shadow(color: colors.glassShadow, radius: 24, x: 0, y: 8)
         }
         .frame(width: 100, height: 100)
         .onChange(of: isRecording) { newValue in

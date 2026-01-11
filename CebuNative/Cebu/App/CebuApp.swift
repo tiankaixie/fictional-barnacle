@@ -16,6 +16,9 @@ struct CebuApp: App {
     // Local authentication service (no Apple Sign In required)
     @StateObject private var authService: LocalAuthService
 
+    // Theme manager for app-wide theme control
+    @StateObject private var themeManager = ThemeManager()
+
     init() {
         let context = PersistenceController.shared.container.viewContext
         let userRepository = UserRepository(context: context)
@@ -27,6 +30,7 @@ struct CebuApp: App {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .environmentObject(authService)
+                .environmentObject(themeManager)
                 .task {
                     await authService.checkAuthenticationState()
                 }
@@ -37,6 +41,7 @@ struct CebuApp: App {
 struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var authService: LocalAuthService
+    @EnvironmentObject var themeManager: ThemeManager
 
     var body: some View {
         Group {
@@ -59,7 +64,14 @@ struct ContentView: View {
                     .liquidGlassBackground()
             }
         }
-        .environment(\.themeColors, colorScheme == .dark ? .dark : .light)
+        .environment(\.themeColors, themeManager.effectiveTheme)
+        .preferredColorScheme(themeManager.effectiveColorScheme)
+        .onChange(of: colorScheme) { newScheme in
+            themeManager.updateSystemColorScheme(newScheme)
+        }
+        .onAppear {
+            themeManager.updateSystemColorScheme(colorScheme)
+        }
     }
 }
 
@@ -125,9 +137,11 @@ struct MainContentView: View {
     let context = PersistenceController.preview.container.viewContext
     let userRepository = UserRepository(context: context)
     let authService = LocalAuthService(userRepository: userRepository)
+    let themeManager = ThemeManager()
 
     return ContentView()
         .environmentObject(authService)
+        .environmentObject(themeManager)
         .environment(\.themeColors, .light)
         .onAppear {
             Task {
@@ -141,9 +155,11 @@ struct MainContentView: View {
     let context = PersistenceController.preview.container.viewContext
     let userRepository = UserRepository(context: context)
     let authService = LocalAuthService(userRepository: userRepository)
+    let themeManager = ThemeManager()
 
     return ContentView()
         .environmentObject(authService)
+        .environmentObject(themeManager)
         .environment(\.themeColors, .dark)
         .preferredColorScheme(.dark)
 }

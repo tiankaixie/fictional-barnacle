@@ -111,39 +111,50 @@ struct RecordingOverlayView: View {
                     .opacity(ripple.opacity)
             }
 
-            // Stop button - Neomorphism Style
+            // Stop button - Liquid Glass Style
             Button(action: handleStop) {
                 ZStack {
-                    // Base background matching overlay
+                    // Glass material base
                     Circle()
-                        .fill(Color(white: 0.12))
+                        .fill(.ultraThinMaterial)
                         .frame(width: 72, height: 72)
-
-                    // Subtle red inner glow
-                    Circle()
-                        .fill(
-                            RadialGradient(
-                                colors: [
-                                    colors.recordingRed.opacity(0.08),
-                                    Color.clear
-                                ],
-                                center: .center,
-                                startRadius: 10,
-                                endRadius: 36
-                            )
+                        .background(
+                            Circle()
+                                .fill(
+                                    LinearGradient(
+                                        colors: [
+                                            colors.glassBackground,
+                                            colors.cardBackground
+                                        ],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
                         )
-                        .frame(width: 72, height: 72)
+                        .overlay(
+                            Circle()
+                                .strokeBorder(
+                                    LinearGradient(
+                                        colors: [
+                                            colors.glassHighlight,
+                                            colors.recordingRed.opacity(0.4)
+                                        ],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    ),
+                                    lineWidth: 1.5
+                                )
+                        )
 
                     // Stop icon (square)
                     RoundedRectangle(cornerRadius: 5)
-                        .fill(Color.white.opacity(0.75))
+                        .fill(colors.recordingRed)
                         .frame(width: 22, height: 22)
                 }
             }
             .scaleEffect(stopButtonScale)
-            // Neomorphism dual shadows
-            .shadow(color: Color.black.opacity(0.5), radius: 10, x: 6, y: 6)
-            .shadow(color: Color.white.opacity(0.05), radius: 10, x: -6, y: -6)
+            // Glass shadow
+            .shadow(color: colors.glassShadow, radius: 24, x: 0, y: 8)
         }
     }
 

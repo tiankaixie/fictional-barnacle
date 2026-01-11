@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,7 @@
 		46A36A8AE2638143149EA1B4 /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5318B6B91DD85099CDA52896 /* WaveformView.swift */; };
 		4C7234D2F5159BF204A4C5F2 /* JournalRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1ECFA7382B5D9353FD1B01 /* JournalRepository.swift */; };
 		50F7F64E0E007D68BEC04D5E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553C3AD4AAC11F85C44D2508 /* User.swift */; };
+		6DE23186DC6BB679657926C2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA7699403AB113D3850C1CB /* SettingsView.swift */; };
 		784940DEB6A0452C7876A03E /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F38F1C60CB8DC57BEDD35D5 /* PersistenceController.swift */; };
 		7A663E37341B5036BA6D796A /* LiquidGlassStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2E8EBC00A2BD19E55E100 /* LiquidGlassStyle.swift */; };
 		805D9EEF113E7E4C6B8FF645 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F714BF61A83BCF901B30F9C6 /* Assets.xcassets */; };
@@ -27,10 +28,12 @@
 		CC32CBAA2D30DB1ABADB0F48 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3D7FCE5142D87D01505020 /* Colors.swift */; };
 		CD8AC40D1DB268657A2D4F44 /* RippleEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F4254591AAACDB212D4721 /* RippleEffect.swift */; };
 		D141BDB89726325CA74BDC12 /* JournalListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FBEFE7215D531B0C892F92 /* JournalListViewModel.swift */; };
+		D52C1B3BF1695077ABE1A061 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C077E70BB3DF819934BEB2 /* ThemeManager.swift */; };
 		D5C1CA7E5B1FC1648B9FD63E /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D8940F277458592E84888F /* AuthenticationService.swift */; };
 		D5EE867A3751737755BC29E3 /* RecordingOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF30A80650677917CFA6BECB /* RecordingOverlayView.swift */; };
 		DB10B6008113E5C53665C834 /* WhisperKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C46DBC52A82F7D57967A7F6 /* WhisperKitService.swift */; };
 		E4B1F898C82F0C595ED8A290 /* CebuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91363272251C34FFC29415B1 /* CebuApp.swift */; };
+		F66DD60F0777608BB5EBCBB0 /* ThemeMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6C1205294D1D952A21EE9F /* ThemeMode.swift */; };
 		FC69B1EECB580A282AB7C883 /* LocalAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24013BDD9C2BD22DCB574EB2 /* LocalAuthService.swift */; };
 		FCBB75642EBE936E103A42F4 /* RecordingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41A5D2AED5B31233BE1D83A7 /* RecordingViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -46,7 +49,9 @@
 		3B1ECFA7382B5D9353FD1B01 /* JournalRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalRepository.swift; sourceTree = "<group>"; };
 		3F38F1C60CB8DC57BEDD35D5 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		41A5D2AED5B31233BE1D83A7 /* RecordingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingViewModel.swift; sourceTree = "<group>"; };
+		43C077E70BB3DF819934BEB2 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		4903DA838E6C823DD88C03AB /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		4AA7699403AB113D3850C1CB /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4E2F92CA89269C9A54234F38 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5318B6B91DD85099CDA52896 /* WaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformView.swift; sourceTree = "<group>"; };
 		553C3AD4AAC11F85C44D2508 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -56,9 +61,10 @@
 		7D3D7FCE5142D87D01505020 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		91363272251C34FFC29415B1 /* CebuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CebuApp.swift; sourceTree = "<group>"; };
 		9C46DBC52A82F7D57967A7F6 /* WhisperKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhisperKitService.swift; sourceTree = "<group>"; };
+		BD6C1205294D1D952A21EE9F /* ThemeMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeMode.swift; sourceTree = "<group>"; };
 		BF30A80650677917CFA6BECB /* RecordingOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingOverlayView.swift; sourceTree = "<group>"; };
 		CE52D70F54F1F2FF5536C01B /* TranscriptionBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionBlock.swift; sourceTree = "<group>"; };
-		CEA835FE7969ACAE1F3B3412 /* Cebu.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Cebu.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEA835FE7969ACAE1F3B3412 /* Cebu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cebu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7360C118471A0D2BB1B8CFA /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		E2CF728558E57A7F0F6CBB5E /* TranscriptionBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionBlockView.swift; sourceTree = "<group>"; };
 		F0F4254591AAACDB212D4721 /* RippleEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RippleEffect.swift; sourceTree = "<group>"; };
@@ -97,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				14A06A59F39C4D4B0FA3DB4A /* JournalEntry.swift */,
+				BD6C1205294D1D952A21EE9F /* ThemeMode.swift */,
 				CE52D70F54F1F2FF5536C01B /* TranscriptionBlock.swift */,
 				553C3AD4AAC11F85C44D2508 /* User.swift */,
 			);
@@ -117,6 +124,14 @@
 				12BCD290F4B4378E215B3147 /* Cebu */,
 				F28FA8464ECB14DCEE04A0DC /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		4691A44407C1796DDECEB7B2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4AA7699403AB113D3850C1CB /* SettingsView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		479C678AD7BEC367F10E3BFA /* Models */ = {
@@ -141,6 +156,7 @@
 				52D4CA45F472DB84F2DAF6AF /* Authentication */,
 				7E807102F821FE31FA5A15ED /* Journal */,
 				D1362A7ED7F5C05157C5F38A /* Recording */,
+				7B6C7B90C20DAEA100E0D689 /* Settings */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -161,6 +177,14 @@
 				E2CF728558E57A7F0F6CBB5E /* TranscriptionBlockView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		7B6C7B90C20DAEA100E0D689 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				4691A44407C1796DDECEB7B2 /* Views */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		7E807102F821FE31FA5A15ED /* Journal */ = {
@@ -196,6 +220,7 @@
 			children = (
 				62D8940F277458592E84888F /* AuthenticationService.swift */,
 				24013BDD9C2BD22DCB574EB2 /* LocalAuthService.swift */,
+				43C077E70BB3DF819934BEB2 /* ThemeManager.swift */,
 				9C46DBC52A82F7D57967A7F6 /* WhisperKitService.swift */,
 			);
 			path = Services;
@@ -296,13 +321,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		"TEMP_261CA1C7-F331-42F1-B40E-712BC2E2544E" /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Utilities;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -348,7 +366,6 @@
 			packageReferences = (
 				4B7F8E38768C53C5864A3811 /* XCRemoteSwiftPackageReference "WhisperKit" */,
 			);
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -389,7 +406,10 @@
 				D5EE867A3751737755BC29E3 /* RecordingOverlayView.swift in Sources */,
 				FCBB75642EBE936E103A42F4 /* RecordingViewModel.swift in Sources */,
 				CD8AC40D1DB268657A2D4F44 /* RippleEffect.swift in Sources */,
+				6DE23186DC6BB679657926C2 /* SettingsView.swift in Sources */,
 				91FA0A8B5B65889E8630D544 /* SignInView.swift in Sources */,
+				D52C1B3BF1695077ABE1A061 /* ThemeManager.swift in Sources */,
+				F66DD60F0777608BB5EBCBB0 /* ThemeMode.swift in Sources */,
 				3760437F9F383F35D9C99073 /* TranscriptionBlock.swift in Sources */,
 				065FF28F1425DE15B93B41B8 /* TranscriptionBlockView.swift in Sources */,
 				50F7F64E0E007D68BEC04D5E /* User.swift in Sources */,
@@ -409,6 +429,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_ASSET_PATHS = "\"Cebu/Preview Content\"";
+				DEVELOPMENT_TEAM = D4P3DQ9G22;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Cebu/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -429,6 +450,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_ASSET_PATHS = "\"Cebu/Preview Content\"";
+				DEVELOPMENT_TEAM = D4P3DQ9G22;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Cebu/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;

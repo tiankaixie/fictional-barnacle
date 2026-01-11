@@ -26,6 +26,8 @@ targets:
     deploymentTarget: "16.0"
     sources:
       - path: Cebu
+        excludes:
+          - "**/README.md"
     dependencies:
       - package: WhisperKit
     settings:

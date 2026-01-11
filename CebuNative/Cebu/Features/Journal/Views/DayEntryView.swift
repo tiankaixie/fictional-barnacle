@@ -27,31 +27,73 @@ struct DayEntryView: View {
                         .font(.system(size: 20, weight: .semibold))
                         .foregroundColor(colors.text)
 
-                    Text("\(entryWithBlocks.blocks.count) \(entryWithBlocks.blocks.count == 1 ? "note" : "notes")")
-                        .font(.caption)
-                        .foregroundColor(colors.textSecondary)
+                    HStack(spacing: 4) {
+                        if isEditing {
+                            Image(systemName: "pencil")
+                                .font(.system(size: 11, weight: .medium))
+                                .foregroundColor(colors.primary)
+                        }
+                        Text("\(entryWithBlocks.blocks.count) \(entryWithBlocks.blocks.count == 1 ? "note" : "notes")")
+                            .font(.caption)
+                            .foregroundColor(isEditing ? colors.primary : colors.textSecondary)
+                    }
                 }
 
                 Spacer()
 
                 // Done button when editing
                 if isEditing {
-                    Button("Done") {
-                        onToggleEdit()
+                    Button(action: onToggleEdit) {
+                        HStack(spacing: 6) {
+                            Image(systemName: "checkmark")
+                                .font(.system(size: 14, weight: .semibold))
+                            Text("Done")
+                                .font(.system(size: 15, weight: .medium))
+                        }
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(
+                                    LinearGradient(
+                                        colors: [
+                                            colors.primary,
+                                            colors.primary.opacity(0.8)
+                                        ],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                        )
+                        .shadow(color: colors.primary.opacity(0.3), radius: 8, x: 0, y: 4)
                     }
-                    .font(.system(size: 16, weight: .medium))
-                    .foregroundColor(colors.primary)
+                    .transition(.scale(scale: 0.9).combined(with: .opacity))
                 }
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 16)
-            .background(colors.glassBackground.opacity(0.3))
+            .background(
+                isEditing
+                    ? AnyView(
+                        LinearGradient(
+                            colors: [
+                                colors.primary.opacity(0.08),
+                                colors.primary.opacity(0.03)
+                            ],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    : AnyView(colors.glassBackground.opacity(0.3))
+            )
             .overlay(
                 Rectangle()
-                    .fill(colors.border)
+                    .fill(isEditing ? colors.primary.opacity(0.2) : colors.border)
                     .frame(height: 1),
                 alignment: .bottom
             )
+            .animation(.spring(response: 0.35, dampingFraction: 0.7), value: isEditing)
 
             // Blocks or empty state
             if entryWithBlocks.blocks.isEmpty {
