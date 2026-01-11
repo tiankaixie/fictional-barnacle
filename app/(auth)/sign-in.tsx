@@ -6,33 +6,13 @@
  */
 
 import React from 'react';
-import { View, Text, StyleSheet, Pressable, Platform } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import * as AppleAuthentication from 'expo-apple-authentication';
 import { useTheme } from '../../src/hooks/useTheme';
 
 export default function SignInScreen() {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
-
-  const handleAppleSignIn = async () => {
-    try {
-      const credential = await AppleAuthentication.signInAsync({
-        requestedScopes: [
-          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-          AppleAuthentication.AppleAuthenticationScope.EMAIL,
-        ],
-      });
-      console.log('Apple sign in successful:', credential.user);
-    } catch (error: unknown) {
-      const e = error as { code?: string };
-      if (e.code === 'ERR_REQUEST_CANCELED') {
-        console.log('User cancelled Apple sign in');
-      } else {
-        console.error('Apple sign in error:', error);
-      }
-    }
-  };
 
   const handleGoogleSignIn = async () => {
     // TODO: Implement Google sign in
@@ -60,20 +40,6 @@ export default function SignInScreen() {
       </View>
 
       <View style={styles.buttonsContainer}>
-        {Platform.OS === 'ios' && (
-          <AppleAuthentication.AppleAuthenticationButton
-            buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
-            buttonStyle={
-              colors.isDark
-                ? AppleAuthentication.AppleAuthenticationButtonStyle.WHITE
-                : AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
-            }
-            cornerRadius={12}
-            style={styles.appleButton}
-            onPress={handleAppleSignIn}
-          />
-        )}
-
         <Pressable
           style={[styles.googleButton, { borderColor: colors.border }]}
           onPress={handleGoogleSignIn}
@@ -113,9 +79,6 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     gap: 12,
-  },
-  appleButton: {
-    height: 50,
   },
   googleButton: {
     height: 50,

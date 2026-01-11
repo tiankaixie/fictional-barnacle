@@ -13,7 +13,7 @@ import { VoiceInputButton } from '../../src/components/recording/VoiceInputButto
 import { RecordingOverlay } from '../../src/components/recording/RecordingOverlay';
 import { useTheme } from '../../src/hooks/useTheme';
 import { useJournalStore } from '../../src/stores/journalStore';
-import { useWhisperKit } from '../../modules/whisperkit/src/useWhisperKit';
+import { useWhisperKit } from '../../src/hooks/useWhisperKit';
 
 export default function JournalScreen() {
   const { colors } = useTheme();

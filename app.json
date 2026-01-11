@@ -16,6 +16,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.cebu.voicenotes",
+      "deploymentTarget": "16.0",
       "infoPlist": {
         "NSMicrophoneUsageDescription": "Cebu needs access to your microphone to record voice notes.",
         "NSSpeechRecognitionUsageDescription": "Cebu uses on-device speech recognition to transcribe your voice notes."
@@ -39,7 +40,6 @@
     "plugins": [
       "expo-router",
       "expo-secure-store",
-      "expo-apple-authentication",
       [
         "expo-av",
         {
@@ -47,8 +47,7 @@
         }
       ],
       "expo-sqlite",
-      "expo-web-browser",
-      "./plugins/withWhisperKit.js"
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true

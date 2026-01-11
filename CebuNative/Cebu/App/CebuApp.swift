@@ -1,0 +1,149 @@
+/**
+ * Input: SwiftUI, Core Data PersistenceController
+ * Output: App entry point, main window group
+ * Pos: Application lifecycle management and dependency injection
+ * If this file is updated, you must update this header and the parent folder's README.md.
+ */
+
+import SwiftUI
+import CoreData
+
+@main
+struct CebuApp: App {
+    // Core Data persistence controller
+    let persistenceController = PersistenceController.shared
+
+    // Local authentication service (no Apple Sign In required)
+    @StateObject private var authService: LocalAuthService
+
+    init() {
+        let context = PersistenceController.shared.container.viewContext
+        let userRepository = UserRepository(context: context)
+        _authService = StateObject(wrappedValue: LocalAuthService(userRepository: userRepository))
+    }
+
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environmentObject(authService)
+                .task {
+                    await authService.checkAuthenticationState()
+                }
+        }
+    }
+}
+
+struct ContentView: View {
+    @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var authService: LocalAuthService
+
+    var body: some View {
+        Group {
+            if authService.isLoading {
+                // Loading screen
+                VStack {
+                    ProgressView()
+                    Text("Loading...")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .padding(.top, 8)
+                }
+                .liquidGlassBackground()
+            } else if authService.isAuthenticated {
+                // Main app
+                MainAppView()
+            } else {
+                // Fallback (should auto-create local user)
+                ProgressView("Setting up...")
+                    .liquidGlassBackground()
+            }
+        }
+        .environment(\.themeColors, colorScheme == .dark ? .dark : .light)
+    }
+}
+
+// MARK: - Main App View
+
+struct MainAppView: View {
+    @Environment(\.managedObjectContext) var context
+    @EnvironmentObject var authService: LocalAuthService
+
+    var body: some View {
+        Group {
+            if let user = authService.currentUser {
+                // Create ViewModels with actual user
+                MainContentView(user: user, context: context)
+            } else {
+                // Fallback loading state
+                ProgressView("Loading...")
+            }
+        }
+    }
+}
+
+struct MainContentView: View {
+    let user: User
+    let context: NSManagedObjectContext
+
+    @StateObject private var whisperService = WhisperKitService()
+    @StateObject private var journalViewModel: JournalListViewModel
+    @StateObject private var recordingViewModel: RecordingViewModel
+
+    init(user: User, context: NSManagedObjectContext) {
+        self.user = user
+        self.context = context
+
+        // Initialize ViewModels with actual user
+        let repository = JournalRepository(context: context)
+        let journalVM = JournalListViewModel(repository: repository, user: user)
+        _journalViewModel = StateObject(wrappedValue: journalVM)
+
+        let whisperSvc = WhisperKitService()
+        _whisperService = StateObject(wrappedValue: whisperSvc)
+
+        let recordingVM = RecordingViewModel(
+            whisperService: whisperSvc,
+            journalViewModel: journalVM
+        )
+        _recordingViewModel = StateObject(wrappedValue: recordingVM)
+    }
+
+    var body: some View {
+        JournalListView(
+            viewModel: journalViewModel,
+            recordingViewModel: recordingViewModel
+        )
+        .task {
+            // Initialize WhisperKit on app launch
+            await recordingViewModel.initialize()
+        }
+    }
+}
+
+#Preview("Authenticated") {
+    let context = PersistenceController.preview.container.viewContext
+    let userRepository = UserRepository(context: context)
+    let authService = LocalAuthService(userRepository: userRepository)
+
+    return ContentView()
+        .environmentObject(authService)
+        .environment(\.themeColors, .light)
+        .onAppear {
+            Task {
+                authService.currentUser = try? await userRepository.getCurrentUser()
+                authService.isAuthenticated = true
+            }
+        }
+}
+
+#Preview("Loading") {
+    let context = PersistenceController.preview.container.viewContext
+    let userRepository = UserRepository(context: context)
+    let authService = LocalAuthService(userRepository: userRepository)
+
+    return ContentView()
+        .environmentObject(authService)
+        .environment(\.themeColors, .dark)
+        .preferredColorScheme(.dark)
+}

@@ -90,10 +90,9 @@ public class WhisperKitModule: Module {
 
             if !self.audioSamples.isEmpty, let whisperKit = self.whisperKit {
                 do {
-                    let result = try await whisperKit.transcribe(audioArray: self.audioSamples)
-                    if let segments = result?.segments {
-                        finalTranscription = segments.map { $0.text }.joined()
-                    }
+                    let results = try await whisperKit.transcribe(audioArray: self.audioSamples)
+                    // Combine all transcription results
+                    finalTranscription = results.map { $0.text }.joined(separator: " ")
                 } catch {
                     print("[WhisperKit] Final transcription error: \(error.localizedDescription)")
                 }
@@ -121,7 +120,7 @@ public class WhisperKitModule: Module {
             guard let whisperKit = self.whisperKit else { return false }
 
             do {
-                let models = try await whisperKit.fetchAvailableModels()
+              let models = try await WhisperKit.fetchAvailableModels()
                 return models.contains(modelName)
             } catch {
                 return false
@@ -131,8 +130,9 @@ public class WhisperKitModule: Module {
         // Download a specific model
         AsyncFunction("downloadModel") { (modelName: String) -> Bool in
             do {
-                // Download model
-                let whisperKit = try await WhisperKit(model: modelName, downloadBase: .huggingFace)
+                // Download model from default Hugging Face repository
+                // WhisperKit will automatically download from the default model repo
+                let whisperKit = try await WhisperKit(model: modelName)
                 self.whisperKit = whisperKit
 
                 print("[WhisperKit] Downloaded model: \(modelName)")
@@ -214,10 +214,10 @@ public class WhisperKitModule: Module {
             let chunk = Array(audioSamples.prefix(chunkSize))
 
             do {
-                let result = try await whisperKit.transcribe(audioArray: chunk)
+                let results = try await whisperKit.transcribe(audioArray: chunk)
 
-                if let segments = result?.segments, !segments.isEmpty {
-                    let text = segments.map { $0.text }.joined()
+                if !results.isEmpty {
+                    let text = results.map { $0.text }.joined(separator: " ")
 
                     if !text.isEmpty {
                         transcriptionBuffer = text

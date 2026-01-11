@@ -13,7 +13,7 @@ import type {
   RecordingStateChangeEvent,
   WhisperKitModel,
   TranscriptionResult,
-} from './WhisperKit.types';
+} from '../types/WhisperKit.types';
 
 // Check if native module is available
 const WhisperKitModule = NativeModules.WhisperKit;
