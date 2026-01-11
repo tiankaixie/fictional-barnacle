@@ -59,88 +59,109 @@ struct VoiceInputButtonView: View {
                     .opacity(ripple.opacity)
             }
 
-            // Main button
+            // Main button - Liquid Metal Style
             Button(action: handlePress) {
                 ZStack {
-                    // Glass depth layer (bottom)
+                    // Metallic base gradient (chrome effect)
                     Circle()
                         .fill(
                             LinearGradient(
                                 colors: [
-                                    Color.white.opacity(0.05),
-                                    Color.white.opacity(0.02)
+                                    Color(white: 0.85),
+                                    Color(white: 0.65),
+                                    Color(white: 0.45),
+                                    Color(white: 0.65),
+                                    Color(white: 0.85)
                                 ],
-                                startPoint: .top,
-                                endPoint: .bottom
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
                             )
                         )
                         .frame(width: 68, height: 68)
-                        .blur(radius: 2)
 
-                    // Glass background with blur
-                    Circle()
-                        .fill(.ultraThinMaterial)
-                        .frame(width: 68, height: 68)
-
-                    // Color gradient overlay
+                    // Color tint overlay (semi-transparent)
                     Circle()
                         .fill(
                             RadialGradient(
                                 colors: [
-                                    (isRecording ? colors.recordingRed : colors.primary).opacity(0.95),
-                                    (isRecording ? colors.recordingRed : colors.primary).opacity(0.85)
+                                    (isRecording ? colors.recordingRed : colors.primary).opacity(0.6),
+                                    (isRecording ? colors.recordingRed : colors.primary).opacity(0.4)
                                 ],
                                 center: .center,
-                                startRadius: 10,
+                                startRadius: 5,
                                 endRadius: 40
-                            )
-                        )
-                        .frame(width: 68, height: 68)
-
-                    // Water droplet highlight (top-left)
-                    Circle()
-                        .fill(
-                            RadialGradient(
-                                colors: [
-                                    Color.white.opacity(0.6),
-                                    Color.white.opacity(0.3),
-                                    Color.clear
-                                ],
-                                center: .init(x: 0.35, y: 0.35),
-                                startRadius: 2,
-                                endRadius: 25
                             )
                         )
                         .frame(width: 68, height: 68)
                         .blendMode(.overlay)
 
-                    // Glossy rim effect
+                    // Strong specular highlight (top)
                     Circle()
-                        .strokeBorder(
+                        .fill(
                             LinearGradient(
                                 colors: [
-                                    Color.white.opacity(0.5),
+                                    Color.white.opacity(0.9),
+                                    Color.white.opacity(0.6),
                                     Color.white.opacity(0.2),
+                                    Color.clear
+                                ],
+                                startPoint: .top,
+                                endPoint: .center
+                            )
+                        )
+                        .frame(width: 68, height: 68)
+                        .mask(
+                            Circle()
+                                .frame(width: 68, height: 68)
+                        )
+
+                    // Rim light (edge highlight)
+                    Circle()
+                        .strokeBorder(
+                            AngularGradient(
+                                colors: [
+                                    Color.white.opacity(0.8),
+                                    Color.white.opacity(0.3),
+                                    Color.white.opacity(0.1),
                                     Color.white.opacity(0.05),
+                                    Color.white.opacity(0.3),
+                                    Color.white.opacity(0.8)
+                                ],
+                                center: .center,
+                                startAngle: .degrees(0),
+                                endAngle: .degrees(360)
+                            ),
+                            lineWidth: 1.5
+                        )
+                        .frame(width: 68, height: 68)
+
+                    // Reflective shine (animated when recording)
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    Color.white.opacity(0.4),
                                     Color.clear
                                 ],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
-                            ),
-                            lineWidth: 2
+                            )
                         )
                         .frame(width: 68, height: 68)
+                        .offset(x: -8, y: -8)
+                        .blur(radius: 6)
+                        .mask(Circle().frame(width: 68, height: 68))
 
-                    // Bottom shadow for depth (lighter)
+                    // Depth shadow (bottom)
                     Circle()
                         .fill(
                             RadialGradient(
                                 colors: [
                                     Color.clear,
-                                    Color.black.opacity(0.08)
+                                    Color.black.opacity(0.25)
                                 ],
-                                center: .init(x: 0.5, y: 0.7),
-                                startRadius: 15,
+                                center: .init(x: 0.5, y: 0.75),
+                                startRadius: 10,
                                 endRadius: 35
                             )
                         )
@@ -148,30 +169,57 @@ struct VoiceInputButtonView: View {
                         .blendMode(.multiply)
 
                     // Inner glow when recording
-                    Circle()
-                        .fill(colors.recordingGlow)
-                        .frame(width: 68, height: 68)
-                        .opacity(innerGlow * 0.5)
-                        .blur(radius: 8)
+                    if isRecording {
+                        Circle()
+                            .fill(
+                                RadialGradient(
+                                    colors: [
+                                        colors.recordingRed.opacity(0.8),
+                                        colors.recordingRed.opacity(0.3),
+                                        Color.clear
+                                    ],
+                                    center: .center,
+                                    startRadius: 5,
+                                    endRadius: 30
+                                )
+                            )
+                            .frame(width: 68, height: 68)
+                            .opacity(innerGlow)
+                            .blur(radius: 10)
+                    }
 
-                    // Microphone icon with subtle glow
+                    // Microphone icon with metallic effect
                     ZStack {
-                        Image(systemName: isRecording ? "mic.fill" : "mic.fill")
-                            .font(.system(size: 28))
-                            .foregroundColor(.white)
-                            .shadow(color: .white.opacity(0.5), radius: 4)
+                        // Icon shadow
+                        Image(systemName: "mic.fill")
+                            .font(.system(size: 28, weight: .semibold))
+                            .foregroundColor(.black.opacity(0.3))
+                            .offset(y: 1)
+                            .blur(radius: 1)
 
-                        Image(systemName: isRecording ? "mic.fill" : "mic.fill")
-                            .font(.system(size: 28))
-                            .foregroundColor(.white)
+                        // Icon with gradient
+                        Image(systemName: "mic.fill")
+                            .font(.system(size: 28, weight: .semibold))
+                            .foregroundStyle(
+                                LinearGradient(
+                                    colors: [
+                                        Color.white,
+                                        Color.white.opacity(0.95),
+                                        Color.white.opacity(0.85)
+                                    ],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            )
+                            .shadow(color: .white.opacity(0.8), radius: 2)
                     }
                 }
             }
             .buttonStyle(WaterDropButtonStyle(scale: $scale))
             .disabled(isDisabled)
             .frame(width: 68, height: 68)
-            .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 6)
-            .shadow(color: (isRecording ? colors.recordingRed : colors.primary).opacity(0.2), radius: 8, x: 0, y: 4)
+            .shadow(color: .black.opacity(0.3), radius: 16, x: 0, y: 8)
+            .shadow(color: (isRecording ? colors.recordingRed : colors.primary).opacity(0.4), radius: 12, x: 0, y: 6)
         }
         .frame(width: 100, height: 100)
         .onChange(of: isRecording) { newValue in

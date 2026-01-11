@@ -111,110 +111,142 @@ struct RecordingOverlayView: View {
                     .opacity(ripple.opacity)
             }
 
-            // Stop button
+            // Stop button - Liquid Metal Style
             Button(action: handleStop) {
                 ZStack {
-                    // Glass depth layer (bottom)
+                    // Metallic base gradient (chrome effect)
                     Circle()
                         .fill(
                             LinearGradient(
                                 colors: [
-                                    Color.white.opacity(0.05),
-                                    Color.white.opacity(0.02)
+                                    Color(white: 0.85),
+                                    Color(white: 0.65),
+                                    Color(white: 0.45),
+                                    Color(white: 0.65),
+                                    Color(white: 0.85)
                                 ],
-                                startPoint: .top,
-                                endPoint: .bottom
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
                             )
                         )
                         .frame(width: 72, height: 72)
-                        .blur(radius: 2)
 
-                    // Glass background with blur
-                    Circle()
-                        .fill(.ultraThinMaterial)
-                        .frame(width: 72, height: 72)
-
-                    // Color gradient overlay
+                    // Red tint overlay
                     Circle()
                         .fill(
                             RadialGradient(
                                 colors: [
-                                    colors.recordingRed.opacity(0.95),
-                                    colors.recordingRed.opacity(0.85)
+                                    colors.recordingRed.opacity(0.7),
+                                    colors.recordingRed.opacity(0.5)
                                 ],
                                 center: .center,
-                                startRadius: 12,
-                                endRadius: 45
-                            )
-                        )
-                        .frame(width: 72, height: 72)
-
-                    // Water droplet highlight (top-left)
-                    Circle()
-                        .fill(
-                            RadialGradient(
-                                colors: [
-                                    Color.white.opacity(0.6),
-                                    Color.white.opacity(0.3),
-                                    Color.clear
-                                ],
-                                center: .init(x: 0.35, y: 0.35),
-                                startRadius: 3,
-                                endRadius: 28
+                                startRadius: 5,
+                                endRadius: 40
                             )
                         )
                         .frame(width: 72, height: 72)
                         .blendMode(.overlay)
 
-                    // Glossy rim effect
+                    // Strong specular highlight (top)
                     Circle()
-                        .strokeBorder(
+                        .fill(
                             LinearGradient(
                                 colors: [
-                                    Color.white.opacity(0.5),
+                                    Color.white.opacity(0.9),
+                                    Color.white.opacity(0.6),
                                     Color.white.opacity(0.2),
+                                    Color.clear
+                                ],
+                                startPoint: .top,
+                                endPoint: .center
+                            )
+                        )
+                        .frame(width: 72, height: 72)
+                        .mask(Circle().frame(width: 72, height: 72))
+
+                    // Rim light (edge highlight)
+                    Circle()
+                        .strokeBorder(
+                            AngularGradient(
+                                colors: [
+                                    Color.white.opacity(0.8),
+                                    Color.white.opacity(0.3),
+                                    Color.white.opacity(0.1),
                                     Color.white.opacity(0.05),
+                                    Color.white.opacity(0.3),
+                                    Color.white.opacity(0.8)
+                                ],
+                                center: .center,
+                                startAngle: .degrees(0),
+                                endAngle: .degrees(360)
+                            ),
+                            lineWidth: 1.5
+                        )
+                        .frame(width: 72, height: 72)
+
+                    // Reflective shine
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    Color.white.opacity(0.4),
                                     Color.clear
                                 ],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
-                            ),
-                            lineWidth: 2
+                            )
                         )
                         .frame(width: 72, height: 72)
+                        .offset(x: -8, y: -8)
+                        .blur(radius: 6)
+                        .mask(Circle().frame(width: 72, height: 72))
 
-                    // Bottom shadow for depth (lighter)
+                    // Depth shadow (bottom)
                     Circle()
                         .fill(
                             RadialGradient(
                                 colors: [
                                     Color.clear,
-                                    Color.black.opacity(0.08)
+                                    Color.black.opacity(0.25)
                                 ],
-                                center: .init(x: 0.5, y: 0.7),
-                                startRadius: 18,
+                                center: .init(x: 0.5, y: 0.75),
+                                startRadius: 12,
                                 endRadius: 38
                             )
                         )
                         .frame(width: 72, height: 72)
                         .blendMode(.multiply)
 
-                    // Stop icon (square) with glow
+                    // Stop icon with metallic effect
                     ZStack {
+                        // Icon shadow
                         RoundedRectangle(cornerRadius: 5)
-                            .fill(.white)
+                            .fill(Color.black.opacity(0.3))
                             .frame(width: 22, height: 22)
-                            .shadow(color: .white.opacity(0.5), radius: 4)
+                            .offset(y: 1)
+                            .blur(radius: 1)
 
+                        // Icon with gradient
                         RoundedRectangle(cornerRadius: 5)
-                            .fill(.white)
+                            .fill(
+                                LinearGradient(
+                                    colors: [
+                                        Color.white,
+                                        Color.white.opacity(0.95),
+                                        Color.white.opacity(0.85)
+                                    ],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            )
                             .frame(width: 22, height: 22)
+                            .shadow(color: .white.opacity(0.8), radius: 2)
                     }
                 }
             }
             .scaleEffect(stopButtonScale)
-            .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 6)
-            .shadow(color: colors.recordingRed.opacity(0.2), radius: 8, x: 0, y: 4)
+            .shadow(color: .black.opacity(0.3), radius: 16, x: 0, y: 8)
+            .shadow(color: colors.recordingRed.opacity(0.4), radius: 12, x: 0, y: 6)
         }
     }
 
