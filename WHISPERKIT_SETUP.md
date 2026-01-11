@@ -1,51 +1,33 @@
 # WhisperKit Setup Guide
 
-This guide explains how to add WhisperKit to the iOS project for real speech recognition.
+This guide explains how WhisperKit is integrated in the iOS native project.
 
-## Automatic Setup (Recommended)
+## Setup
 
-The project includes an Expo config plugin that should automatically add WhisperKit when you rebuild:
-
-```bash
-# Clean and rebuild iOS project
-npx expo prebuild --clean
-npx expo run:ios
-```
-
-## Manual Setup (If Automatic Fails)
-
-If the automatic setup doesn't work, follow these steps:
-
-### 1. Open Xcode Project
+WhisperKit is automatically configured via xcodegen in `CebuNative/project.yml`:
 
 ```bash
-open ios/Cebu.xcworkspace
+cd CebuNative
+xcodegen generate
+open Cebu.xcodeproj
 ```
 
-### 2. Add WhisperKit Swift Package
+The Swift Package dependency is defined in `project.yml`:
+```yaml
+packages:
+  WhisperKit:
+    url: https://github.com/argmaxinc/WhisperKit
+    from: 0.7.0
+```
 
-1. In Xcode, select the **Cebu** project in the navigator
-2. Select the **Cebu** target
-3. Go to the **Package Dependencies** tab
-4. Click the **+** button
-5. Enter the WhisperKit repository URL:
-   ```
-   https://github.com/argmaxinc/WhisperKit.git
-   ```
-6. Select **Up to Next Major Version** and enter `0.7.0`
-7. Click **Add Package**
-8. Select **WhisperKit** in the list and click **Add Package**
+## First Run
 
-### 3. Verify Installation
+The first time you run the app, it will automatically download the Whisper model:
+- **Default model**: `small` (~500MB)
+- **Download location**: User's cache directory
+- **Auto-retry**: 3 attempts with cache cleanup on failure
 
-1. Build the project in Xcode (⌘B)
-2. Check for any errors
-3. If successful, the WhisperKit module will be available
-
-### 4. Download Whisper Model
-
-The first time you run the app, it will download the Whisper model (~100MB for `base` model).
-This happens automatically when initializing WhisperKit.
+The app shows a loading overlay during download with the current attempt number.
 
 ## Available Models
 
@@ -61,33 +43,57 @@ This happens automatically when initializing WhisperKit.
 
 ## Changing Model
 
-To use a different model, modify the initialization in `useWhisperKit.ts`:
+To use a different model, modify the initialization in `RecordingViewModel.swift`:
 
-```typescript
-const { isInitialized } = useWhisperKit('small.en'); // Use small.en instead of base
+```swift
+// In initialize() method
+try await whisperService.initialize(modelName: "medium") // Change from "small"
 ```
+
+## Implementation Details
+
+The WhisperKit integration is in `Cebu/Core/Services/WhisperKitService.swift`:
+- **Audio format**: 16kHz mono, PCM Float32
+- **Transcription**: Single batch processing after recording stops
+- **Language**: Forced to Chinese ("zh") via DecodingOptions
+- **Progress**: Indeterminate during download/transcription
 
 ## Troubleshooting
 
 ### Build Errors
 
 If you get build errors:
-1. Clean build folder: Product > Clean Build Folder (⌘⇧K)
-2. Delete derived data:
+1. Regenerate Xcode project:
+   ```bash
+   cd CebuNative
+   xcodegen generate
+   ```
+2. Clean build folder: Product > Clean Build Folder (⌘⇧K)
+3. Delete derived data:
    ```bash
    rm -rf ~/Library/Developer/Xcode/DerivedData
    ```
-3. Rebuild the project
+4. Rebuild the project
 
 ### Model Download Failures
 
-If model download fails:
+The app includes automatic retry logic:
+- Retries up to 3 times
+- Clears cache between retries
+- Shows attempt number in UI
+
+If all retries fail:
 - Check internet connection
-- Try a smaller model first (tiny or base)
-- The model will be cached after first successful download
+- Manually clear cache:
+  ```bash
+  rm -rf ~/Library/Caches/huggingface
+  rm -rf ~/Library/Caches/whisperkit
+  ```
+- Restart the app
 
 ### Performance Issues
 
-- Use smaller models on older devices
-- `tiny` and `base` models run well on most devices
+- Current model (`small`, 500MB) works well on most devices
+- For older devices, consider `tiny` or `base`
 - `medium` and `large` models require iPhone 12 or newer
+- Real-time transcription is disabled to improve performance
