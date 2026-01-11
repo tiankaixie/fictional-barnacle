@@ -111,12 +111,12 @@ struct RecordingOverlayView: View {
                     .opacity(ripple.opacity)
             }
 
-            // Stop button - Dark Mode Gradient Stroke Style
+            // Stop button - Neomorphism Style
             Button(action: handleStop) {
                 ZStack {
-                    // Dark background fill
+                    // Base background matching overlay
                     Circle()
-                        .fill(Color(white: 0.15))
+                        .fill(Color(white: 0.12))
                         .frame(width: 72, height: 72)
 
                     // Subtle red inner glow
@@ -124,43 +124,26 @@ struct RecordingOverlayView: View {
                         .fill(
                             RadialGradient(
                                 colors: [
-                                    colors.recordingRed.opacity(0.2),
+                                    colors.recordingRed.opacity(0.08),
                                     Color.clear
                                 ],
                                 center: .center,
-                                startRadius: 5,
+                                startRadius: 10,
                                 endRadius: 36
                             )
                         )
                         .frame(width: 72, height: 72)
 
-                    // Rainbow gradient stroke border (red/orange emphasis)
-                    Circle()
-                        .strokeBorder(
-                            AngularGradient(
-                                colors: [
-                                    Color(red: 1.0, green: 0.3, blue: 0.3),     // Red
-                                    Color(red: 1.0, green: 0.6, blue: 0.2),     // Orange
-                                    Color(red: 1.0, green: 0.9, blue: 0.3),     // Yellow
-                                    Color(red: 1.0, green: 0.5, blue: 0.7),     // Pink
-                                    Color(red: 0.8, green: 0.3, blue: 0.9),     // Purple
-                                    Color(red: 1.0, green: 0.3, blue: 0.3)      // Red (loop)
-                                ],
-                                center: .center
-                            ),
-                            lineWidth: 2.5
-                        )
-                        .frame(width: 72, height: 72)
-
-                    // Stop icon (square) - light color
+                    // Stop icon (square)
                     RoundedRectangle(cornerRadius: 5)
-                        .fill(Color.white.opacity(0.85))
+                        .fill(Color.white.opacity(0.75))
                         .frame(width: 22, height: 22)
                 }
             }
             .scaleEffect(stopButtonScale)
-            .shadow(color: .black.opacity(0.08), radius: 10, x: 0, y: 4)
-            .shadow(color: colors.recordingRed.opacity(0.15), radius: 20, x: 0, y: 8)
+            // Neomorphism dual shadows
+            .shadow(color: Color.black.opacity(0.5), radius: 10, x: 6, y: 6)
+            .shadow(color: Color.white.opacity(0.05), radius: 10, x: -6, y: -6)
         }
     }
 

@@ -59,25 +59,29 @@ struct VoiceInputButtonView: View {
                     .opacity(ripple.opacity)
             }
 
-            // Main button - Dark Mode Gradient Stroke Style
+            // Main button - Neomorphism Style
             Button(action: handlePress) {
                 ZStack {
-                    // Dark background fill (dark gray, almost black)
+                    // Base background matching the app background
                     Circle()
-                        .fill(Color(white: 0.15))
+                        .fill(
+                            colorScheme == .dark
+                            ? Color(white: 0.12)
+                            : Color(white: 0.95)
+                        )
                         .frame(width: 68, height: 68)
 
-                    // Subtle inner glow when recording
+                    // Subtle color tint when recording
                     if isRecording {
                         Circle()
                             .fill(
                                 RadialGradient(
                                     colors: [
-                                        colors.recordingRed.opacity(0.2),
+                                        colors.recordingRed.opacity(0.08),
                                         Color.clear
                                     ],
                                     center: .center,
-                                    startRadius: 5,
+                                    startRadius: 10,
                                     endRadius: 34
                                 )
                             )
@@ -85,44 +89,36 @@ struct VoiceInputButtonView: View {
                             .opacity(innerGlow)
                     }
 
-                    // Rainbow gradient stroke border (thin, like the image)
-                    Circle()
-                        .strokeBorder(
-                            AngularGradient(
-                                colors: isRecording ? [
-                                    // Recording: rainbow with red emphasis
-                                    Color(red: 1.0, green: 0.3, blue: 0.3),     // Red
-                                    Color(red: 1.0, green: 0.6, blue: 0.2),     // Orange
-                                    Color(red: 1.0, green: 0.9, blue: 0.3),     // Yellow
-                                    Color(red: 1.0, green: 0.5, blue: 0.7),     // Pink
-                                    Color(red: 0.8, green: 0.3, blue: 0.9),     // Purple
-                                    Color(red: 1.0, green: 0.3, blue: 0.3)      // Red (loop)
-                                ] : [
-                                    // Idle: rainbow gradient
-                                    Color(red: 0.3, green: 0.6, blue: 1.0),     // Blue
-                                    Color(red: 0.6, green: 0.4, blue: 1.0),     // Purple
-                                    Color(red: 1.0, green: 0.5, blue: 0.7),     // Pink
-                                    Color(red: 1.0, green: 0.9, blue: 0.3),     // Yellow
-                                    Color(red: 0.5, green: 0.9, blue: 0.4),     // Green
-                                    Color(red: 0.3, green: 0.6, blue: 1.0)      // Blue (loop)
-                                ],
-                                center: .center
-                            ),
-                            lineWidth: 2.5
-                        )
-                        .frame(width: 68, height: 68)
-
-                    // Icon - light color for dark background
+                    // Icon - dark color for light background
                     Image(systemName: "mic.fill")
-                        .font(.system(size: 28, weight: .medium))
-                        .foregroundColor(Color.white.opacity(0.85))
+                        .font(.system(size: 28, weight: .semibold))
+                        .foregroundColor(
+                            colorScheme == .dark
+                            ? Color.white.opacity(0.8)
+                            : Color.black.opacity(isRecording ? 0.7 : 0.65)
+                        )
                 }
             }
             .buttonStyle(WaterDropButtonStyle(scale: $scale))
             .disabled(isDisabled)
             .frame(width: 68, height: 68)
-            .shadow(color: .black.opacity(0.08), radius: 10, x: 0, y: 4)
-            .shadow(color: (isRecording ? colors.recordingRed : colors.primary).opacity(0.15), radius: 20, x: 0, y: 8)
+            // Neomorphism dual shadows (dark + light)
+            .shadow(
+                color: colorScheme == .dark
+                    ? Color.black.opacity(0.5)
+                    : Color.black.opacity(0.2),
+                radius: 10,
+                x: 6,
+                y: 6
+            )
+            .shadow(
+                color: colorScheme == .dark
+                    ? Color.white.opacity(0.05)
+                    : Color.white.opacity(0.8),
+                radius: 10,
+                x: -6,
+                y: -6
+            )
         }
         .frame(width: 100, height: 100)
         .onChange(of: isRecording) { newValue in
