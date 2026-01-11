@@ -47,12 +47,12 @@ struct VoiceInputButtonView: View {
                 .scaleEffect(1 + glowIntensity * 0.1)
                 .opacity(glowIntensity * 0.6)
 
-            // Water ripple layers
+            // Water ripple layers (enhanced visibility)
             ForEach(Array(ripples.enumerated()), id: \.element.id) { _, ripple in
                 Circle()
                     .stroke(
-                        (isRecording ? colors.recordingRed : colors.primary).opacity(0.6),
-                        lineWidth: 3
+                        (isRecording ? colors.recordingRed : colors.primary),
+                        lineWidth: 4
                     )
                     .frame(width: 68, height: 68)
                     .scaleEffect(ripple.scale)
@@ -131,13 +131,13 @@ struct VoiceInputButtonView: View {
                         )
                         .frame(width: 68, height: 68)
 
-                    // Bottom shadow for depth
+                    // Bottom shadow for depth (lighter)
                     Circle()
                         .fill(
                             RadialGradient(
                                 colors: [
                                     Color.clear,
-                                    Color.black.opacity(0.15)
+                                    Color.black.opacity(0.08)
                                 ],
                                 center: .init(x: 0.5, y: 0.7),
                                 startRadius: 15,
@@ -170,8 +170,8 @@ struct VoiceInputButtonView: View {
             .buttonStyle(WaterDropButtonStyle(scale: $scale))
             .disabled(isDisabled)
             .frame(width: 68, height: 68)
-            .shadow(color: .black.opacity(0.4), radius: 20, x: 0, y: 10)
-            .shadow(color: (isRecording ? colors.recordingRed : colors.primary).opacity(0.3), radius: 12, x: 0, y: 6)
+            .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 6)
+            .shadow(color: (isRecording ? colors.recordingRed : colors.primary).opacity(0.2), radius: 8, x: 0, y: 4)
         }
         .frame(width: 100, height: 100)
         .onChange(of: isRecording) { newValue in
@@ -198,37 +198,42 @@ struct VoiceInputButtonView: View {
         let generator = UIImpactFeedbackGenerator(style: .medium)
         generator.impactOccurred()
 
-        // Scale animation with water drop bounce
-        withAnimation(.spring(response: 0.25, dampingFraction: 0.5)) {
-            scale = 0.88
+        // Enhanced water drop bounce (more dramatic)
+        withAnimation(.spring(response: 0.25, dampingFraction: 0.45)) {
+            scale = 0.85
         }
-        withAnimation(.spring(response: 0.4, dampingFraction: 0.55).delay(0.1)) {
-            scale = 1.05
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.5).delay(0.08)) {
+            scale = 1.08
         }
-        withAnimation(.spring(response: 0.3, dampingFraction: 0.65).delay(0.25)) {
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.6).delay(0.2)) {
             scale = 1.0
         }
 
-        // Create water ripple effect
+        // Create multiple water ripple effects
         createRipple()
+
+        // Second ripple (delayed, creates layered effect)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+            self.createRipple(duration: 1.0, maxScale: 2.2)
+        }
 
         onPress()
     }
 
-    private func createRipple() {
-        let newRipple = RippleEffect(id: UUID())
+    private func createRipple(duration: Double = 0.9, maxScale: CGFloat = 2.0) {
+        let newRipple = RippleEffect(id: UUID(), opacity: 0.9)
         ripples.append(newRipple)
 
-        // Animate ripple expansion
-        withAnimation(.easeOut(duration: 0.8)) {
+        // Animate ripple expansion (larger and longer)
+        withAnimation(.easeOut(duration: duration)) {
             if let index = ripples.firstIndex(where: { $0.id == newRipple.id }) {
-                ripples[index].scale = 1.8
+                ripples[index].scale = maxScale
                 ripples[index].opacity = 0.0
             }
         }
 
         // Remove ripple after animation
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
             ripples.removeAll { $0.id == newRipple.id }
         }
     }

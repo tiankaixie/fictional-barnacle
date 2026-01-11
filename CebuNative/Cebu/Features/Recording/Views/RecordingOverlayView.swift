@@ -102,10 +102,10 @@ struct RecordingOverlayView: View {
                 .scaleEffect(ringScale)
                 .opacity(ringOpacity)
 
-            // Water ripple layers
+            // Water ripple layers (enhanced visibility)
             ForEach(Array(stopRipples.enumerated()), id: \.element.id) { _, ripple in
                 Circle()
-                    .stroke(colors.recordingRed.opacity(0.6), lineWidth: 3)
+                    .stroke(colors.recordingRed, lineWidth: 4)
                     .frame(width: 72, height: 72)
                     .scaleEffect(ripple.scale)
                     .opacity(ripple.opacity)
@@ -183,13 +183,13 @@ struct RecordingOverlayView: View {
                         )
                         .frame(width: 72, height: 72)
 
-                    // Bottom shadow for depth
+                    // Bottom shadow for depth (lighter)
                     Circle()
                         .fill(
                             RadialGradient(
                                 colors: [
                                     Color.clear,
-                                    Color.black.opacity(0.15)
+                                    Color.black.opacity(0.08)
                                 ],
                                 center: .init(x: 0.5, y: 0.7),
                                 startRadius: 18,
@@ -213,8 +213,8 @@ struct RecordingOverlayView: View {
                 }
             }
             .scaleEffect(stopButtonScale)
-            .shadow(color: .black.opacity(0.4), radius: 20, x: 0, y: 10)
-            .shadow(color: colors.recordingRed.opacity(0.3), radius: 12, x: 0, y: 6)
+            .shadow(color: .black.opacity(0.15), radius: 12, x: 0, y: 6)
+            .shadow(color: colors.recordingRed.opacity(0.2), radius: 8, x: 0, y: 4)
         }
     }
 
@@ -225,39 +225,44 @@ struct RecordingOverlayView: View {
         let generator = UIImpactFeedbackGenerator(style: .heavy)
         generator.impactOccurred()
 
-        // Scale animation with water drop bounce
-        withAnimation(.spring(response: 0.25, dampingFraction: 0.5)) {
-            stopButtonScale = 0.88
+        // Enhanced water drop bounce (more dramatic)
+        withAnimation(.spring(response: 0.25, dampingFraction: 0.45)) {
+            stopButtonScale = 0.85
         }
-        withAnimation(.spring(response: 0.4, dampingFraction: 0.55).delay(0.1)) {
-            stopButtonScale = 1.05
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.5).delay(0.08)) {
+            stopButtonScale = 1.08
         }
-        withAnimation(.spring(response: 0.3, dampingFraction: 0.65).delay(0.25)) {
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.6).delay(0.2)) {
             stopButtonScale = 1.0
         }
 
-        // Create water ripple effect
+        // Create multiple water ripple effects
         createStopRipple()
+
+        // Second ripple (delayed, creates layered effect)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+            self.createStopRipple(duration: 1.0, maxScale: 2.2)
+        }
 
         Task {
             await viewModel.stopRecording()
         }
     }
 
-    private func createStopRipple() {
-        let newRipple = RippleEffect(id: UUID())
+    private func createStopRipple(duration: Double = 0.9, maxScale: CGFloat = 2.0) {
+        let newRipple = RippleEffect(id: UUID(), opacity: 0.9)
         stopRipples.append(newRipple)
 
-        // Animate ripple expansion
-        withAnimation(.easeOut(duration: 0.8)) {
+        // Animate ripple expansion (larger and longer)
+        withAnimation(.easeOut(duration: duration)) {
             if let index = stopRipples.firstIndex(where: { $0.id == newRipple.id }) {
-                stopRipples[index].scale = 1.8
+                stopRipples[index].scale = maxScale
                 stopRipples[index].opacity = 0.0
             }
         }
 
         // Remove ripple after animation
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
             stopRipples.removeAll { $0.id == newRipple.id }
         }
     }

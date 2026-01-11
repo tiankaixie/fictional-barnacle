@@ -10,5 +10,11 @@ import SwiftUI
 struct RippleEffect: Identifiable {
     let id: UUID
     var scale: CGFloat = 1.0
-    var opacity: Double = 0.8
+    var opacity: Double
+
+    init(id: UUID, scale: CGFloat = 1.0, opacity: Double = 0.8) {
+        self.id = id
+        self.scale = scale
+        self.opacity = opacity
+    }
 }
