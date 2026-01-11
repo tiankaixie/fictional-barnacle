@@ -25,6 +25,7 @@
 		B2AA51D7D8B45238AC19BA8F /* WhisperKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0E94223316BA2A368222F7EA /* WhisperKit */; };
 		B7F9289983D6A883CC473C56 /* DayEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064A0758C4063CB1ED28B576 /* DayEntryView.swift */; };
 		CC32CBAA2D30DB1ABADB0F48 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3D7FCE5142D87D01505020 /* Colors.swift */; };
+		CD8AC40D1DB268657A2D4F44 /* RippleEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F4254591AAACDB212D4721 /* RippleEffect.swift */; };
 		D141BDB89726325CA74BDC12 /* JournalListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FBEFE7215D531B0C892F92 /* JournalListViewModel.swift */; };
 		D5C1CA7E5B1FC1648B9FD63E /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D8940F277458592E84888F /* AuthenticationService.swift */; };
 		D5EE867A3751737755BC29E3 /* RecordingOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF30A80650677917CFA6BECB /* RecordingOverlayView.swift */; };
@@ -60,6 +61,7 @@
 		CEA835FE7969ACAE1F3B3412 /* Cebu.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Cebu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7360C118471A0D2BB1B8CFA /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		E2CF728558E57A7F0F6CBB5E /* TranscriptionBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionBlockView.swift; sourceTree = "<group>"; };
+		F0F4254591AAACDB212D4721 /* RippleEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RippleEffect.swift; sourceTree = "<group>"; };
 		F17F867C40F645C3B178D66D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F714BF61A83BCF901B30F9C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -115,6 +117,14 @@
 				12BCD290F4B4378E215B3147 /* Cebu */,
 				F28FA8464ECB14DCEE04A0DC /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		479C678AD7BEC367F10E3BFA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F0F4254591AAACDB212D4721 /* RippleEffect.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		52D4CA45F472DB84F2DAF6AF /* Authentication */ = {
@@ -229,6 +239,7 @@
 			isa = PBXGroup;
 			children = (
 				88905A247A2A1D4BCBE7E020 /* Components */,
+				479C678AD7BEC367F10E3BFA /* Models */,
 				EF5B3B8301E7F85F643F9BFF /* Theme */,
 			);
 			path = UI;
@@ -285,7 +296,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		"TEMP_4AB0A25E-8C86-41FE-84B5-118186136F12" /* Utilities */ = {
+		"TEMP_A98C194E-B3BF-4185-A5FA-99D12D28FDAA" /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -377,6 +388,7 @@
 				784940DEB6A0452C7876A03E /* PersistenceController.swift in Sources */,
 				D5EE867A3751737755BC29E3 /* RecordingOverlayView.swift in Sources */,
 				FCBB75642EBE936E103A42F4 /* RecordingViewModel.swift in Sources */,
+				CD8AC40D1DB268657A2D4F44 /* RippleEffect.swift in Sources */,
 				91FA0A8B5B65889E8630D544 /* SignInView.swift in Sources */,
 				3760437F9F383F35D9C99073 /* TranscriptionBlock.swift in Sources */,
 				065FF28F1425DE15B93B41B8 /* TranscriptionBlockView.swift in Sources */,

@@ -103,7 +103,7 @@ struct RecordingOverlayView: View {
                 .opacity(ringOpacity)
 
             // Water ripple layers
-            ForEach(stopRipples) { ripple in
+            ForEach(Array(stopRipples.enumerated()), id: \.element.id) { _, ripple in
                 Circle()
                     .stroke(colors.recordingRed.opacity(0.6), lineWidth: 3)
                     .frame(width: 72, height: 72)
@@ -280,14 +280,6 @@ struct RecordingOverlayView: View {
             ringOpacity = 0.0
         }
     }
-}
-
-// MARK: - Ripple Effect Model
-
-struct RippleEffect: Identifiable {
-    let id: UUID
-    var scale: CGFloat = 1.0
-    var opacity: Double = 0.8
 }
 
 // MARK: - Preview

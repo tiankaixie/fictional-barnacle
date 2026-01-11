@@ -48,7 +48,7 @@ struct VoiceInputButtonView: View {
                 .opacity(glowIntensity * 0.6)
 
             // Water ripple layers
-            ForEach(ripples) { ripple in
+            ForEach(Array(ripples.enumerated()), id: \.element.id) { _, ripple in
                 Circle()
                     .stroke(
                         (isRecording ? colors.recordingRed : colors.primary).opacity(0.6),
@@ -250,14 +250,6 @@ struct VoiceInputButtonView: View {
             glowIntensity = 1.0
         }
     }
-}
-
-// MARK: - Ripple Effect Model
-
-struct RippleEffect: Identifiable {
-    let id: UUID
-    var scale: CGFloat = 1.0
-    var opacity: Double = 0.8
 }
 
 // MARK: - Water Drop Button Style
