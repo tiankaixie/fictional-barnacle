@@ -11,6 +11,7 @@ struct RecordingOverlayView: View {
     @Environment(\.themeColors) var colors
     @Environment(\.dismiss) var dismiss
     @ObservedObject var viewModel: RecordingViewModel
+    @EnvironmentObject var audioStorageService: AudioStorageService
 
     @State private var dotPulse: CGFloat = 1.0
     @State private var ringScale: CGFloat = 1.0
@@ -42,6 +43,11 @@ struct RecordingOverlayView: View {
 
                 // Info card
                 transcriptCard
+
+                // Audio save indicator (if enabled)
+                if audioStorageService.saveAudioEnabled {
+                    audioSaveIndicator
+                }
 
                 Spacer()
 
@@ -91,6 +97,36 @@ struct RecordingOverlayView: View {
         .frame(maxWidth: .infinity)
         .liquidGlassCard()
         .padding(.horizontal, 24)
+    }
+
+    private var audioSaveIndicator: some View {
+        HStack(spacing: 10) {
+            Image(systemName: "waveform.circle.fill")
+                .font(.system(size: 16))
+                .foregroundColor(colors.primary)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text("录音将被保存")
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundColor(colors.text)
+
+                Text("\(audioStorageService.audioQuality.displayName)音质 · \(audioStorageService.audioQuality.estimatedSize)")
+                    .font(.caption)
+                    .foregroundColor(colors.textTertiary)
+            }
+
+            Spacer()
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 14)
+        .background(colors.primary.opacity(0.08))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .overlay(
+            RoundedRectangle(cornerRadius: 14)
+                .strokeBorder(colors.primary.opacity(0.2), lineWidth: 1)
+        )
+        .padding(.horizontal, 24)
+        .transition(.opacity.combined(with: .move(edge: .top)))
     }
 
     private var stopButton: some View {
