@@ -17,6 +17,7 @@ struct DayEntryView: View {
     let onDeleteBlock: (TranscriptionBlock) -> Void
 
     @State private var editingBlockId: UUID?
+    @State private var showExportSheet = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -126,6 +127,16 @@ struct DayEntryView: View {
 
             // Toggle edit mode
             onToggleEdit()
+        }
+        .contextMenu {
+            Button {
+                showExportSheet = true
+            } label: {
+                Label("导出此日记", systemImage: "square.and.arrow.up")
+            }
+        }
+        .sheet(isPresented: $showExportSheet) {
+            ExportOptionsView(entries: [entryWithBlocks])
         }
     }
 

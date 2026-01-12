@@ -185,7 +185,18 @@ class WhisperKitService: ObservableObject {
 
     /// Get available WhisperKit models
     func getAvailableModels() -> [String] {
-        return ["tiny", "tiny.en", "base", "base.en", "small", "small.en", "medium", "medium.en", "large-v3"]
+        return [
+            "openai_whisper-tiny",
+            "openai_whisper-tiny.en",
+            "openai_whisper-base",
+            "openai_whisper-base.en",
+            "openai_whisper-small",
+            "openai_whisper-small.en",
+            "openai_whisper-medium",
+            "openai_whisper-medium.en",
+            "openai_whisper-large-v3",
+            "openai_whisper-large-v3_turbo"
+        ]
     }
 
     /// Check if a model is downloaded locally

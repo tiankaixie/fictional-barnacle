@@ -8,16 +8,16 @@
 import SwiftUI
 
 enum WhisperModel: String, CaseIterable, Identifiable {
-    case tiny = "tiny"
-    case tinyEn = "tiny.en"
-    case base = "base"
-    case baseEn = "base.en"
-    case small = "small"
-    case smallEn = "small.en"
-    case medium = "medium"
-    case mediumEn = "medium.en"
-    case largeV3 = "large-v3"
-    case largeV3Turbo = "large-v3-turbo"
+    case tiny = "openai_whisper-tiny"
+    case tinyEn = "openai_whisper-tiny.en"
+    case base = "openai_whisper-base"
+    case baseEn = "openai_whisper-base.en"
+    case small = "openai_whisper-small"
+    case smallEn = "openai_whisper-small.en"
+    case medium = "openai_whisper-medium"
+    case mediumEn = "openai_whisper-medium.en"
+    case largeV3 = "openai_whisper-large-v3"
+    case largeV3Turbo = "openai_whisper-large-v3_turbo"
 
     var id: String { rawValue }
 
@@ -60,7 +60,7 @@ enum WhisperModel: String, CaseIterable, Identifiable {
         case .largeV3:
             return "最慢，最高准确度"
         case .largeV3Turbo:
-            return "快速，最高准确度"
+            return "快速，最高准确度 - 最佳选择"
         }
     }
 

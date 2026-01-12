@@ -34,6 +34,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.tiankaixie.cebu
         INFOPLIST_FILE: Cebu/Info.plist
+        # CODE_SIGN_ENTITLEMENTS: Cebu.entitlements  # Disabled - requires paid Apple Developer account
         ENABLE_PREVIEWS: true
         DEVELOPMENT_ASSET_PATHS: "\"Cebu/Preview Content\""
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
@@ -57,6 +58,7 @@ targets:
         UILaunchScreen: {}
         NSMicrophoneUsageDescription: "Cebu needs access to your microphone to record voice notes."
         NSSpeechRecognitionUsageDescription: "Cebu uses on-device speech recognition to transcribe your voice notes."
+        NSFaceIDUsageDescription: "Cebu 使用 Face ID 保护您的日记隐私"
         UIRequiredDeviceCapabilities:
           - armv7
         UISupportedInterfaceOrientations:

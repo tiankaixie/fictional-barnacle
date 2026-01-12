@@ -12,6 +12,8 @@ struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var modelManager: ModelManager
+    @EnvironmentObject var biometricService: BiometricAuthService
+    @EnvironmentObject var cloudSyncService: CloudSyncService
 
     @State private var showModelInfo = false
 
@@ -88,6 +90,97 @@ struct SettingsView: View {
                                 }
                             }
                         }
+                        .liquidGlassCard(padding: 0)
+                    }
+
+                    // 隐私与安全区域
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("隐私与安全")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundColor(colors.textSecondary)
+                            .padding(.horizontal, 20)
+
+                        NavigationLink(destination: SecuritySettingsView()) {
+                            HStack(spacing: 16) {
+                                Image(systemName: "lock.shield")
+                                    .font(.system(size: 22))
+                                    .foregroundColor(colors.primary)
+                                    .frame(width: 28)
+
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("应用锁")
+                                        .font(.system(size: 17))
+                                        .foregroundColor(colors.text)
+
+                                    if biometricService.isEnabled {
+                                        Text("已启用")
+                                            .font(.caption)
+                                            .foregroundColor(colors.primary)
+                                    } else {
+                                        Text("未启用")
+                                            .font(.caption)
+                                            .foregroundColor(colors.textTertiary)
+                                    }
+                                }
+
+                                Spacer()
+
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundColor(colors.textTertiary)
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 16)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .liquidGlassCard(padding: 0)
+                    }
+
+                    // iCloud 同步区域
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("数据与同步")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundColor(colors.textSecondary)
+                            .padding(.horizontal, 20)
+
+                        NavigationLink(destination: CloudSyncSettingsView()) {
+                            HStack(spacing: 16) {
+                                Image(systemName: "icloud")
+                                    .font(.system(size: 22))
+                                    .foregroundColor(colors.primary)
+                                    .frame(width: 28)
+
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("iCloud 同步")
+                                        .font(.system(size: 17))
+                                        .foregroundColor(colors.text)
+
+                                    if cloudSyncService.isCloudKitAvailable {
+                                        Text("已启用")
+                                            .font(.caption)
+                                            .foregroundColor(colors.primary)
+                                    } else {
+                                        Text("不可用")
+                                            .font(.caption)
+                                            .foregroundColor(colors.textTertiary)
+                                    }
+                                }
+
+                                Spacer()
+
+                                if cloudSyncService.syncStatus == .syncing {
+                                    ProgressView()
+                                        .scaleEffect(0.7)
+                                } else {
+                                    Image(systemName: "chevron.right")
+                                        .font(.system(size: 14, weight: .semibold))
+                                        .foregroundColor(colors.textTertiary)
+                                }
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 16)
+                        }
+                        .buttonStyle(PlainButtonStyle())
                         .liquidGlassCard(padding: 0)
                     }
                 }

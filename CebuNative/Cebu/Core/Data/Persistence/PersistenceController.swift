@@ -17,9 +17,39 @@ struct PersistenceController {
 
         if inMemory {
             container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
+        } else {
+            // CloudKit sync is disabled for development builds
+            // Requires a paid Apple Developer account ($99/year)
+            // To enable: uncomment the code below and add proper provisioning profile
+
+            /*
+            guard let description = container.persistentStoreDescriptions.first else {
+                fatalError("No store description found")
+            }
+
+            // Configure CloudKit container
+            let cloudKitOptions = NSPersistentCloudKitContainerOptions(
+                containerIdentifier: "iCloud.com.tiankaixie.cebu"
+            )
+            description.cloudKitContainerOptions = cloudKitOptions
+
+            // Enable history tracking (required for CloudKit)
+            description.setOption(
+                true as NSNumber,
+                forKey: NSPersistentHistoryTrackingKey
+            )
+
+            // Enable remote change notifications
+            description.setOption(
+                true as NSNumber,
+                forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey
+            )
+
+            print("[PersistenceController] CloudKit enabled with container: iCloud.com.tiankaixie.cebu")
+            */
+
+            print("[PersistenceController] CloudKit disabled (requires paid Apple Developer account)")
         }
-        // Note: CloudKit sync disabled for local testing without paid developer account
-        // To enable, uncomment below and configure iCloud container
 
         container.loadPersistentStores { description, error in
             if let error = error {

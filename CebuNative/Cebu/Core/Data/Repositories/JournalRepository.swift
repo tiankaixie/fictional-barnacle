@@ -95,6 +95,43 @@ class JournalRepository {
         }
     }
 
+    /// Search entries by keyword in transcription content
+    func searchEntries(for user: User, query: String, offset: Int = 0, limit: Int = 20) async throws -> [JournalEntryWithBlocks] {
+        let request = JournalEntry.fetchRequest()
+
+        // Search TranscriptionBlock content (case-insensitive)
+        let contentPredicate = NSPredicate(
+            format: "ANY blocks.content CONTAINS[cd] %@",
+            query
+        )
+        let userPredicate = NSPredicate(
+            format: "user == %@ AND deletedFlag == NO",
+            user
+        )
+
+        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
+            userPredicate,
+            contentPredicate
+        ])
+
+        request.sortDescriptors = [
+            NSSortDescriptor(keyPath: \JournalEntry.date, ascending: false)
+        ]
+        request.fetchOffset = offset
+        request.fetchLimit = limit
+        request.relationshipKeyPathsForPrefetching = ["blocks"]
+
+        return try await context.perform {
+            let entries = try self.context.fetch(request)
+            return entries.map { entry in
+                let blocks = (entry.blocks as? Set<TranscriptionBlock>)?
+                    .filter { !$0.deletedFlag }
+                    .sorted { $0.position < $1.position } ?? []
+                return JournalEntryWithBlocks(entry: entry, blocks: blocks)
+            }
+        }
+    }
+
     // MARK: - Transcription Block Management
 
     /// Add transcription block to an entry

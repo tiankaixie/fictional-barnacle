@@ -22,10 +22,21 @@ struct CebuApp: App {
     // Model manager for WhisperKit model selection
     @StateObject private var modelManager = ModelManager()
 
+    // Biometric authentication service for app lock
+    @StateObject private var biometricService = BiometricAuthService()
+
+    // Cloud sync service for iCloud synchronization
+    @StateObject private var cloudSyncService: CloudSyncService
+
+    // Scene phase for background/foreground detection
+    @Environment(\.scenePhase) var scenePhase
+
     init() {
-        let context = PersistenceController.shared.container.viewContext
+        let persistenceController = PersistenceController.shared
+        let context = persistenceController.container.viewContext
         let userRepository = UserRepository(context: context)
         _authService = StateObject(wrappedValue: LocalAuthService(userRepository: userRepository))
+        _cloudSyncService = StateObject(wrappedValue: CloudSyncService(container: persistenceController.container))
     }
 
     var body: some Scene {
@@ -35,9 +46,27 @@ struct CebuApp: App {
                 .environmentObject(authService)
                 .environmentObject(themeManager)
                 .environmentObject(modelManager)
+                .environmentObject(biometricService)
+                .environmentObject(cloudSyncService)
                 .task {
                     await authService.checkAuthenticationState()
                 }
+        }
+        .onChange(of: scenePhase) { newPhase in
+            switch newPhase {
+            case .background:
+                // Lock when app goes to background
+                biometricService.lock()
+            case .active:
+                // Authenticate when app becomes active
+                if biometricService.isLocked && biometricService.isEnabled {
+                    Task {
+                        try? await biometricService.authenticate()
+                    }
+                }
+            default:
+                break
+            }
         }
     }
 }
@@ -46,6 +75,7 @@ struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var authService: LocalAuthService
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var biometricService: BiometricAuthService
 
     var body: some View {
         Group {
@@ -66,6 +96,13 @@ struct ContentView: View {
                 // Fallback (should auto-create local user)
                 ProgressView("Setting up...")
                     .liquidGlassBackground()
+            }
+        }
+        .overlay {
+            // Biometric lock overlay
+            if biometricService.isLocked {
+                AppLockView(biometricService: biometricService)
+                    .transition(.opacity)
             }
         }
         .environment(\.themeColors, themeManager.effectiveTheme)

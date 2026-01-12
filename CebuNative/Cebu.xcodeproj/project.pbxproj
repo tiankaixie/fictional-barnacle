@@ -8,23 +8,32 @@
 
 /* Begin PBXBuildFile section */
 		065FF28F1425DE15B93B41B8 /* TranscriptionBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CF728558E57A7F0F6CBB5E /* TranscriptionBlockView.swift */; };
+		0DE7BB336BE131E4A031DCDA /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BC88F2C3DD6C6558FC27D2 /* ExportService.swift */; };
+		1E22A75B413A0AA8C8D724AF /* BiometricAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6AAF557E805C5A5D2398 /* BiometricAuthService.swift */; };
 		2572F3E4706C2C0D63BCB44C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F17F867C40F645C3B178D66D /* Preview Assets.xcassets */; };
+		28067A4A0C420D6B158583D7 /* AppLockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE22D945FCFABCAF91D9EE39 /* AppLockView.swift */; };
 		2F5A34D1010E490AED80EC18 /* JournalEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A06A59F39C4D4B0FA3DB4A /* JournalEntry.swift */; };
 		3760437F9F383F35D9C99073 /* TranscriptionBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE52D70F54F1F2FF5536C01B /* TranscriptionBlock.swift */; };
+		3D5C4C8A1565898457274217 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D0798C37E67019704CA469 /* ShareSheet.swift */; };
+		3EB1E2228D87224A7F6E5146 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76B1E46CF154D3C3A8CA0F2 /* KeychainService.swift */; };
 		46A36A8AE2638143149EA1B4 /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5318B6B91DD85099CDA52896 /* WaveformView.swift */; };
 		4C7234D2F5159BF204A4C5F2 /* JournalRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1ECFA7382B5D9353FD1B01 /* JournalRepository.swift */; };
 		50F7F64E0E007D68BEC04D5E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553C3AD4AAC11F85C44D2508 /* User.swift */; };
 		5D7C1BBE17C1A1A9D3372938 /* WhisperModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26CC2C8753B87DB5B3EA684 /* WhisperModel.swift */; };
+		69FC4F3EFD0CBCF78D168717 /* SyncStatusBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB8218DA50FE256DDC49300 /* SyncStatusBanner.swift */; };
 		6DE23186DC6BB679657926C2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA7699403AB113D3850C1CB /* SettingsView.swift */; };
 		784940DEB6A0452C7876A03E /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F38F1C60CB8DC57BEDD35D5 /* PersistenceController.swift */; };
 		7A663E37341B5036BA6D796A /* LiquidGlassStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2E8EBC00A2BD19E55E100 /* LiquidGlassStyle.swift */; };
 		805D9EEF113E7E4C6B8FF645 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F714BF61A83BCF901B30F9C6 /* Assets.xcassets */; };
+		8324CF58DCC904DD01EB43F6 /* CloudSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D3E4118807C489977B2AE /* CloudSyncService.swift */; };
 		83484BD1541E075F2EC660C3 /* VoiceInputButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E2666258C2D04EB1B05715 /* VoiceInputButtonView.swift */; };
 		88598CD1347E6FB244C8FD5C /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7360C118471A0D2BB1B8CFA /* UserRepository.swift */; };
 		91FA0A8B5B65889E8630D544 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4903DA838E6C823DD88C03AB /* SignInView.swift */; };
+		94A572F890F17B811665588C /* ExportOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8057DE899676012DA6380BBC /* ExportOptionsView.swift */; };
 		A1E174899BE03124973F52CC /* Cebu.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 703C218A89B2B5AA93B17982 /* Cebu.xcdatamodeld */; };
 		A83DA1214A0740D1512E6BC0 /* ModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909E76A208FC3AF58BD2FE21 /* ModelManager.swift */; };
 		A86DBF3EA669E39C0B8287FF /* JournalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B45E71F1684CD0C3F8F91E3 /* JournalListView.swift */; };
+		AB602B31755323E46C010E9E /* CloudSyncSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD47A220EC31C61D1AE7A2C1 /* CloudSyncSettingsView.swift */; };
 		B2AA51D7D8B45238AC19BA8F /* WhisperKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0E94223316BA2A368222F7EA /* WhisperKit */; };
 		B7F9289983D6A883CC473C56 /* DayEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064A0758C4063CB1ED28B576 /* DayEntryView.swift */; };
 		CC32CBAA2D30DB1ABADB0F48 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3D7FCE5142D87D01505020 /* Colors.swift */; };
@@ -33,6 +42,7 @@
 		D52C1B3BF1695077ABE1A061 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C077E70BB3DF819934BEB2 /* ThemeManager.swift */; };
 		D5C1CA7E5B1FC1648B9FD63E /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D8940F277458592E84888F /* AuthenticationService.swift */; };
 		D5EE867A3751737755BC29E3 /* RecordingOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF30A80650677917CFA6BECB /* RecordingOverlayView.swift */; };
+		DAFEA0DF1E2E8F953EF0B809 /* SecuritySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7998ECCA81847D3B576AE81F /* SecuritySettingsView.swift */; };
 		DB10B6008113E5C53665C834 /* WhisperKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C46DBC52A82F7D57967A7F6 /* WhisperKitService.swift */; };
 		E4B1F898C82F0C595ED8A290 /* CebuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91363272251C34FFC29415B1 /* CebuApp.swift */; };
 		F66DD60F0777608BB5EBCBB0 /* ThemeMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6C1205294D1D952A21EE9F /* ThemeMode.swift */; };
@@ -41,18 +51,23 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04D0798C37E67019704CA469 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		064A0758C4063CB1ED28B576 /* DayEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayEntryView.swift; sourceTree = "<group>"; };
+		08BC88F2C3DD6C6558FC27D2 /* ExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportService.swift; sourceTree = "<group>"; };
 		10E2666258C2D04EB1B05715 /* VoiceInputButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceInputButtonView.swift; sourceTree = "<group>"; };
 		14A06A59F39C4D4B0FA3DB4A /* JournalEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEntry.swift; sourceTree = "<group>"; };
 		1B45E71F1684CD0C3F8F91E3 /* JournalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalListView.swift; sourceTree = "<group>"; };
 		24013BDD9C2BD22DCB574EB2 /* LocalAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthService.swift; sourceTree = "<group>"; };
 		2EC2E8EBC00A2BD19E55E100 /* LiquidGlassStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlassStyle.swift; sourceTree = "<group>"; };
+		2FB8218DA50FE256DDC49300 /* SyncStatusBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncStatusBanner.swift; sourceTree = "<group>"; };
 		341570133AE48AA302365551 /* Cebu.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Cebu.xcdatamodel; sourceTree = "<group>"; };
 		3B1ECFA7382B5D9353FD1B01 /* JournalRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalRepository.swift; sourceTree = "<group>"; };
+		3DCF6AAF557E805C5A5D2398 /* BiometricAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuthService.swift; sourceTree = "<group>"; };
 		3F38F1C60CB8DC57BEDD35D5 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		41A5D2AED5B31233BE1D83A7 /* RecordingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingViewModel.swift; sourceTree = "<group>"; };
 		43C077E70BB3DF819934BEB2 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		4903DA838E6C823DD88C03AB /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		4A4D3E4118807C489977B2AE /* CloudSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncService.swift; sourceTree = "<group>"; };
 		4AA7699403AB113D3850C1CB /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4E2F92CA89269C9A54234F38 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5318B6B91DD85099CDA52896 /* WaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformView.swift; sourceTree = "<group>"; };
@@ -60,15 +75,20 @@
 		62D8940F277458592E84888F /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
 		73FBEFE7215D531B0C892F92 /* JournalListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalListViewModel.swift; sourceTree = "<group>"; };
 		762A0EB0E142D1BE564BA9FF /* Cebu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cebu.entitlements; sourceTree = "<group>"; };
+		7998ECCA81847D3B576AE81F /* SecuritySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsView.swift; sourceTree = "<group>"; };
 		7D3D7FCE5142D87D01505020 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		8057DE899676012DA6380BBC /* ExportOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportOptionsView.swift; sourceTree = "<group>"; };
 		909E76A208FC3AF58BD2FE21 /* ModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelManager.swift; sourceTree = "<group>"; };
 		91363272251C34FFC29415B1 /* CebuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CebuApp.swift; sourceTree = "<group>"; };
 		9C46DBC52A82F7D57967A7F6 /* WhisperKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhisperKitService.swift; sourceTree = "<group>"; };
 		BD6C1205294D1D952A21EE9F /* ThemeMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeMode.swift; sourceTree = "<group>"; };
 		BF30A80650677917CFA6BECB /* RecordingOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingOverlayView.swift; sourceTree = "<group>"; };
+		CE22D945FCFABCAF91D9EE39 /* AppLockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLockView.swift; sourceTree = "<group>"; };
 		CE52D70F54F1F2FF5536C01B /* TranscriptionBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionBlock.swift; sourceTree = "<group>"; };
 		CEA835FE7969ACAE1F3B3412 /* Cebu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cebu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7360C118471A0D2BB1B8CFA /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
+		D76B1E46CF154D3C3A8CA0F2 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
+		DD47A220EC31C61D1AE7A2C1 /* CloudSyncSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncSettingsView.swift; sourceTree = "<group>"; };
 		E2CF728558E57A7F0F6CBB5E /* TranscriptionBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionBlockView.swift; sourceTree = "<group>"; };
 		F0F4254591AAACDB212D4721 /* RippleEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RippleEffect.swift; sourceTree = "<group>"; };
 		F17F867C40F645C3B178D66D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -88,6 +108,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		03BFAA58E6649F142B6D27F8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CE22D945FCFABCAF91D9EE39 /* AppLockView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0FA9E92FA12ABDB00059C09B /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				04D0798C37E67019704CA469 /* ShareSheet.swift */,
+				2FB8218DA50FE256DDC49300 /* SyncStatusBanner.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		12BCD290F4B4378E215B3147 /* Cebu */ = {
 			isa = PBXGroup;
 			children = (
@@ -123,6 +160,14 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		2DF59D493C32C11E9F53BA16 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				03BFAA58E6649F142B6D27F8 /* Views */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		370B5ACD4C7BE379161F9DA7 = {
 			isa = PBXGroup;
 			children = (
@@ -134,6 +179,8 @@
 		4691A44407C1796DDECEB7B2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DD47A220EC31C61D1AE7A2C1 /* CloudSyncSettingsView.swift */,
+				7998ECCA81847D3B576AE81F /* SecuritySettingsView.swift */,
 				4AA7699403AB113D3850C1CB /* SettingsView.swift */,
 			);
 			path = Views;
@@ -158,6 +205,7 @@
 		5B6F398E00A059AE3BF6558F /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				2DF59D493C32C11E9F53BA16 /* Auth */,
 				52D4CA45F472DB84F2DAF6AF /* Authentication */,
 				7E807102F821FE31FA5A15ED /* Journal */,
 				D1362A7ED7F5C05157C5F38A /* Recording */,
@@ -178,8 +226,10 @@
 			isa = PBXGroup;
 			children = (
 				064A0758C4063CB1ED28B576 /* DayEntryView.swift */,
+				8057DE899676012DA6380BBC /* ExportOptionsView.swift */,
 				1B45E71F1684CD0C3F8F91E3 /* JournalListView.swift */,
 				E2CF728558E57A7F0F6CBB5E /* TranscriptionBlockView.swift */,
+				0FA9E92FA12ABDB00059C09B /* Components */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -224,6 +274,10 @@
 			isa = PBXGroup;
 			children = (
 				62D8940F277458592E84888F /* AuthenticationService.swift */,
+				3DCF6AAF557E805C5A5D2398 /* BiometricAuthService.swift */,
+				4A4D3E4118807C489977B2AE /* CloudSyncService.swift */,
+				08BC88F2C3DD6C6558FC27D2 /* ExportService.swift */,
+				D76B1E46CF154D3C3A8CA0F2 /* KeychainService.swift */,
 				24013BDD9C2BD22DCB574EB2 /* LocalAuthService.swift */,
 				909E76A208FC3AF58BD2FE21 /* ModelManager.swift */,
 				43C077E70BB3DF819934BEB2 /* ThemeManager.swift */,
@@ -397,15 +451,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28067A4A0C420D6B158583D7 /* AppLockView.swift in Sources */,
 				D5C1CA7E5B1FC1648B9FD63E /* AuthenticationService.swift in Sources */,
+				1E22A75B413A0AA8C8D724AF /* BiometricAuthService.swift in Sources */,
 				A1E174899BE03124973F52CC /* Cebu.xcdatamodeld in Sources */,
 				E4B1F898C82F0C595ED8A290 /* CebuApp.swift in Sources */,
+				8324CF58DCC904DD01EB43F6 /* CloudSyncService.swift in Sources */,
+				AB602B31755323E46C010E9E /* CloudSyncSettingsView.swift in Sources */,
 				CC32CBAA2D30DB1ABADB0F48 /* Colors.swift in Sources */,
 				B7F9289983D6A883CC473C56 /* DayEntryView.swift in Sources */,
+				94A572F890F17B811665588C /* ExportOptionsView.swift in Sources */,
+				0DE7BB336BE131E4A031DCDA /* ExportService.swift in Sources */,
 				2F5A34D1010E490AED80EC18 /* JournalEntry.swift in Sources */,
 				A86DBF3EA669E39C0B8287FF /* JournalListView.swift in Sources */,
 				D141BDB89726325CA74BDC12 /* JournalListViewModel.swift in Sources */,
 				4C7234D2F5159BF204A4C5F2 /* JournalRepository.swift in Sources */,
+				3EB1E2228D87224A7F6E5146 /* KeychainService.swift in Sources */,
 				7A663E37341B5036BA6D796A /* LiquidGlassStyle.swift in Sources */,
 				FC69B1EECB580A282AB7C883 /* LocalAuthService.swift in Sources */,
 				A83DA1214A0740D1512E6BC0 /* ModelManager.swift in Sources */,
@@ -413,8 +474,11 @@
 				D5EE867A3751737755BC29E3 /* RecordingOverlayView.swift in Sources */,
 				FCBB75642EBE936E103A42F4 /* RecordingViewModel.swift in Sources */,
 				CD8AC40D1DB268657A2D4F44 /* RippleEffect.swift in Sources */,
+				DAFEA0DF1E2E8F953EF0B809 /* SecuritySettingsView.swift in Sources */,
 				6DE23186DC6BB679657926C2 /* SettingsView.swift in Sources */,
+				3D5C4C8A1565898457274217 /* ShareSheet.swift in Sources */,
 				91FA0A8B5B65889E8630D544 /* SignInView.swift in Sources */,
+				69FC4F3EFD0CBCF78D168717 /* SyncStatusBanner.swift in Sources */,
 				D52C1B3BF1695077ABE1A061 /* ThemeManager.swift in Sources */,
 				F66DD60F0777608BB5EBCBB0 /* ThemeMode.swift in Sources */,
 				3760437F9F383F35D9C99073 /* TranscriptionBlock.swift in Sources */,

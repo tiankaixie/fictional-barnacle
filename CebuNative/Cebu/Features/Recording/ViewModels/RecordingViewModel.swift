@@ -70,7 +70,7 @@ class RecordingViewModel: ObservableObject {
     // MARK: - Public Methods
 
     /// Initialize WhisperKit with specified model
-    func initialize(modelName: String = "large-v3-turbo") async {
+    func initialize(modelName: String = "openai_whisper-large-v3_turbo") async {
         do {
             try await whisperService.initialize(modelName: modelName)
             print("[RecordingVM] Initialized WhisperKit with '\(modelName)' model")

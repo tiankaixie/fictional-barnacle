@@ -17,12 +17,18 @@ class JournalListViewModel: ObservableObject {
     @Published var error: String?
     @Published var selectedEntryForEdit: UUID?
 
+    // Search properties
+    @Published var searchQuery: String = ""
+    @Published var isSearching: Bool = false
+    @Published var searchResults: [JournalEntryWithBlocks] = []
+
     // MARK: - Private Properties
     private let repository: JournalRepository
     private let user: User
     private var currentOffset = 0
     private let pageSize = 20
     private var hasMorePages = true
+    private var searchTask: Task<Void, Never>?
 
     // MARK: - Initialization
 
@@ -214,6 +220,48 @@ class JournalListViewModel: ObservableObject {
         } catch {
             print("[JournalListVM] Stats error: \(error)")
             return nil
+        }
+    }
+
+    // MARK: - Search Methods
+
+    /// Update search query with debouncing
+    func updateSearchQuery(_ query: String) {
+        searchQuery = query
+        searchTask?.cancel()
+
+        guard !query.isEmpty else {
+            isSearching = false
+            searchResults = []
+            return
+        }
+
+        searchTask = Task {
+            try? await Task.sleep(nanoseconds: 300_000_000) // 300ms debounce
+            await performSearch()
+        }
+    }
+
+    /// Perform search operation
+    @MainActor
+    private func performSearch() async {
+        guard !searchQuery.isEmpty else {
+            isSearching = false
+            searchResults = []
+            return
+        }
+
+        isSearching = true
+
+        do {
+            searchResults = try await repository.searchEntries(
+                for: user,
+                query: searchQuery
+            )
+            print("[JournalListVM] Found \(searchResults.count) matching entries")
+        } catch {
+            self.error = "搜索失败: \(error.localizedDescription)"
+            print("[JournalListVM] Search error: \(error)")
         }
     }
 }

@@ -9,10 +9,12 @@ import SwiftUI
 
 struct JournalListView: View {
     @Environment(\.themeColors) var colors
+    @EnvironmentObject var modelManager: ModelManager
     @StateObject var viewModel: JournalListViewModel
     @StateObject var recordingViewModel: RecordingViewModel
 
     @State private var showSettings = false
+    @State private var showExportOptions = false
 
     var body: some View {
         NavigationView {
@@ -24,7 +26,8 @@ struct JournalListView: View {
             // Main content
             ScrollView {
                 LazyVStack(spacing: 20) {
-                    ForEach(viewModel.entries) { entryWithBlocks in
+                    // Use search results when searching, otherwise use normal entries
+                    ForEach(viewModel.isSearching ? viewModel.searchResults : viewModel.entries) { entryWithBlocks in
                         DayEntryView(
                             entryWithBlocks: entryWithBlocks,
                             isEditing: viewModel.isEditing(entryWithBlocks.id),
@@ -64,6 +67,14 @@ struct JournalListView: View {
             }
             .refreshable {
                 await viewModel.refreshEntries()
+            }
+            .searchable(
+                text: $viewModel.searchQuery,
+                placement: .navigationBarDrawer(displayMode: .always),
+                prompt: "搜索日记内容..."
+            )
+            .onChange(of: viewModel.searchQuery) { newValue in
+                viewModel.updateSearchQuery(newValue)
             }
 
             // Floating voice button
@@ -106,7 +117,7 @@ struct JournalListView: View {
                                 .foregroundColor(.yellow.opacity(0.9))
                                 .multilineTextAlignment(.center)
                         } else {
-                            Text("正在下载 'small' 模型 (~500MB)\n识别更准确，首次下载需要几分钟")
+                            Text("正在下载 '\(modelManager.selectedModel.displayName)' 模型 (\(modelManager.selectedModel.size))\n\(modelManager.selectedModel.description)，首次下载需要几分钟")
                                 .font(.caption)
                                 .foregroundColor(.white.opacity(0.8))
                                 .multilineTextAlignment(.center)
@@ -165,16 +176,29 @@ struct JournalListView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        showSettings = true
+                    Menu {
+                        Button {
+                            showExportOptions = true
+                        } label: {
+                            Label("导出所有日记", systemImage: "square.and.arrow.up")
+                        }
+
+                        Button {
+                            showSettings = true
+                        } label: {
+                            Label("设置", systemImage: "gearshape")
+                        }
                     } label: {
-                        Image(systemName: "gearshape.fill")
+                        Image(systemName: "ellipsis.circle")
                             .foregroundColor(colors.textSecondary)
                     }
                 }
             }
             .sheet(isPresented: $showSettings) {
                 SettingsView()
+            }
+            .sheet(isPresented: $showExportOptions) {
+                ExportOptionsView(entries: viewModel.entries)
             }
         }
         .fullScreenCover(isPresented: $recordingViewModel.isRecording) {
@@ -208,6 +232,7 @@ struct JournalListView: View {
         viewModel: journalVM,
         recordingViewModel: recordingVM
     )
+    .environmentObject(ModelManager())
     .environment(\.themeColors, .light)
 }
 
@@ -231,6 +256,7 @@ struct JournalListView: View {
         viewModel: journalVM,
         recordingViewModel: recordingVM
     )
+    .environmentObject(ModelManager())
     .environment(\.themeColors, .dark)
     .preferredColorScheme(.dark)
 }
