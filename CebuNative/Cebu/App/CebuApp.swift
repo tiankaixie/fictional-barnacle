@@ -178,6 +178,7 @@ struct MainContentView: View {
             viewModel: journalViewModel,
             recordingViewModel: recordingViewModel
         )
+        .environmentObject(audioStorageService)
         .task {
             // Initialize WhisperKit on app launch with selected model
             await recordingViewModel.initialize(modelName: modelManager.selectedModel.rawValue)

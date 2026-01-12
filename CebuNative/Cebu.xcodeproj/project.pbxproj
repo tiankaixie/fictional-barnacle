@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		065FF28F1425DE15B93B41B8 /* TranscriptionBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CF728558E57A7F0F6CBB5E /* TranscriptionBlockView.swift */; };
 		0DE7BB336BE131E4A031DCDA /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BC88F2C3DD6C6558FC27D2 /* ExportService.swift */; };
+		134CC06D3248C5C9B9F60026 /* AudioSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0EA1E5CB08CAFF275A4659 /* AudioSettingsView.swift */; };
 		1E22A75B413A0AA8C8D724AF /* BiometricAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6AAF557E805C5A5D2398 /* BiometricAuthService.swift */; };
 		2572F3E4706C2C0D63BCB44C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F17F867C40F645C3B178D66D /* Preview Assets.xcassets */; };
 		28067A4A0C420D6B158583D7 /* AppLockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE22D945FCFABCAF91D9EE39 /* AppLockView.swift */; };
@@ -92,6 +93,7 @@
 		9C46DBC52A82F7D57967A7F6 /* WhisperKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhisperKitService.swift; sourceTree = "<group>"; };
 		BD6C1205294D1D952A21EE9F /* ThemeMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeMode.swift; sourceTree = "<group>"; };
 		BF30A80650677917CFA6BECB /* RecordingOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingOverlayView.swift; sourceTree = "<group>"; };
+		CC0EA1E5CB08CAFF275A4659 /* AudioSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSettingsView.swift; sourceTree = "<group>"; };
 		CE22D945FCFABCAF91D9EE39 /* AppLockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLockView.swift; sourceTree = "<group>"; };
 		CE52D70F54F1F2FF5536C01B /* TranscriptionBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionBlock.swift; sourceTree = "<group>"; };
 		CEA835FE7969ACAE1F3B3412 /* Cebu.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Cebu.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -192,6 +194,7 @@
 		4691A44407C1796DDECEB7B2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CC0EA1E5CB08CAFF275A4659 /* AudioSettingsView.swift */,
 				DD47A220EC31C61D1AE7A2C1 /* CloudSyncSettingsView.swift */,
 				7998ECCA81847D3B576AE81F /* SecuritySettingsView.swift */,
 				4AA7699403AB113D3850C1CB /* SettingsView.swift */,
@@ -396,7 +399,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		"TEMP_9D96E701-1ECF-4219-B7CA-F0D4E72655AC" /* Utilities */ = {
+		"TEMP_BB4C54A6-0232-4B33-AB00-A048406ACCD2" /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -476,6 +479,7 @@
 			files = (
 				28067A4A0C420D6B158583D7 /* AppLockView.swift in Sources */,
 				35D4EE70661109FA32DF8B9B /* AudioPlaybackService.swift in Sources */,
+				134CC06D3248C5C9B9F60026 /* AudioSettingsView.swift in Sources */,
 				8120335BE824EBAC73B2FF06 /* AudioStorageService.swift in Sources */,
 				D5C1CA7E5B1FC1648B9FD63E /* AuthenticationService.swift in Sources */,
 				1E22A75B413A0AA8C8D724AF /* BiometricAuthService.swift in Sources */,

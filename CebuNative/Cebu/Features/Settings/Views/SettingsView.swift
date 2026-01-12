@@ -14,6 +14,7 @@ struct SettingsView: View {
     @EnvironmentObject var modelManager: ModelManager
     @EnvironmentObject var biometricService: BiometricAuthService
     @EnvironmentObject var cloudSyncService: CloudSyncService
+    @EnvironmentObject var audioStorageService: AudioStorageService
 
     @State private var showModelInfo = false
 
@@ -176,6 +177,49 @@ struct SettingsView: View {
                                         .font(.system(size: 14, weight: .semibold))
                                         .foregroundColor(colors.textTertiary)
                                 }
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 16)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .liquidGlassCard(padding: 0)
+                    }
+
+                    // 音频设置区域
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("音频")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundColor(colors.textSecondary)
+                            .padding(.horizontal, 20)
+
+                        NavigationLink(destination: AudioSettingsView()) {
+                            HStack(spacing: 16) {
+                                Image(systemName: "waveform")
+                                    .font(.system(size: 22))
+                                    .foregroundColor(colors.primary)
+                                    .frame(width: 28)
+
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("录音设置")
+                                        .font(.system(size: 17))
+                                        .foregroundColor(colors.text)
+
+                                    if audioStorageService.saveAudioEnabled {
+                                        Text("已启用 · \(audioStorageService.audioQuality.displayName)音质")
+                                            .font(.caption)
+                                            .foregroundColor(colors.primary)
+                                    } else {
+                                        Text("未启用")
+                                            .font(.caption)
+                                            .foregroundColor(colors.textTertiary)
+                                    }
+                                }
+
+                                Spacer()
+
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundColor(colors.textTertiary)
                             }
                             .padding(.horizontal, 20)
                             .padding(.vertical, 16)
