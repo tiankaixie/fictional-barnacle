@@ -260,51 +260,71 @@ struct JournalListView: View {
 
 // MARK: - Preview
 
-#Preview("With Entries") {
-    let context = PersistenceController.preview.container.viewContext
+struct JournalListView_WithEntries: PreviewProvider {
+    static var previews: some View {
+        PreviewWrapper()
+    }
 
-    let user = User(context: context)
-    user.id = UUID()
-    user.displayName = "Test User"
+    struct PreviewWrapper: View {
+        var body: some View {
+            let context = PersistenceController.preview.container.viewContext
 
-    let repository = JournalRepository(context: context)
-    let journalVM = JournalListViewModel(repository: repository, user: user)
+            let user = User(context: context)
+            user.id = UUID()
+            user.displayName = "Test User"
 
-    let whisperService = WhisperKitService()
-    let recordingVM = RecordingViewModel(
-        whisperService: whisperService,
-        journalViewModel: journalVM
-    )
+            let repository = JournalRepository(context: context)
+            let journalVM = JournalListViewModel(repository: repository, user: user)
 
-    return JournalListView(
-        viewModel: journalVM,
-        recordingViewModel: recordingVM
-    )
-    .environmentObject(ModelManager())
-    .environment(\.themeColors, .light)
+            let whisperService = WhisperKitService()
+            let audioStorageService = AudioStorageService()
+            let recordingVM = RecordingViewModel(
+                whisperService: whisperService,
+                journalViewModel: journalVM,
+                audioStorageService: audioStorageService
+            )
+
+            return JournalListView(
+                viewModel: journalVM,
+                recordingViewModel: recordingVM
+            )
+            .environmentObject(ModelManager())
+            .environment(\.themeColors, .light)
+        }
+    }
 }
 
-#Preview("Dark Mode") {
-    let context = PersistenceController.preview.container.viewContext
+struct JournalListView_DarkMode: PreviewProvider {
+    static var previews: some View {
+        PreviewWrapper()
+    }
 
-    let user = User(context: context)
-    user.id = UUID()
-    user.displayName = "Test User"
+    struct PreviewWrapper: View {
+        var body: some View {
+            let context = PersistenceController.preview.container.viewContext
 
-    let repository = JournalRepository(context: context)
-    let journalVM = JournalListViewModel(repository: repository, user: user)
+            let user = User(context: context)
+            user.id = UUID()
+            user.displayName = "Test User"
 
-    let whisperService = WhisperKitService()
-    let recordingVM = RecordingViewModel(
-        whisperService: whisperService,
-        journalViewModel: journalVM
-    )
+            let repository = JournalRepository(context: context)
+            let journalVM = JournalListViewModel(repository: repository, user: user)
 
-    return JournalListView(
-        viewModel: journalVM,
-        recordingViewModel: recordingVM
-    )
-    .environmentObject(ModelManager())
-    .environment(\.themeColors, .dark)
-    .preferredColorScheme(.dark)
+            let whisperService = WhisperKitService()
+            let audioStorageService = AudioStorageService()
+            let recordingVM = RecordingViewModel(
+                whisperService: whisperService,
+                journalViewModel: journalVM,
+                audioStorageService: audioStorageService
+            )
+
+            return JournalListView(
+                viewModel: journalVM,
+                recordingViewModel: recordingVM
+            )
+            .environmentObject(ModelManager())
+            .environment(\.themeColors, .dark)
+            .preferredColorScheme(.dark)
+        }
+    }
 }

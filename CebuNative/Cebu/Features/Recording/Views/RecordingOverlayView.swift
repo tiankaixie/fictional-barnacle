@@ -229,40 +229,60 @@ struct RecordingOverlayView: View {
 
 // MARK: - Preview
 
-#Preview("Recording") {
-    let whisperService = WhisperKitService()
-    let context = PersistenceController.preview.container.viewContext
-    let user = User(context: context)
-    user.id = UUID()
+struct RecordingOverlayView_Recording: PreviewProvider {
+    static var previews: some View {
+        PreviewWrapper()
+    }
 
-    let repository = JournalRepository(context: context)
-    let journalVM = JournalListViewModel(repository: repository, user: user)
-    let recordingVM = RecordingViewModel(
-        whisperService: whisperService,
-        journalViewModel: journalVM
-    )
+    struct PreviewWrapper: View {
+        var body: some View {
+            let whisperService = WhisperKitService()
+            let context = PersistenceController.preview.container.viewContext
+            let user = User(context: context)
+            user.id = UUID()
 
-    // Simulate recording state
-    recordingVM.liveTranscript = "This is a sample transcription that is being displayed in real-time as the user speaks."
+            let repository = JournalRepository(context: context)
+            let journalVM = JournalListViewModel(repository: repository, user: user)
+            let audioStorageService = AudioStorageService()
+            let recordingVM = RecordingViewModel(
+                whisperService: whisperService,
+                journalViewModel: journalVM,
+                audioStorageService: audioStorageService
+            )
 
-    return RecordingOverlayView(viewModel: recordingVM)
-        .environment(\.themeColors, .dark)
-        .preferredColorScheme(.dark)
+            // Simulate recording state
+            recordingVM.liveTranscript = "This is a sample transcription that is being displayed in real-time as the user speaks."
+
+            return RecordingOverlayView(viewModel: recordingVM)
+                .environment(\.themeColors, .dark)
+                .preferredColorScheme(.dark)
+        }
+    }
 }
 
-#Preview("Empty Transcript") {
-    let whisperService = WhisperKitService()
-    let context = PersistenceController.preview.container.viewContext
-    let user = User(context: context)
-    user.id = UUID()
+struct RecordingOverlayView_Empty: PreviewProvider {
+    static var previews: some View {
+        PreviewWrapper()
+    }
 
-    let repository = JournalRepository(context: context)
-    let journalVM = JournalListViewModel(repository: repository, user: user)
-    let recordingVM = RecordingViewModel(
-        whisperService: whisperService,
-        journalViewModel: journalVM
-    )
+    struct PreviewWrapper: View {
+        var body: some View {
+            let whisperService = WhisperKitService()
+            let context = PersistenceController.preview.container.viewContext
+            let user = User(context: context)
+            user.id = UUID()
 
-    return RecordingOverlayView(viewModel: recordingVM)
-        .environment(\.themeColors, .light)
+            let repository = JournalRepository(context: context)
+            let journalVM = JournalListViewModel(repository: repository, user: user)
+            let audioStorageService = AudioStorageService()
+            let recordingVM = RecordingViewModel(
+                whisperService: whisperService,
+                journalViewModel: journalVM,
+                audioStorageService: audioStorageService
+            )
+
+            return RecordingOverlayView(viewModel: recordingVM)
+                .environment(\.themeColors, .light)
+        }
+    }
 }

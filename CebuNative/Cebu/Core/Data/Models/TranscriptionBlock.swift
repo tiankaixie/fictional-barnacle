@@ -14,6 +14,9 @@ public class TranscriptionBlock: NSManagedObject {
     @NSManaged public var content: String
     @NSManaged public var manualEdits: Data?
     @NSManaged public var audioDurationMs: Int32
+    @NSManaged public var audioFilePath: String?
+    @NSManaged public var audioFileSize: Int64
+    @NSManaged public var audioFormat: String?
     @NSManaged public var position: Int32
     @NSManaged public var createdAt: Date?
     @NSManaged public var updatedAt: Date?

@@ -214,6 +214,25 @@ class JournalRepository {
         }
     }
 
+    /// Update audio metadata for transcription block
+    func updateBlockAudioMetadata(_ block: TranscriptionBlock, path: String, size: Int64, format: String) async throws {
+        try await context.perform {
+            block.audioFilePath = path
+            block.audioFileSize = size
+            block.audioFormat = format
+            block.updatedAt = Date()
+
+            // Update entry
+            if let entry = block.entry {
+                entry.updatedAt = Date()
+                entry.syncStatus = "pending"
+            }
+
+            try self.context.save()
+            print("[JournalRepository] Updated audio metadata: \(path) (\(size) bytes)")
+        }
+    }
+
     /// Delete transcription block (soft delete)
     func deleteTranscriptionBlock(_ block: TranscriptionBlock) async throws {
         try await context.perform {

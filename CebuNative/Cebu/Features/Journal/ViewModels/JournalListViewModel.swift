@@ -128,10 +128,10 @@ class JournalListViewModel: ObservableObject {
     }
 
     /// Add new transcription to today's entry
-    func addTranscription(_ text: String, audioDuration: Int? = nil) async {
+    func addTranscription(_ text: String, audioDuration: Int? = nil) async -> TranscriptionBlock {
         do {
             let todayEntry = try await repository.getOrCreateTodayEntry(for: user)
-            _ = try await repository.addTranscriptionBlock(
+            let block = try await repository.addTranscriptionBlock(
                 to: todayEntry,
                 content: text,
                 audioDuration: audioDuration
@@ -141,9 +141,11 @@ class JournalListViewModel: ObservableObject {
             await refreshEntries()
 
             print("[JournalListVM] Added new transcription")
+            return block
         } catch {
             self.error = "Failed to add transcription: \(error.localizedDescription)"
             print("[JournalListVM] Add transcription error: \(error)")
+            fatalError("Failed to create transcription block")
         }
     }
 
@@ -159,6 +161,21 @@ class JournalListViewModel: ObservableObject {
         } catch {
             self.error = "Failed to update: \(error.localizedDescription)"
             print("[JournalListVM] Update error: \(error)")
+        }
+    }
+
+    /// Update audio metadata for transcription block
+    func updateBlockAudioMetadata(_ block: TranscriptionBlock, path: String, size: Int64, format: String) async {
+        do {
+            try await repository.updateBlockAudioMetadata(block, path: path, size: size, format: format)
+
+            // Refresh to show updated metadata
+            await refreshEntries()
+
+            print("[JournalListVM] Updated audio metadata")
+        } catch {
+            self.error = "Failed to update audio metadata: \(error.localizedDescription)"
+            print("[JournalListVM] Audio metadata error: \(error)")
         }
     }
 

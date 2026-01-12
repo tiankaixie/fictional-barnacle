@@ -25,14 +25,16 @@ class RecordingViewModel: ObservableObject {
     // MARK: - Private Properties
     private let whisperService: WhisperKitService
     private let journalViewModel: JournalListViewModel
+    private let audioStorageService: AudioStorageService
     private var cancellables = Set<AnyCancellable>()
     private var recordingStartTime: Date?
 
     // MARK: - Initialization
 
-    init(whisperService: WhisperKitService, journalViewModel: JournalListViewModel) {
+    init(whisperService: WhisperKitService, journalViewModel: JournalListViewModel, audioStorageService: AudioStorageService) {
         self.whisperService = whisperService
         self.journalViewModel = journalViewModel
+        self.audioStorageService = audioStorageService
 
         setupBindings()
     }
@@ -154,12 +156,40 @@ class RecordingViewModel: ObservableObject {
 
         // Save transcription if not empty
         if !result.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            await journalViewModel.addTranscription(
+            let block = await journalViewModel.addTranscription(
                 result.text,
                 audioDuration: duration
             )
 
             print("[RecordingVM] Saved transcription: \(result.text.prefix(50))...")
+
+            // Save audio file if enabled and samples exist
+            if audioStorageService.saveAudioEnabled, !result.samples.isEmpty {
+                do {
+                    print("[RecordingVM] Saving audio file (\(result.samples.count) samples)...")
+                    let audioInfo = try await audioStorageService.saveAudio(
+                        result.samples,
+                        for: block,
+                        sampleRate: 16000.0
+                    )
+
+                    // Update block with audio metadata
+                    await journalViewModel.updateBlockAudioMetadata(
+                        block,
+                        path: audioInfo.path,
+                        size: audioInfo.size,
+                        format: audioInfo.format
+                    )
+
+                    print("[RecordingVM] ✅ Audio saved: \(audioInfo.path) (\(audioInfo.size) bytes)")
+                } catch {
+                    print("[RecordingVM] ⚠️ Audio save failed: \(error.localizedDescription)")
+                    self.error = "音频保存失败: \(error.localizedDescription)"
+                    // Continue - text is already saved
+                }
+            } else {
+                print("[RecordingVM] Audio saving disabled or no samples")
+            }
         } else {
             print("[RecordingVM] Empty transcription, not saving")
         }

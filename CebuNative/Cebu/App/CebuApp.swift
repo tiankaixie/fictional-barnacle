@@ -28,6 +28,9 @@ struct CebuApp: App {
     // Cloud sync service for iCloud synchronization
     @StateObject private var cloudSyncService: CloudSyncService
 
+    // Audio playback service for playing recorded audio
+    @StateObject private var audioPlaybackService = AudioPlaybackService()
+
     // Scene phase for background/foreground detection
     @Environment(\.scenePhase) var scenePhase
 
@@ -48,6 +51,7 @@ struct CebuApp: App {
                 .environmentObject(modelManager)
                 .environmentObject(biometricService)
                 .environmentObject(cloudSyncService)
+                .environmentObject(audioPlaybackService)
                 .task {
                     await authService.checkAuthenticationState()
                 }
@@ -142,6 +146,7 @@ struct MainContentView: View {
     @EnvironmentObject var modelManager: ModelManager
 
     @StateObject private var whisperService = WhisperKitService()
+    @StateObject private var audioStorageService = AudioStorageService()
     @StateObject private var journalViewModel: JournalListViewModel
     @StateObject private var recordingViewModel: RecordingViewModel
 
@@ -157,9 +162,13 @@ struct MainContentView: View {
         let whisperSvc = WhisperKitService()
         _whisperService = StateObject(wrappedValue: whisperSvc)
 
+        let audioStorageSvc = AudioStorageService()
+        _audioStorageService = StateObject(wrappedValue: audioStorageSvc)
+
         let recordingVM = RecordingViewModel(
             whisperService: whisperSvc,
-            journalViewModel: journalVM
+            journalViewModel: journalVM,
+            audioStorageService: audioStorageSvc
         )
         _recordingViewModel = StateObject(wrappedValue: recordingVM)
     }

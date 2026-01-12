@@ -136,7 +136,7 @@ class WhisperKitService: ObservableObject {
     }
 
     /// Stop recording and return final transcription
-    func stopRecording() async -> (text: String, duration: Double) {
+    func stopRecording() async -> (text: String, duration: Double, samples: [Float]) {
         isRecording = false
         audioEngine?.stop()
         audioEngine?.inputNode.removeTap(onBus: 0)
@@ -176,11 +176,14 @@ class WhisperKitService: ObservableObject {
             }
         }
 
+        // Copy samples before clearing for potential audio file saving
+        let samplesForSaving = audioSamples
+
         transcriptionBuffer = ""
         audioSamples = []
         recordingStartTime = nil
 
-        return (text: finalTranscription, duration: duration)
+        return (text: finalTranscription, duration: duration, samples: samplesForSaving)
     }
 
     /// Get available WhisperKit models

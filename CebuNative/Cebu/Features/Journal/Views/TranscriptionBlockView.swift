@@ -10,6 +10,7 @@ import UIKit
 
 struct TranscriptionBlockView: View {
     @Environment(\.themeColors) var colors
+    @EnvironmentObject var audioPlaybackService: AudioPlaybackService
 
     let block: TranscriptionBlock
     let isEditable: Bool
@@ -44,10 +45,22 @@ struct TranscriptionBlockView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            // Timestamp
-            Text(formattedTime)
-                .font(.caption)
-                .foregroundColor(colors.textTertiary)
+            // Timestamp with audio indicator
+            HStack(spacing: 6) {
+                if block.audioFilePath != nil {
+                    Image(systemName: "waveform.circle.fill")
+                        .font(.system(size: 12))
+                        .foregroundColor(colors.primary.opacity(0.7))
+                }
+                Text(formattedTime)
+                    .font(.caption)
+                    .foregroundColor(colors.textTertiary)
+            }
+
+            // Audio player (if audio exists)
+            if block.audioFilePath != nil {
+                audioPlayerView
+            }
 
             // Content or editing field
             if isEditable {
@@ -228,6 +241,114 @@ struct TranscriptionBlockView: View {
             )
         } else {
             Text(block.content).foregroundColor(colors.text)
+        }
+    }
+
+    /// Audio player widget
+    @ViewBuilder
+    private var audioPlayerView: some View {
+        let isCurrentlyPlaying = audioPlaybackService.currentBlockId == block.id && audioPlaybackService.isPlaying
+        let isThisBlock = audioPlaybackService.currentBlockId == block.id
+
+        HStack(spacing: 12) {
+            // Play/Pause button
+            Button(action: handlePlayPause) {
+                Image(systemName: isCurrentlyPlaying ? "pause.circle.fill" : "play.circle.fill")
+                    .font(.system(size: 32))
+                    .foregroundColor(colors.primary)
+            }
+            .disabled(isEditable)
+
+            // Progress and time
+            VStack(spacing: 6) {
+                // Progress bar
+                GeometryReader { geometry in
+                    ZStack(alignment: .leading) {
+                        // Background track
+                        RoundedRectangle(cornerRadius: 3)
+                            .fill(colors.border.opacity(0.3))
+                            .frame(height: 4)
+
+                        // Progress fill
+                        RoundedRectangle(cornerRadius: 3)
+                            .fill(colors.primary)
+                            .frame(
+                                width: geometry.size.width * progressRatio,
+                                height: 4
+                            )
+                    }
+                    .contentShape(Rectangle())
+                    .gesture(
+                        DragGesture(minimumDistance: 0)
+                            .onChanged { value in
+                                if isThisBlock && !isEditable {
+                                    let ratio = max(0, min(1, value.location.x / geometry.size.width))
+                                    audioPlaybackService.seek(to: ratio * audioPlaybackService.duration)
+                                }
+                            }
+                    )
+                }
+                .frame(height: 4)
+
+                // Time labels
+                HStack {
+                    Text(formatAudioTime(isThisBlock ? audioPlaybackService.currentTime : 0))
+                        .font(.caption2)
+                        .foregroundColor(colors.textTertiary)
+                    Spacer()
+                    Text(formatAudioTime(isThisBlock ? audioPlaybackService.duration : Double(block.audioDurationMs) / 1000.0))
+                        .font(.caption2)
+                        .foregroundColor(colors.textTertiary)
+                }
+            }
+        }
+        .padding(.vertical, 10)
+        .padding(.horizontal, 14)
+        .background {
+            RoundedRectangle(cornerRadius: 12)
+                .fill(colors.glassBackground.opacity(0.6))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .strokeBorder(colors.border.opacity(0.2), lineWidth: 1)
+                )
+        }
+    }
+
+    private var progressRatio: Double {
+        guard audioPlaybackService.currentBlockId == block.id else { return 0.0 }
+        let duration = audioPlaybackService.duration
+        guard duration > 0 else { return 0.0 }
+        return min(1.0, max(0.0, audioPlaybackService.currentTime / duration))
+    }
+
+    private func formatAudioTime(_ seconds: Double) -> String {
+        let totalSeconds = Int(seconds)
+        let minutes = totalSeconds / 60
+        let secs = totalSeconds % 60
+        return String(format: "%d:%02d", minutes, secs)
+    }
+
+    private func handlePlayPause() {
+        // Haptic feedback
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.impactOccurred()
+
+        if audioPlaybackService.currentBlockId == block.id && audioPlaybackService.isPlaying {
+            // Currently playing this block - pause it
+            audioPlaybackService.pause()
+        } else if audioPlaybackService.currentBlockId == block.id {
+            // This block is selected but paused - resume
+            audioPlaybackService.resume()
+        } else {
+            // Play this block (will stop any other playing block)
+            Task {
+                do {
+                    try await audioPlaybackService.play(block: block)
+                } catch {
+                    print("[TranscriptionBlockView] Play error: \(error.localizedDescription)")
+                    // Show error to user
+                }
+            }
         }
     }
 
