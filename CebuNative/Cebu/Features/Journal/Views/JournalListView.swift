@@ -6,6 +6,7 @@
  */
 
 import SwiftUI
+import UIKit
 
 struct JournalListView: View {
     @Environment(\.themeColors) var colors
@@ -23,14 +24,41 @@ struct JournalListView: View {
             colors.background
                 .ignoresSafeArea()
 
+            // Search filter panel
+            if viewModel.showFilterPanel {
+                SearchFilterPanel(
+                    filter: $viewModel.searchFilter,
+                    onApply: {
+                        viewModel.applyFilter()
+                        viewModel.showFilterPanel = false
+                    },
+                    onReset: {
+                        viewModel.resetFilters()
+                    }
+                )
+                .padding(.top, 8)
+                .transition(.move(edge: .top).combined(with: .opacity))
+            }
+
             // Main content
             ScrollView {
                 LazyVStack(spacing: 20) {
+                    // Search results banner
+                    if viewModel.isSearching && !viewModel.searchQuery.isEmpty {
+                        SearchResultsBanner(
+                            resultCount: viewModel.searchResults.count,
+                            isSearching: viewModel.isSearching,
+                            hasQuery: !viewModel.searchQuery.isEmpty
+                        )
+                        .padding(.top, 8)
+                    }
+
                     // Use search results when searching, otherwise use normal entries
                     ForEach(viewModel.isSearching ? viewModel.searchResults : viewModel.entries) { entryWithBlocks in
                         DayEntryView(
                             entryWithBlocks: entryWithBlocks,
                             isEditing: viewModel.isEditing(entryWithBlocks.id),
+                            searchQuery: viewModel.isSearching ? viewModel.activeSearchQuery : nil,
                             onToggleEdit: {
                                 viewModel.toggleEditMode(for: entryWithBlocks.id)
                             },
@@ -175,6 +203,26 @@ struct JournalListView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                // Filter button (shown when searching)
+                if viewModel.isSearching {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                                viewModel.showFilterPanel.toggle()
+                            }
+
+                            // Haptic feedback
+                            let generator = UIImpactFeedbackGenerator(style: .light)
+                            generator.impactOccurred()
+                        } label: {
+                            Image(systemName: viewModel.searchFilter.hasActiveFilters
+                                  ? "line.3.horizontal.decrease.circle.fill"
+                                  : "line.3.horizontal.decrease.circle")
+                                .foregroundColor(viewModel.searchFilter.hasActiveFilters ? colors.primary : colors.textSecondary)
+                        }
+                    }
+                }
+
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
                         Button {

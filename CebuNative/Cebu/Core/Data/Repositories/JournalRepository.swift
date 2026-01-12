@@ -95,28 +95,49 @@ class JournalRepository {
         }
     }
 
-    /// Search entries by keyword in transcription content
+    /// Search entries by keyword in transcription content (without filters)
     func searchEntries(for user: User, query: String, offset: Int = 0, limit: Int = 20) async throws -> [JournalEntryWithBlocks] {
+        // Convenience method that calls filtered version with default filter
+        return try await searchEntries(for: user, query: query, filter: SearchFilter(), offset: offset, limit: limit)
+    }
+
+    /// Search entries by keyword with advanced filters
+    func searchEntries(for user: User, query: String, filter: SearchFilter, offset: Int = 0, limit: Int = 20) async throws -> [JournalEntryWithBlocks] {
         let request = JournalEntry.fetchRequest()
 
-        // Search TranscriptionBlock content (case-insensitive)
-        let contentPredicate = NSPredicate(
-            format: "ANY blocks.content CONTAINS[cd] %@",
-            query
-        )
-        let userPredicate = NSPredicate(
-            format: "user == %@ AND deletedFlag == NO",
-            user
-        )
+        // Build predicates
+        var predicates: [NSPredicate] = [
+            NSPredicate(format: "user == %@ AND deletedFlag == NO", user),
+            NSPredicate(format: "ANY blocks.content CONTAINS[cd] %@", query)
+        ]
 
-        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
-            userPredicate,
-            contentPredicate
-        ])
+        // Add date range filters
+        if let startDate = filter.startDate {
+            let startOfDay = Calendar.current.startOfDay(for: startDate)
+            predicates.append(NSPredicate(format: "date >= %@", startOfDay as NSDate))
+        }
+
+        if let endDate = filter.endDate {
+            // End of day (23:59:59)
+            let endOfDay = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: endDate) ?? endDate
+            predicates.append(NSPredicate(format: "date <= %@", endOfDay as NSDate))
+        }
+
+        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+
+        // Apply sort
+        let ascending: Bool
+        switch filter.sortOption {
+        case .relevance, .dateDesc:
+            ascending = false  // Newest first (relevance defaults to date desc)
+        case .dateAsc:
+            ascending = true   // Oldest first
+        }
 
         request.sortDescriptors = [
-            NSSortDescriptor(keyPath: \JournalEntry.date, ascending: false)
+            NSSortDescriptor(keyPath: \JournalEntry.date, ascending: ascending)
         ]
+
         request.fetchOffset = offset
         request.fetchLimit = limit
         request.relationshipKeyPathsForPrefetching = ["blocks"]

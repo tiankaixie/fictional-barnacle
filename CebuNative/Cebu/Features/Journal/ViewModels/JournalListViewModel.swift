@@ -21,6 +21,11 @@ class JournalListViewModel: ObservableObject {
     @Published var searchQuery: String = ""
     @Published var isSearching: Bool = false
     @Published var searchResults: [JournalEntryWithBlocks] = []
+    @Published var activeSearchQuery: String = ""  // Track active search for highlighting
+
+    // Search filter properties
+    @Published var searchFilter = SearchFilter()
+    @Published var showFilterPanel: Bool = false
 
     // MARK: - Private Properties
     private let repository: JournalRepository
@@ -233,6 +238,7 @@ class JournalListViewModel: ObservableObject {
         guard !query.isEmpty else {
             isSearching = false
             searchResults = []
+            activeSearchQuery = ""
             return
         }
 
@@ -248,6 +254,7 @@ class JournalListViewModel: ObservableObject {
         guard !searchQuery.isEmpty else {
             isSearching = false
             searchResults = []
+            activeSearchQuery = ""
             return
         }
 
@@ -256,12 +263,33 @@ class JournalListViewModel: ObservableObject {
         do {
             searchResults = try await repository.searchEntries(
                 for: user,
-                query: searchQuery
+                query: searchQuery,
+                filter: searchFilter
             )
+            activeSearchQuery = searchQuery  // Update active query for highlighting
             print("[JournalListVM] Found \(searchResults.count) matching entries")
         } catch {
             self.error = "搜索失败: \(error.localizedDescription)"
             print("[JournalListVM] Search error: \(error)")
+        }
+    }
+
+    /// Reset search filters to default
+    func resetFilters() {
+        searchFilter.reset()
+        if !searchQuery.isEmpty {
+            Task {
+                await performSearch()
+            }
+        }
+    }
+
+    /// Apply current filters and refresh search
+    func applyFilter() {
+        if !searchQuery.isEmpty {
+            Task {
+                await performSearch()
+            }
         }
     }
 }

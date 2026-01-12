@@ -6,6 +6,7 @@
  */
 
 import SwiftUI
+import UIKit
 
 struct TranscriptionBlockView: View {
     @Environment(\.themeColors) var colors
@@ -13,6 +14,7 @@ struct TranscriptionBlockView: View {
     let block: TranscriptionBlock
     let isEditable: Bool
     let isLast: Bool
+    let searchQuery: String?  // Optional search query for highlighting
     let onSave: (String) -> Void
     let onCancel: () -> Void
     let onDelete: () -> Void
@@ -25,6 +27,7 @@ struct TranscriptionBlockView: View {
         block: TranscriptionBlock,
         isEditable: Bool,
         isLast: Bool,
+        searchQuery: String? = nil,
         onSave: @escaping (String) -> Void,
         onCancel: @escaping () -> Void,
         onDelete: @escaping () -> Void
@@ -32,6 +35,7 @@ struct TranscriptionBlockView: View {
         self.block = block
         self.isEditable = isEditable
         self.isLast = isLast
+        self.searchQuery = searchQuery
         self.onSave = onSave
         self.onCancel = onCancel
         self.onDelete = onDelete
@@ -93,9 +97,8 @@ struct TranscriptionBlockView: View {
                 }
                 .transition(.scale(scale: 0.98).combined(with: .opacity))
             } else {
-                Text(block.content)
+                highlightedContent
                     .font(.body)
-                    .foregroundColor(colors.text)
                     .textSelection(.enabled)
                     .transition(.opacity)
             }
@@ -184,14 +187,14 @@ struct TranscriptionBlockView: View {
         }
         .padding(.vertical, 16)
         .padding(.horizontal, 16)
-        .background(
-            isEditable
-                ? AnyView(
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(colors.glassBackground.opacity(0.3))
-                )
-                : AnyView(Color.clear)
-        )
+        .background {
+            if isEditable {
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(colors.glassBackground.opacity(0.3))
+            } else {
+                Color.clear
+            }
+        }
         .animation(.spring(response: 0.35, dampingFraction: 0.7), value: isEditable)
         .overlay(
             Rectangle()
@@ -213,6 +216,19 @@ struct TranscriptionBlockView: View {
 
     private var hasChanges: Bool {
         editedContent.trimmingCharacters(in: .whitespacesAndNewlines) != block.content
+    }
+
+    /// Highlighted content with search query matches
+    private var highlightedContent: Text {
+        if let query = searchQuery, !query.isEmpty {
+            block.content.highlighted(
+                matching: query,
+                highlightColor: colors.primary,
+                baseColor: colors.text
+            )
+        } else {
+            Text(block.content).foregroundColor(colors.text)
+        }
     }
 
     // MARK: - Actions
@@ -301,4 +317,49 @@ struct TranscriptionBlockView: View {
     .liquidGlassBackground()
     .environment(\.themeColors, .dark)
     .preferredColorScheme(.dark)
+}
+
+// MARK: - String Extension for Text Highlighting
+
+extension String {
+    /// Highlight matching text with specified colors
+    /// Supports case-insensitive and diacritic-insensitive matching for Chinese/English
+    func highlighted(matching query: String, highlightColor: Color, baseColor: Color) -> Text {
+        guard !query.isEmpty else {
+            return Text(self).foregroundColor(baseColor)
+        }
+
+        var result = Text("")
+        var searchRange = self.startIndex..<self.endIndex
+
+        // Find all occurrences of the query (case and diacritic insensitive)
+        while let range = self.range(
+            of: query,
+            options: [.caseInsensitive, .diacriticInsensitive],
+            range: searchRange
+        ) {
+            // Add text before the match
+            if searchRange.lowerBound < range.lowerBound {
+                let beforeText = String(self[searchRange.lowerBound..<range.lowerBound])
+                result = result + Text(beforeText).foregroundColor(baseColor)
+            }
+
+            // Add highlighted match
+            let matchedText = String(self[range])
+            result = result + Text(matchedText)
+                .foregroundColor(highlightColor)
+                .fontWeight(.semibold)
+
+            // Update search range to continue after this match
+            searchRange = range.upperBound..<searchRange.upperBound
+        }
+
+        // Add remaining text after last match
+        if searchRange.lowerBound < searchRange.upperBound {
+            let remainingText = String(self[searchRange])
+            result = result + Text(remainingText).foregroundColor(baseColor)
+        }
+
+        return result
+    }
 }

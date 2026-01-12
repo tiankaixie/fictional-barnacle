@@ -6,12 +6,14 @@
  */
 
 import SwiftUI
+import UIKit
 
 struct DayEntryView: View {
     @Environment(\.themeColors) var colors
 
     let entryWithBlocks: JournalEntryWithBlocks
     let isEditing: Bool
+    let searchQuery: String?  // Optional search query for highlighting
     let onToggleEdit: () -> Void
     let onUpdateBlock: (TranscriptionBlock, String) -> Void
     let onDeleteBlock: (TranscriptionBlock) -> Void
@@ -74,20 +76,20 @@ struct DayEntryView: View {
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 16)
-            .background(
-                isEditing
-                    ? AnyView(
-                        LinearGradient(
-                            colors: [
-                                colors.primary.opacity(0.08),
-                                colors.primary.opacity(0.03)
-                            ],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
+            .background {
+                if isEditing {
+                    LinearGradient(
+                        colors: [
+                            colors.primary.opacity(0.08),
+                            colors.primary.opacity(0.03)
+                        ],
+                        startPoint: .leading,
+                        endPoint: .trailing
                     )
-                    : AnyView(colors.glassBackground.opacity(0.3))
-            )
+                } else {
+                    colors.glassBackground.opacity(0.3)
+                }
+            }
             .overlay(
                 Rectangle()
                     .fill(isEditing ? colors.primary.opacity(0.2) : colors.border)
@@ -97,25 +99,28 @@ struct DayEntryView: View {
             .animation(.spring(response: 0.35, dampingFraction: 0.7), value: isEditing)
 
             // Blocks or empty state
-            if entryWithBlocks.blocks.isEmpty {
-                emptyStateView
-            } else {
-                ForEach(Array(entryWithBlocks.blocks.enumerated()), id: \.element.id) { index, block in
-                    TranscriptionBlockView(
-                        block: block,
-                        isEditable: isEditing,
-                        isLast: index == entryWithBlocks.blocks.count - 1,
-                        onSave: { newContent in
-                            onUpdateBlock(block, newContent)
-                            editingBlockId = nil
-                        },
-                        onCancel: {
-                            editingBlockId = nil
-                        },
-                        onDelete: {
-                            showDeleteConfirmation(for: block)
-                        }
-                    )
+            Group {
+                if entryWithBlocks.blocks.isEmpty {
+                    emptyStateView
+                } else {
+                    ForEach(Array(entryWithBlocks.blocks.enumerated()), id: \.element.id) { index, block in
+                        TranscriptionBlockView(
+                            block: block,
+                            isEditable: isEditing,
+                            isLast: index == entryWithBlocks.blocks.count - 1,
+                            searchQuery: searchQuery,
+                            onSave: { newContent in
+                                onUpdateBlock(block, newContent)
+                                editingBlockId = nil
+                            },
+                            onCancel: {
+                                editingBlockId = nil
+                            },
+                            onDelete: {
+                                showDeleteConfirmation(for: block)
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -142,6 +147,7 @@ struct DayEntryView: View {
 
     // MARK: - Empty State
 
+    @ViewBuilder
     private var emptyStateView: some View {
         VStack(spacing: 12) {
             Image(systemName: "mic.slash")
@@ -180,116 +186,88 @@ struct DayEntryView: View {
 
 // MARK: - Preview
 
-#Preview("Day with Blocks") {
-    let context = PersistenceController.preview.container.viewContext
+struct DayEntryView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            // Day with Blocks
+            makePreview(editing: false, isEmpty: false, theme: .light)
+                .previewDisplayName("Day with Blocks")
 
-    let user = User(context: context)
-    user.id = UUID()
-    user.displayName = "Test User"
+            // Day Editing
+            makePreview(editing: true, isEmpty: false, theme: .dark, colorScheme: .dark)
+                .previewDisplayName("Day Editing")
 
-    let entry = JournalEntry(context: context)
-    entry.id = UUID()
-    entry.date = Date()
-    entry.user = user
-
-    let block1 = TranscriptionBlock(context: context)
-    block1.id = UUID()
-    block1.content = "This is the first transcription of the day. It contains some thoughts about the morning."
-    block1.position = 0
-    block1.createdAt = Date().addingTimeInterval(-3600)
-    block1.entry = entry
-
-    let block2 = TranscriptionBlock(context: context)
-    block2.id = UUID()
-    block2.content = "This is a second note, added later in the day."
-    block2.position = 1
-    block2.createdAt = Date()
-    block2.entry = entry
-
-    let entryWithBlocks = JournalEntryWithBlocks(
-        entry: entry,
-        blocks: [block1, block2]
-    )
-
-    return ScrollView {
-        DayEntryView(
-            entryWithBlocks: entryWithBlocks,
-            isEditing: false,
-            onToggleEdit: {},
-            onUpdateBlock: { _, _ in },
-            onDeleteBlock: { _ in }
-        )
-        .padding()
+            // Empty Day
+            makePreview(editing: false, isEmpty: true, theme: .light)
+                .previewDisplayName("Empty Day")
+        }
     }
-    .liquidGlassBackground()
-    .environment(\.themeColors, .light)
+
+    static func makePreview(editing: Bool, isEmpty: Bool, theme: ThemeColors, colorScheme: ColorScheme? = nil) -> some View {
+        let context = PersistenceController.preview.container.viewContext
+
+        let user = User(context: context)
+        user.id = UUID()
+        user.displayName = "Test User"
+
+        let entry = JournalEntry(context: context)
+        entry.id = UUID()
+        entry.date = Date()
+        entry.user = user
+
+        var blocks: [TranscriptionBlock] = []
+
+        if !isEmpty {
+            let block1 = TranscriptionBlock(context: context)
+            block1.id = UUID()
+            block1.content = editing ? "Editing this block" : "This is the first transcription of the day. It contains some thoughts about the morning."
+            block1.position = 0
+            block1.createdAt = Date().addingTimeInterval(-3600)
+            block1.entry = entry
+            blocks.append(block1)
+
+            if !editing {
+                let block2 = TranscriptionBlock(context: context)
+                block2.id = UUID()
+                block2.content = "This is a second note, added later in the day."
+                block2.position = 1
+                block2.createdAt = Date()
+                block2.entry = entry
+                blocks.append(block2)
+            }
+        }
+
+        let entryWithBlocks = JournalEntryWithBlocks(
+            entry: entry,
+            blocks: blocks
+        )
+
+        return ScrollView {
+            DayEntryView(
+                entryWithBlocks: entryWithBlocks,
+                isEditing: editing,
+                searchQuery: nil,
+                onToggleEdit: {},
+                onUpdateBlock: { _, _ in },
+                onDeleteBlock: { _ in }
+            )
+            .padding()
+        }
+        .liquidGlassBackground()
+        .environment(\.themeColors, theme)
+        .if(colorScheme != nil) { view in
+            view.preferredColorScheme(colorScheme)
+        }
+    }
 }
 
-#Preview("Day Editing") {
-    let context = PersistenceController.preview.container.viewContext
-
-    let user = User(context: context)
-    user.id = UUID()
-    user.displayName = "Test User"
-
-    let entry = JournalEntry(context: context)
-    entry.id = UUID()
-    entry.date = Date()
-    entry.user = user
-
-    let block1 = TranscriptionBlock(context: context)
-    block1.id = UUID()
-    block1.content = "Editing this block"
-    block1.position = 0
-    block1.createdAt = Date()
-    block1.entry = entry
-
-    let entryWithBlocks = JournalEntryWithBlocks(
-        entry: entry,
-        blocks: [block1]
-    )
-
-    return ScrollView {
-        DayEntryView(
-            entryWithBlocks: entryWithBlocks,
-            isEditing: true,
-            onToggleEdit: {},
-            onUpdateBlock: { _, _ in },
-            onDeleteBlock: { _ in }
-        )
-        .padding()
+extension View {
+    @ViewBuilder
+    func `if`<Transform: View>(_ condition: Bool, transform: (Self) -> Transform) -> some View {
+        if condition {
+            transform(self)
+        } else {
+            self
+        }
     }
-    .liquidGlassBackground()
-    .environment(\.themeColors, .dark)
-    .preferredColorScheme(.dark)
-}
-
-#Preview("Empty Day") {
-    let context = PersistenceController.preview.container.viewContext
-
-    let user = User(context: context)
-    user.id = UUID()
-
-    let entry = JournalEntry(context: context)
-    entry.id = UUID()
-    entry.date = Date()
-    entry.user = user
-
-    let entryWithBlocks = JournalEntryWithBlocks(
-        entry: entry,
-        blocks: []
-    )
-
-    return ScrollView {
-        DayEntryView(
-            entryWithBlocks: entryWithBlocks,
-            isEditing: false,
-            onToggleEdit: {},
-            onUpdateBlock: { _, _ in },
-            onDeleteBlock: { _ in }
-        )
-        .padding()
-    }
-    .liquidGlassBackground()
-    .environment(\.themeColors, .light)
 }
