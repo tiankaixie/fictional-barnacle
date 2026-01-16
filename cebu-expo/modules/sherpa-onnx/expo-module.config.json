@@ -1,0 +1,9 @@
+{
+  "platforms": ["ios", "android"],
+  "ios": {
+    "modules": ["SherpaOnnxModule"]
+  },
+  "android": {
+    "modules": ["expo.modules.sherpaonnx.SherpaOnnxModule"]
+  }
+}

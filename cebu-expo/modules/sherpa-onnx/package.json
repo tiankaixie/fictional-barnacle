@@ -1,0 +1,30 @@
+{
+  "name": "sherpa-onnx-native",
+  "version": "1.0.0",
+  "description": "Expo native module wrapper for sherpa-onnx ASR",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "expo-module build",
+    "clean": "expo-module clean",
+    "lint": "expo-module lint",
+    "test": "expo-module test"
+  },
+  "keywords": [
+    "react-native",
+    "expo",
+    "sherpa-onnx",
+    "speech-recognition",
+    "asr"
+  ],
+  "repository": "https://github.com/tiankaixie/cebu-expo",
+  "author": "Tiankai Xie <your-email@example.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "expo": "*",
+    "react": "*",
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "expo-modules-core": "*"
+  }
+}
