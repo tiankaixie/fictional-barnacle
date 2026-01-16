@@ -11,6 +11,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from './src/ui/theme';
 import { RecordingOverlay } from './src/features/recording/components';
 import { SimpleJournalList } from './src/features/journal/components/SimpleJournalList';
+import { SettingsScreen } from './src/features/settings/components';
 import { useRecording } from './src/features/recording/hooks/useRecording';
 import { database } from './src/core/data/database';
 import { JournalRepository } from './src/core/data/repositories';
@@ -47,19 +48,8 @@ function MainScreen() {
 
       {/* Main content - tab based */}
       <View style={styles.content}>
-        {activeTab === 'journal' && (
-          <View style={styles.recordTab}>
-            <Text style={styles.recordTabText}>日记列表</Text>
-            <Text style={styles.recordTabSubtext}>正在开发中...</Text>
-            <SimpleJournalList />
-          </View>
-        )}
-        {activeTab === 'record' && (
-          <View style={styles.recordTab}>
-            <Text style={styles.recordTabText}>录音功能已集成</Text>
-            <Text style={styles.recordTabSubtext}>点击下方麦克风按钮开始录音</Text>
-          </View>
-        )}
+        {activeTab === 'journal' && <SimpleJournalList />}
+        {activeTab === 'record' && <SettingsScreen />}
       </View>
 
       {/* Bottom tab bar */}
