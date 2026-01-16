@@ -8,6 +8,7 @@ import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, Pre
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ThemeProvider } from './src/ui/theme';
 import { RecordingOverlay } from './src/features/recording/components';
 import { SimpleJournalList } from './src/features/journal/components/SimpleJournalList';
 import { useRecording } from './src/features/recording/hooks/useRecording';
@@ -137,9 +138,11 @@ export default function App() {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <MainScreen />
-    </QueryClientProvider>
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <MainScreen />
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }
 

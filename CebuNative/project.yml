@@ -6,10 +6,7 @@ options:
   developmentLanguage: en
   xcodeVersion: "15.0"
 
-packages:
-  WhisperKit:
-    url: https://github.com/argmaxinc/WhisperKit
-    from: 0.7.0
+packages: {}
 
 settings:
   base:
@@ -28,8 +25,6 @@ targets:
       - path: Cebu
         excludes:
           - "**/README.md"
-    dependencies:
-      - package: WhisperKit
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.tiankaixie.cebu
@@ -57,7 +52,6 @@ targets:
                 UISceneDelegateClassName: $(PRODUCT_MODULE_NAME).SceneDelegate
         UILaunchScreen: {}
         NSMicrophoneUsageDescription: "Cebu needs access to your microphone to record voice notes."
-        NSSpeechRecognitionUsageDescription: "Cebu uses on-device speech recognition to transcribe your voice notes."
         NSFaceIDUsageDescription: "Cebu 使用 Face ID 保护您的日记隐私"
         UIRequiredDeviceCapabilities:
           - armv7

@@ -23,18 +23,20 @@ class RecordingViewModel: ObservableObject {
     @Published var initializationAttempt = 1
 
     // MARK: - Private Properties
-    private let whisperService: WhisperKitService
+    private let whisperService: OpenAIWhisperService
     private let journalViewModel: JournalListViewModel
     private let audioStorageService: AudioStorageService
+    private let costTrackingService: CostTrackingService
     private var cancellables = Set<AnyCancellable>()
     private var recordingStartTime: Date?
 
     // MARK: - Initialization
 
-    init(whisperService: WhisperKitService, journalViewModel: JournalListViewModel, audioStorageService: AudioStorageService) {
+    init(whisperService: OpenAIWhisperService, journalViewModel: JournalListViewModel, audioStorageService: AudioStorageService, costTrackingService: CostTrackingService) {
         self.whisperService = whisperService
         self.journalViewModel = journalViewModel
         self.audioStorageService = audioStorageService
+        self.costTrackingService = costTrackingService
 
         setupBindings()
     }
@@ -56,26 +58,17 @@ class RecordingViewModel: ObservableObject {
         whisperService.$isInitialized
             .assign(to: &$isInitialized)
 
-        whisperService.$downloadProgress
-            .assign(to: &$downloadProgress)
-
-        whisperService.$isDownloading
-            .assign(to: &$isDownloading)
-
         whisperService.$isProcessing
             .assign(to: &$isProcessing)
-
-        whisperService.$currentAttempt
-            .assign(to: &$initializationAttempt)
     }
 
     // MARK: - Public Methods
 
-    /// Initialize WhisperKit with specified model
-    func initialize(modelName: String = "openai_whisper-large-v3_turbo") async {
+    /// Initialize OpenAI Whisper service
+    func initialize() async {
         do {
-            try await whisperService.initialize(modelName: modelName)
-            print("[RecordingVM] Initialized WhisperKit with '\(modelName)' model")
+            try await whisperService.initialize()
+            print("[RecordingVM] Initialized OpenAI Whisper service")
         } catch {
             self.error = "Failed to initialize: \(error.localizedDescription)"
             print("[RecordingVM] Init error: \(error)")
@@ -189,6 +182,19 @@ class RecordingViewModel: ObservableObject {
                 }
             } else {
                 print("[RecordingVM] Audio saving disabled or no samples")
+            }
+
+            // Record transcription cost
+            let durationInSeconds = Double(duration) / 1000.0
+            do {
+                try await costTrackingService.recordTranscription(
+                    duration: durationInSeconds,
+                    provider: "openai-whisper"
+                )
+                print("[RecordingVM] ✅ Cost recorded: \(durationInSeconds)s")
+            } catch {
+                print("[RecordingVM] ⚠️ Cost tracking failed: \(error.localizedDescription)")
+                // Don't show error to user - cost tracking failure shouldn't block transcription
             }
         } else {
             print("[RecordingVM] Empty transcription, not saving")

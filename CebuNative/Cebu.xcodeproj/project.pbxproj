@@ -13,17 +13,20 @@
 		1E22A75B413A0AA8C8D724AF /* BiometricAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF6AAF557E805C5A5D2398 /* BiometricAuthService.swift */; };
 		2572F3E4706C2C0D63BCB44C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F17F867C40F645C3B178D66D /* Preview Assets.xcassets */; };
 		28067A4A0C420D6B158583D7 /* AppLockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE22D945FCFABCAF91D9EE39 /* AppLockView.swift */; };
+		2A585ED585251388AAB37F64 /* TranscriptionCost.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BD8CB830F0F382AFB7D4B4 /* TranscriptionCost.swift */; };
 		2F5A34D1010E490AED80EC18 /* JournalEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A06A59F39C4D4B0FA3DB4A /* JournalEntry.swift */; };
 		35D4EE70661109FA32DF8B9B /* AudioPlaybackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9223C82781AB9F09EF95A84F /* AudioPlaybackService.swift */; };
 		3760437F9F383F35D9C99073 /* TranscriptionBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE52D70F54F1F2FF5536C01B /* TranscriptionBlock.swift */; };
 		3D5C4C8A1565898457274217 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D0798C37E67019704CA469 /* ShareSheet.swift */; };
 		3EB1E2228D87224A7F6E5146 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76B1E46CF154D3C3A8CA0F2 /* KeychainService.swift */; };
 		46A36A8AE2638143149EA1B4 /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5318B6B91DD85099CDA52896 /* WaveformView.swift */; };
+		4B878B2903D4D497FF306079 /* CostTrackingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E312966B99E8F79AA47F3BED /* CostTrackingService.swift */; };
 		4C7234D2F5159BF204A4C5F2 /* JournalRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1ECFA7382B5D9353FD1B01 /* JournalRepository.swift */; };
 		50F7F64E0E007D68BEC04D5E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553C3AD4AAC11F85C44D2508 /* User.swift */; };
-		5D7C1BBE17C1A1A9D3372938 /* WhisperModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26CC2C8753B87DB5B3EA684 /* WhisperModel.swift */; };
 		69FC4F3EFD0CBCF78D168717 /* SyncStatusBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB8218DA50FE256DDC49300 /* SyncStatusBanner.swift */; };
+		6DADBB577C31EC974B8F9E1D /* OpenAIAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC082DCE30EBD8F0A885268 /* OpenAIAPIClient.swift */; };
 		6DE23186DC6BB679657926C2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA7699403AB113D3850C1CB /* SettingsView.swift */; };
+		6FD41D7E6C25AB45FA96D8AD /* OpenAIWhisperService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED3D894BE58A8FD649DAB8D /* OpenAIWhisperService.swift */; };
 		784940DEB6A0452C7876A03E /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F38F1C60CB8DC57BEDD35D5 /* PersistenceController.swift */; };
 		7A663E37341B5036BA6D796A /* LiquidGlassStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC2E8EBC00A2BD19E55E100 /* LiquidGlassStyle.swift */; };
 		805D9EEF113E7E4C6B8FF645 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F714BF61A83BCF901B30F9C6 /* Assets.xcassets */; };
@@ -37,10 +40,9 @@
 		927DD55FC6C2B2DC54B1ABCD /* SearchFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 673E51F9A5B9CE69CE0C9640 /* SearchFilter.swift */; };
 		94A572F890F17B811665588C /* ExportOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8057DE899676012DA6380BBC /* ExportOptionsView.swift */; };
 		A1E174899BE03124973F52CC /* Cebu.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 703C218A89B2B5AA93B17982 /* Cebu.xcdatamodeld */; };
-		A83DA1214A0740D1512E6BC0 /* ModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909E76A208FC3AF58BD2FE21 /* ModelManager.swift */; };
 		A86DBF3EA669E39C0B8287FF /* JournalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B45E71F1684CD0C3F8F91E3 /* JournalListView.swift */; };
 		AB602B31755323E46C010E9E /* CloudSyncSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD47A220EC31C61D1AE7A2C1 /* CloudSyncSettingsView.swift */; };
-		B2AA51D7D8B45238AC19BA8F /* WhisperKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0E94223316BA2A368222F7EA /* WhisperKit */; };
+		AF2F5A7038CE3220AD27ED18 /* APIKeySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1862DEB12C21789FF872A3 /* APIKeySettingsView.swift */; };
 		B7F9289983D6A883CC473C56 /* DayEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064A0758C4063CB1ED28B576 /* DayEntryView.swift */; };
 		CC32CBAA2D30DB1ABADB0F48 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3D7FCE5142D87D01505020 /* Colors.swift */; };
 		CD8AC40D1DB268657A2D4F44 /* RippleEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F4254591AAACDB212D4721 /* RippleEffect.swift */; };
@@ -49,7 +51,6 @@
 		D5C1CA7E5B1FC1648B9FD63E /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D8940F277458592E84888F /* AuthenticationService.swift */; };
 		D5EE867A3751737755BC29E3 /* RecordingOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF30A80650677917CFA6BECB /* RecordingOverlayView.swift */; };
 		DAFEA0DF1E2E8F953EF0B809 /* SecuritySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7998ECCA81847D3B576AE81F /* SecuritySettingsView.swift */; };
-		DB10B6008113E5C53665C834 /* WhisperKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C46DBC52A82F7D57967A7F6 /* WhisperKitService.swift */; };
 		E4B1F898C82F0C595ED8A290 /* CebuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91363272251C34FFC29415B1 /* CebuApp.swift */; };
 		F66DD60F0777608BB5EBCBB0 /* ThemeMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6C1205294D1D952A21EE9F /* ThemeMode.swift */; };
 		FC69B1EECB580A282AB7C883 /* LocalAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24013BDD9C2BD22DCB574EB2 /* LocalAuthService.swift */; };
@@ -60,6 +61,7 @@
 		04D0798C37E67019704CA469 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		064A0758C4063CB1ED28B576 /* DayEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayEntryView.swift; sourceTree = "<group>"; };
 		08BC88F2C3DD6C6558FC27D2 /* ExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportService.swift; sourceTree = "<group>"; };
+		0ED3D894BE58A8FD649DAB8D /* OpenAIWhisperService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIWhisperService.swift; sourceTree = "<group>"; };
 		10E2666258C2D04EB1B05715 /* VoiceInputButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceInputButtonView.swift; sourceTree = "<group>"; };
 		14A06A59F39C4D4B0FA3DB4A /* JournalEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEntry.swift; sourceTree = "<group>"; };
 		1B45E71F1684CD0C3F8F91E3 /* JournalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalListView.swift; sourceTree = "<group>"; };
@@ -86,13 +88,13 @@
 		7998ECCA81847D3B576AE81F /* SecuritySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsView.swift; sourceTree = "<group>"; };
 		7D3D7FCE5142D87D01505020 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		8057DE899676012DA6380BBC /* ExportOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportOptionsView.swift; sourceTree = "<group>"; };
-		909E76A208FC3AF58BD2FE21 /* ModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelManager.swift; sourceTree = "<group>"; };
 		91363272251C34FFC29415B1 /* CebuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CebuApp.swift; sourceTree = "<group>"; };
 		9223C82781AB9F09EF95A84F /* AudioPlaybackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlaybackService.swift; sourceTree = "<group>"; };
 		9321FE782C4C93C5E4DA1B5D /* SearchFilterPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterPanel.swift; sourceTree = "<group>"; };
-		9C46DBC52A82F7D57967A7F6 /* WhisperKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhisperKitService.swift; sourceTree = "<group>"; };
 		BD6C1205294D1D952A21EE9F /* ThemeMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeMode.swift; sourceTree = "<group>"; };
+		BE1862DEB12C21789FF872A3 /* APIKeySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeySettingsView.swift; sourceTree = "<group>"; };
 		BF30A80650677917CFA6BECB /* RecordingOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingOverlayView.swift; sourceTree = "<group>"; };
+		C0BD8CB830F0F382AFB7D4B4 /* TranscriptionCost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionCost.swift; sourceTree = "<group>"; };
 		CC0EA1E5CB08CAFF275A4659 /* AudioSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSettingsView.swift; sourceTree = "<group>"; };
 		CE22D945FCFABCAF91D9EE39 /* AppLockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLockView.swift; sourceTree = "<group>"; };
 		CE52D70F54F1F2FF5536C01B /* TranscriptionBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionBlock.swift; sourceTree = "<group>"; };
@@ -101,23 +103,13 @@
 		D76B1E46CF154D3C3A8CA0F2 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		DD47A220EC31C61D1AE7A2C1 /* CloudSyncSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncSettingsView.swift; sourceTree = "<group>"; };
 		E2CF728558E57A7F0F6CBB5E /* TranscriptionBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionBlockView.swift; sourceTree = "<group>"; };
+		E312966B99E8F79AA47F3BED /* CostTrackingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostTrackingService.swift; sourceTree = "<group>"; };
+		ECC082DCE30EBD8F0A885268 /* OpenAIAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIAPIClient.swift; sourceTree = "<group>"; };
 		F0F4254591AAACDB212D4721 /* RippleEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RippleEffect.swift; sourceTree = "<group>"; };
 		F17F867C40F645C3B178D66D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		F26CC2C8753B87DB5B3EA684 /* WhisperModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhisperModel.swift; sourceTree = "<group>"; };
 		F26D3EF06313840923075088 /* SearchResultsBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsBanner.swift; sourceTree = "<group>"; };
 		F714BF61A83BCF901B30F9C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFrameworksBuildPhase section */
-		76008F1C6635218A1C97808A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B2AA51D7D8B45238AC19BA8F /* WhisperKit in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		03BFAA58E6649F142B6D27F8 /* Views */ = {
@@ -161,8 +153,8 @@
 				673E51F9A5B9CE69CE0C9640 /* SearchFilter.swift */,
 				BD6C1205294D1D952A21EE9F /* ThemeMode.swift */,
 				CE52D70F54F1F2FF5536C01B /* TranscriptionBlock.swift */,
+				C0BD8CB830F0F382AFB7D4B4 /* TranscriptionCost.swift */,
 				553C3AD4AAC11F85C44D2508 /* User.swift */,
-				F26CC2C8753B87DB5B3EA684 /* WhisperModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -194,6 +186,7 @@
 		4691A44407C1796DDECEB7B2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BE1862DEB12C21789FF872A3 /* APIKeySettingsView.swift */,
 				CC0EA1E5CB08CAFF275A4659 /* AudioSettingsView.swift */,
 				DD47A220EC31C61D1AE7A2C1 /* CloudSyncSettingsView.swift */,
 				7998ECCA81847D3B576AE81F /* SecuritySettingsView.swift */,
@@ -267,6 +260,14 @@
 			path = Journal;
 			sourceTree = "<group>";
 		};
+		84F01C0ADF447026FCCD2C19 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				ECC082DCE30EBD8F0A885268 /* OpenAIAPIClient.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
 		88905A247A2A1D4BCBE7E020 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -294,12 +295,12 @@
 				62D8940F277458592E84888F /* AuthenticationService.swift */,
 				3DCF6AAF557E805C5A5D2398 /* BiometricAuthService.swift */,
 				4A4D3E4118807C489977B2AE /* CloudSyncService.swift */,
+				E312966B99E8F79AA47F3BED /* CostTrackingService.swift */,
 				08BC88F2C3DD6C6558FC27D2 /* ExportService.swift */,
 				D76B1E46CF154D3C3A8CA0F2 /* KeychainService.swift */,
 				24013BDD9C2BD22DCB574EB2 /* LocalAuthService.swift */,
-				909E76A208FC3AF58BD2FE21 /* ModelManager.swift */,
+				0ED3D894BE58A8FD649DAB8D /* OpenAIWhisperService.swift */,
 				43C077E70BB3DF819934BEB2 /* ThemeManager.swift */,
-				9C46DBC52A82F7D57967A7F6 /* WhisperKitService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -377,6 +378,7 @@
 			isa = PBXGroup;
 			children = (
 				8AC64676881A60C7BD68D266 /* Data */,
+				84F01C0ADF447026FCCD2C19 /* Networking */,
 				98C6466FA139D26341A574D9 /* Services */,
 			);
 			path = Core;
@@ -399,7 +401,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		"TEMP_E9FC12C4-B6F8-4E02-BC90-0F55FEE2A9CC" /* Utilities */ = {
+		"TEMP_7D7A1651-F2B6-49D2-AD35-515C980CD7B1" /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -415,7 +417,6 @@
 			buildPhases = (
 				7271F8A6B01399630E73E213 /* Sources */,
 				BE18A2DD82499213BD98C7D8 /* Resources */,
-				76008F1C6635218A1C97808A /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -423,7 +424,6 @@
 			);
 			name = Cebu;
 			packageProductDependencies = (
-				0E94223316BA2A368222F7EA /* WhisperKit */,
 			);
 			productName = Cebu;
 			productReference = CEA835FE7969ACAE1F3B3412 /* Cebu.app */;
@@ -448,9 +448,6 @@
 			);
 			mainGroup = 370B5ACD4C7BE379161F9DA7;
 			minimizedProjectReferenceProxies = 1;
-			packageReferences = (
-				4B7F8E38768C53C5864A3811 /* XCRemoteSwiftPackageReference "WhisperKit" */,
-			);
 			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
@@ -477,6 +474,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF2F5A7038CE3220AD27ED18 /* APIKeySettingsView.swift in Sources */,
 				28067A4A0C420D6B158583D7 /* AppLockView.swift in Sources */,
 				35D4EE70661109FA32DF8B9B /* AudioPlaybackService.swift in Sources */,
 				134CC06D3248C5C9B9F60026 /* AudioSettingsView.swift in Sources */,
@@ -488,6 +486,7 @@
 				8324CF58DCC904DD01EB43F6 /* CloudSyncService.swift in Sources */,
 				AB602B31755323E46C010E9E /* CloudSyncSettingsView.swift in Sources */,
 				CC32CBAA2D30DB1ABADB0F48 /* Colors.swift in Sources */,
+				4B878B2903D4D497FF306079 /* CostTrackingService.swift in Sources */,
 				B7F9289983D6A883CC473C56 /* DayEntryView.swift in Sources */,
 				94A572F890F17B811665588C /* ExportOptionsView.swift in Sources */,
 				0DE7BB336BE131E4A031DCDA /* ExportService.swift in Sources */,
@@ -498,7 +497,8 @@
 				3EB1E2228D87224A7F6E5146 /* KeychainService.swift in Sources */,
 				7A663E37341B5036BA6D796A /* LiquidGlassStyle.swift in Sources */,
 				FC69B1EECB580A282AB7C883 /* LocalAuthService.swift in Sources */,
-				A83DA1214A0740D1512E6BC0 /* ModelManager.swift in Sources */,
+				6DADBB577C31EC974B8F9E1D /* OpenAIAPIClient.swift in Sources */,
+				6FD41D7E6C25AB45FA96D8AD /* OpenAIWhisperService.swift in Sources */,
 				784940DEB6A0452C7876A03E /* PersistenceController.swift in Sources */,
 				D5EE867A3751737755BC29E3 /* RecordingOverlayView.swift in Sources */,
 				FCBB75642EBE936E103A42F4 /* RecordingViewModel.swift in Sources */,
@@ -515,12 +515,11 @@
 				F66DD60F0777608BB5EBCBB0 /* ThemeMode.swift in Sources */,
 				3760437F9F383F35D9C99073 /* TranscriptionBlock.swift in Sources */,
 				065FF28F1425DE15B93B41B8 /* TranscriptionBlockView.swift in Sources */,
+				2A585ED585251388AAB37F64 /* TranscriptionCost.swift in Sources */,
 				50F7F64E0E007D68BEC04D5E /* User.swift in Sources */,
 				88598CD1347E6FB244C8FD5C /* UserRepository.swift in Sources */,
 				83484BD1541E075F2EC660C3 /* VoiceInputButtonView.swift in Sources */,
 				46A36A8AE2638143149EA1B4 /* WaveformView.swift in Sources */,
-				DB10B6008113E5C53665C834 /* WhisperKitService.swift in Sources */,
-				5D7C1BBE17C1A1A9D3372938 /* WhisperModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -714,25 +713,6 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		4B7F8E38768C53C5864A3811 /* XCRemoteSwiftPackageReference "WhisperKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/argmaxinc/WhisperKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.7.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		0E94223316BA2A368222F7EA /* WhisperKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4B7F8E38768C53C5864A3811 /* XCRemoteSwiftPackageReference "WhisperKit" */;
-			productName = WhisperKit;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		703C218A89B2B5AA93B17982 /* Cebu.xcdatamodeld */ = {

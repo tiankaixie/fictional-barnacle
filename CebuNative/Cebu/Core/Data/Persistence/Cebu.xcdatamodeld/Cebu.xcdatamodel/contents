@@ -53,4 +53,17 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
+    <entity name="TranscriptionCost" representedClassName="TranscriptionCost" syncable="YES">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="duration" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="cost" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="provider" attributeType="String" defaultValueString="openai-whisper"/>
+        <attribute name="entryId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
 </model>

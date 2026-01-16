@@ -8,6 +8,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, Pressable, TextInput, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useTheme } from '../../../ui/theme';
 import type TranscriptionBlock from '../../../core/data/models/TranscriptionBlock';
 
 interface TranscriptionBlockItemProps {
@@ -15,6 +16,7 @@ interface TranscriptionBlockItemProps {
   index: number;
   onDelete?: (blockId: string) => void;
   onUpdate?: (blockId: string, content: string) => void;
+  searchQuery?: string;
 }
 
 /**
@@ -25,9 +27,38 @@ export const TranscriptionBlockItem: React.FC<TranscriptionBlockItemProps> = ({
   index,
   onDelete,
   onUpdate,
+  searchQuery = '',
 }) => {
+  const { colors } = useTheme();
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(block.content);
+
+  /**
+   * Highlight search matches in text
+   */
+  const renderHighlightedText = (text: string, query: string) => {
+    if (!query.trim()) {
+      return <Text style={[styles.contentText, { color: colors.text }]}>{text}</Text>;
+    }
+
+    const parts = text.split(new RegExp(`(${query})`, 'gi'));
+    return (
+      <Text style={[styles.contentText, { color: colors.text }]}>
+        {parts.map((part, i) =>
+          part.toLowerCase() === query.toLowerCase() ? (
+            <Text
+              key={i}
+              style={[styles.highlight, { backgroundColor: colors.warning + '40' }]}
+            >
+              {part}
+            </Text>
+          ) : (
+            part
+          )
+        )}
+      </Text>
+    );
+  };
 
   const formatTimestamp = (date: Date) => {
     const hours = String(date.getHours()).padStart(2, '0');
@@ -72,16 +103,18 @@ export const TranscriptionBlockItem: React.FC<TranscriptionBlockItemProps> = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { borderBottomColor: colors.glassBackground }]}>
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <View style={styles.indexBadge}>
+          <View style={[styles.indexBadge, { backgroundColor: colors.primary }]}>
             <Text style={styles.indexText}>{index + 1}</Text>
           </View>
-          <Text style={styles.timeText}>{formatTimestamp(block.createdAt)}</Text>
+          <Text style={[styles.timeText, { color: colors.text }]}>
+            {formatTimestamp(block.createdAt)}
+          </Text>
           {block.audioDurationMs > 0 && (
-            <Text style={styles.durationText}>
+            <Text style={[styles.durationText, { color: colors.textTertiary }]}>
               {formatDuration(block.audioDurationMs)}
             </Text>
           )}
@@ -90,18 +123,18 @@ export const TranscriptionBlockItem: React.FC<TranscriptionBlockItemProps> = ({
         <View style={styles.headerRight}>
           {block.audioFilePath && (
             <Pressable style={styles.iconButton}>
-              <Ionicons name="play-circle-outline" size={24} color="#007AFF" />
+              <Ionicons name="play-circle-outline" size={24} color={colors.primary} />
             </Pressable>
           )}
           <Pressable style={styles.iconButton} onPress={() => setIsEditing(!isEditing)}>
             <Ionicons
               name={isEditing ? 'close' : 'create-outline'}
               size={20}
-              color="#007AFF"
+              color={colors.primary}
             />
           </Pressable>
           <Pressable style={styles.iconButton} onPress={handleDelete}>
-            <Ionicons name="trash-outline" size={20} color="#FF453A" />
+            <Ionicons name="trash-outline" size={20} color={colors.error} />
           </Pressable>
         </View>
       </View>
@@ -110,30 +143,50 @@ export const TranscriptionBlockItem: React.FC<TranscriptionBlockItemProps> = ({
       {isEditing ? (
         <View style={styles.editContainer}>
           <TextInput
-            style={styles.textInput}
+            style={[
+              styles.textInput,
+              {
+                color: colors.text,
+                borderColor: colors.primary,
+                backgroundColor: colors.backgroundSecondary + '80',
+              },
+            ]}
             value={editedContent}
             onChangeText={setEditedContent}
             multiline
             autoFocus
+            placeholderTextColor={colors.textTertiary}
           />
           <View style={styles.editActions}>
-            <Pressable style={[styles.editButton, styles.cancelButton]} onPress={handleCancel}>
-              <Text style={styles.cancelButtonText}>取消</Text>
+            <Pressable
+              style={[
+                styles.editButton,
+                styles.cancelButton,
+                { backgroundColor: colors.glassBackground },
+              ]}
+              onPress={handleCancel}
+            >
+              <Text style={[styles.cancelButtonText, { color: colors.text }]}>
+                取消
+              </Text>
             </Pressable>
-            <Pressable style={[styles.editButton, styles.saveButton]} onPress={handleSave}>
+            <Pressable
+              style={[styles.editButton, styles.saveButton, { backgroundColor: colors.primary }]}
+              onPress={handleSave}
+            >
               <Text style={styles.saveButtonText}>保存</Text>
             </Pressable>
           </View>
         </View>
       ) : (
-        <Text style={styles.contentText}>{block.content}</Text>
+        renderHighlightedText(block.content, searchQuery)
       )}
 
       {/* Audio metadata */}
       {block.audioFilePath && (
         <View style={styles.audioInfo}>
-          <Ionicons name="musical-notes" size={12} color="#8E8E93" />
-          <Text style={styles.audioInfoText}>
+          <Ionicons name="musical-notes" size={12} color={colors.textTertiary} />
+          <Text style={[styles.audioInfoText, { color: colors.textTertiary }]}>
             {block.audioFormat?.toUpperCase() || 'M4A'}
             {block.audioFileSize && ` · ${(block.audioFileSize / 1024).toFixed(1)}KB`}
           </Text>
@@ -147,7 +200,6 @@ const styles = StyleSheet.create({
   container: {
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#F2F2F7',
   },
   header: {
     flexDirection: 'row',
@@ -167,7 +219,6 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   indexBadge: {
-    backgroundColor: '#007AFF',
     width: 20,
     height: 20,
     borderRadius: 10,
@@ -182,11 +233,9 @@ const styles = StyleSheet.create({
   timeText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#000000',
   },
   durationText: {
     fontSize: 12,
-    color: '#8E8E93',
   },
   iconButton: {
     padding: 4,
@@ -194,8 +243,12 @@ const styles = StyleSheet.create({
   contentText: {
     fontSize: 15,
     lineHeight: 22,
-    color: '#000000',
     marginBottom: 8,
+  },
+  highlight: {
+    fontWeight: '600',
+    borderRadius: 2,
+    paddingHorizontal: 2,
   },
   editContainer: {
     marginBottom: 8,
@@ -203,9 +256,7 @@ const styles = StyleSheet.create({
   textInput: {
     fontSize: 15,
     lineHeight: 22,
-    color: '#000000',
     borderWidth: 1,
-    borderColor: '#007AFF',
     borderRadius: 8,
     padding: 12,
     minHeight: 80,
@@ -221,16 +272,11 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 8,
   },
-  cancelButton: {
-    backgroundColor: '#F2F2F7',
-  },
-  saveButton: {
-    backgroundColor: '#007AFF',
-  },
+  cancelButton: {},
+  saveButton: {},
   cancelButtonText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#000000',
   },
   saveButtonText: {
     fontSize: 14,
@@ -244,6 +290,5 @@ const styles = StyleSheet.create({
   },
   audioInfoText: {
     fontSize: 11,
-    color: '#8E8E93',
   },
 });

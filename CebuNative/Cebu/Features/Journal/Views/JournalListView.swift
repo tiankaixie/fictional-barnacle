@@ -123,42 +123,6 @@ struct JournalListView: View {
                 .padding(.bottom, 40)
             }
 
-            // Model initialization overlay
-            if !recordingViewModel.isInitialized {
-                ZStack {
-                    Color.black.opacity(0.5)
-                        .ignoresSafeArea()
-
-                    VStack(spacing: 24) {
-                        // Indeterminate progress indicator
-                        ProgressView()
-                            .scaleEffect(1.5)
-                            .tint(.white)
-
-                        Text("下载中文 AI 模型...")
-                            .font(.headline)
-                            .foregroundColor(.white)
-
-                        if recordingViewModel.initializationAttempt > 1 {
-                            Text("重试中... (尝试 \(recordingViewModel.initializationAttempt)/3)\n正在清理缓存并重新下载")
-                                .font(.caption)
-                                .foregroundColor(.yellow.opacity(0.9))
-                                .multilineTextAlignment(.center)
-                        } else {
-                            Text("正在下载 '\(modelManager.selectedModel.displayName)' 模型 (\(modelManager.selectedModel.size))\n\(modelManager.selectedModel.description)，首次下载需要几分钟")
-                                .font(.caption)
-                                .foregroundColor(.white.opacity(0.8))
-                                .multilineTextAlignment(.center)
-                        }
-                    }
-                    .padding(32)
-                    .background(.ultraThinMaterial)
-                    .cornerRadius(20)
-                    .padding(24)
-                }
-                .transition(.opacity)
-            }
-
             // Processing overlay (after recording stops, during transcription)
             if recordingViewModel.isProcessing && !recordingViewModel.isRecording {
                 ZStack {

@@ -143,10 +143,9 @@ struct MainContentView: View {
     let user: User
     let context: NSManagedObjectContext
 
-    @EnvironmentObject var modelManager: ModelManager
-
-    @StateObject private var whisperService = WhisperKitService()
+    @StateObject private var whisperService = OpenAIWhisperService()
     @StateObject private var audioStorageService = AudioStorageService()
+    @StateObject private var costTrackingService: CostTrackingService
     @StateObject private var journalViewModel: JournalListViewModel
     @StateObject private var recordingViewModel: RecordingViewModel
 
@@ -159,16 +158,20 @@ struct MainContentView: View {
         let journalVM = JournalListViewModel(repository: repository, user: user)
         _journalViewModel = StateObject(wrappedValue: journalVM)
 
-        let whisperSvc = WhisperKitService()
+        let whisperSvc = OpenAIWhisperService()
         _whisperService = StateObject(wrappedValue: whisperSvc)
 
         let audioStorageSvc = AudioStorageService()
         _audioStorageService = StateObject(wrappedValue: audioStorageSvc)
 
+        let costSvc = CostTrackingService(context: context)
+        _costTrackingService = StateObject(wrappedValue: costSvc)
+
         let recordingVM = RecordingViewModel(
             whisperService: whisperSvc,
             journalViewModel: journalVM,
-            audioStorageService: audioStorageSvc
+            audioStorageService: audioStorageSvc,
+            costTrackingService: costSvc
         )
         _recordingViewModel = StateObject(wrappedValue: recordingVM)
     }
@@ -179,9 +182,11 @@ struct MainContentView: View {
             recordingViewModel: recordingViewModel
         )
         .environmentObject(audioStorageService)
+        .environmentObject(whisperService)
+        .environmentObject(costTrackingService)
         .task {
-            // Initialize WhisperKit on app launch with selected model
-            await recordingViewModel.initialize(modelName: modelManager.selectedModel.rawValue)
+            // Initialize OpenAI Whisper service on app launch
+            await recordingViewModel.initialize()
         }
     }
 }

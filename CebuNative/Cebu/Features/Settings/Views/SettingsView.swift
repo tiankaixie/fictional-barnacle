@@ -11,7 +11,7 @@ struct SettingsView: View {
     @Environment(\.themeColors) var colors
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var themeManager: ThemeManager
-    @EnvironmentObject var modelManager: ModelManager
+    @EnvironmentObject var whisperService: OpenAIWhisperService
     @EnvironmentObject var biometricService: BiometricAuthService
     @EnvironmentObject var cloudSyncService: CloudSyncService
     @EnvironmentObject var audioStorageService: AudioStorageService
@@ -53,44 +53,46 @@ struct SettingsView: View {
                         .liquidGlassCard(padding: 0)
                     }
 
-                    // AI 模型选择区域
+                    // OpenAI API 配置区域
                     VStack(alignment: .leading, spacing: 12) {
-                        HStack {
-                            Text("AI 模型")
-                                .font(.system(size: 14, weight: .medium))
-                                .foregroundColor(colors.textSecondary)
+                        Text("语音转文字")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundColor(colors.textSecondary)
+                            .padding(.horizontal, 20)
 
-                            Spacer()
+                        NavigationLink(destination: APIKeySettingsView()) {
+                            HStack(spacing: 16) {
+                                Image(systemName: "key")
+                                    .font(.system(size: 22))
+                                    .foregroundColor(colors.primary)
+                                    .frame(width: 28)
 
-                            Button(action: { showModelInfo.toggle() }) {
-                                Image(systemName: "info.circle")
-                                    .font(.system(size: 14))
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("OpenAI API 密钥")
+                                        .font(.system(size: 17))
+                                        .foregroundColor(colors.text)
+
+                                    if whisperService.hasValidAPIKey {
+                                        Text("已配置")
+                                            .font(.caption)
+                                            .foregroundColor(colors.primary)
+                                    } else {
+                                        Text("未配置")
+                                            .font(.caption)
+                                            .foregroundColor(colors.destructive)
+                                    }
+                                }
+
+                                Spacer()
+
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 14, weight: .semibold))
                                     .foregroundColor(colors.textTertiary)
                             }
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 16)
                         }
-                        .padding(.horizontal, 20)
-
-                        VStack(spacing: 0) {
-                            ForEach(WhisperModel.allCases.filter { $0.supportsMultilingual }) { model in
-                                ModelRow(
-                                    model: model,
-                                    isSelected: modelManager.selectedModel == model,
-                                    onSelect: {
-                                        withAnimation(.easeInOut(duration: 0.3)) {
-                                            modelManager.setModel(model)
-                                        }
-
-                                        // 触觉反馈
-                                        let generator = UIImpactFeedbackGenerator(style: .light)
-                                        generator.impactOccurred()
-                                    }
-                                )
-
-                                if model != WhisperModel.allCases.filter({ $0.supportsMultilingual }).last {
-                                    Divider().padding(.leading, 60)
-                                }
-                            }
-                        }
+                        .buttonStyle(PlainButtonStyle())
                         .liquidGlassCard(padding: 0)
                     }
 

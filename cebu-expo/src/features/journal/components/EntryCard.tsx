@@ -8,6 +8,8 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Pressable, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { GlassCard } from '../../../ui/components';
+import { useTheme } from '../../../ui/theme';
 import type JournalEntry from '../../../core/data/models/JournalEntry';
 import type TranscriptionBlock from '../../../core/data/models/TranscriptionBlock';
 import { TranscriptionBlockItem } from './TranscriptionBlockItem';
@@ -17,6 +19,7 @@ interface EntryCardProps {
   onDelete?: (entryId: string) => void;
   onBlockDelete?: (blockId: string) => void;
   onBlockUpdate?: (blockId: string, content: string) => void;
+  searchQuery?: string;
 }
 
 /**
@@ -27,7 +30,9 @@ export const EntryCard: React.FC<EntryCardProps> = ({
   onDelete,
   onBlockDelete,
   onBlockUpdate,
+  searchQuery = '',
 }) => {
+  const { colors } = useTheme();
   const [isExpanded, setIsExpanded] = useState(true);
   const [blocks, setBlocks] = useState<TranscriptionBlock[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -75,7 +80,7 @@ export const EntryCard: React.FC<EntryCardProps> = ({
   const audioBlocksCount = blocks.filter((b) => b.audioFilePath).length;
 
   return (
-    <View style={styles.card}>
+    <GlassCard style={styles.card} intensity={15}>
       {/* Header */}
       <View style={styles.header}>
         <Pressable
@@ -85,20 +90,24 @@ export const EntryCard: React.FC<EntryCardProps> = ({
           <Ionicons
             name={isExpanded ? 'chevron-down' : 'chevron-forward'}
             size={20}
-            color="#007AFF"
+            color={colors.primary}
           />
-          <Text style={styles.dateText}>{formatDate(entry.date)}</Text>
+          <Text style={[styles.dateText, { color: colors.text }]}>
+            {formatDate(entry.date)}
+          </Text>
         </Pressable>
 
         <View style={styles.headerRight}>
           {audioBlocksCount > 0 && (
-            <View style={styles.audioBadge}>
-              <Ionicons name="mic" size={14} color="#007AFF" />
-              <Text style={styles.audioBadgeText}>{audioBlocksCount}</Text>
+            <View style={[styles.audioBadge, { backgroundColor: colors.primary + '20' }]}>
+              <Ionicons name="mic" size={14} color={colors.primary} />
+              <Text style={[styles.audioBadgeText, { color: colors.primary }]}>
+                {audioBlocksCount}
+              </Text>
             </View>
           )}
           <Pressable onPress={handleDelete} style={styles.deleteButton}>
-            <Ionicons name="trash-outline" size={20} color="#FF453A" />
+            <Ionicons name="trash-outline" size={20} color={colors.error} />
           </Pressable>
         </View>
       </View>
@@ -107,9 +116,13 @@ export const EntryCard: React.FC<EntryCardProps> = ({
       {isExpanded && (
         <View style={styles.content}>
           {isLoading ? (
-            <Text style={styles.loadingText}>加载中...</Text>
+            <Text style={[styles.loadingText, { color: colors.textTertiary }]}>
+              加载中...
+            </Text>
           ) : blocks.length === 0 ? (
-            <Text style={styles.emptyText}>暂无内容</Text>
+            <Text style={[styles.emptyText, { color: colors.textTertiary }]}>
+              暂无内容
+            </Text>
           ) : (
             blocks.map((block, index) => (
               <TranscriptionBlockItem
@@ -118,26 +131,20 @@ export const EntryCard: React.FC<EntryCardProps> = ({
                 index={index}
                 onDelete={onBlockDelete}
                 onUpdate={onBlockUpdate}
+                searchQuery={searchQuery}
               />
             ))
           )}
         </View>
       )}
-    </View>
+    </GlassCard>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
     marginHorizontal: 16,
     marginVertical: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
   },
   header: {
     flexDirection: 'row',

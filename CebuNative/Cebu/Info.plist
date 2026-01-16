@@ -24,8 +24,6 @@
 	<string>Cebu 使用 Face ID 保护您的日记隐私</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Cebu needs access to your microphone to record voice notes.</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Cebu uses on-device speech recognition to transcribe your voice notes.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
