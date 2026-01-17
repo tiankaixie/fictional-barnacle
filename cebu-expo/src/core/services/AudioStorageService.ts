@@ -88,18 +88,22 @@ export class AudioStorageService {
 
   /**
    * Save audio samples to file
+   * @param originalUri - Original recording file URI (WAV format from expo-av)
    */
   async saveAudio(
     samples: Float32Array,
     blockId: string,
     entryId: string,
-    sampleRate: number = 16000
+    sampleRate: number = 16000,
+    originalUri?: string
   ): Promise<AudioFileInfo> {
     if (!this.saveEnabled) {
       throw new Error('Audio saving is disabled');
     }
 
     try {
+      console.log('[AudioStorage] ★★★ VERSION 3.0 - DIRECT FILE COPY FIX ★★★');
+
       // Create entry directory if needed
       const entryDir = `${this.baseDirectory}${entryId}/`;
       const entryDirInfo = await FileSystem.getInfoAsync(entryDir);
@@ -107,16 +111,28 @@ export class AudioStorageService {
         await FileSystem.makeDirectoryAsync(entryDir, { intermediates: true });
       }
 
-      // Generate file path
-      const fileName = `${blockId}.m4a`;
+      // Generate file path - use WAV extension since we're keeping the original WAV file
+      const fileName = `${blockId}.wav`;
       const filePath = `${entryDir}${fileName}`;
       const relativePath = `Audio/${entryId}/${fileName}`;
 
       // Calculate duration
       const durationMs = Math.floor((samples.length / sampleRate) * 1000);
 
-      // Convert Float32 samples to M4A
-      await this.samplesToM4A(samples, filePath, sampleRate);
+      // If originalUri is provided, copy the original recording file directly
+      // This is much better than re-encoding: preserves original quality and avoids format issues
+      if (originalUri) {
+        console.log('[AudioStorage] Copying original recording file:', originalUri);
+        await FileSystem.copyAsync({
+          from: originalUri,
+          to: filePath,
+        });
+        console.log('[AudioStorage] Successfully copied to:', filePath);
+      } else {
+        // Fallback: convert samples to M4A (old behavior, but now correctly labeled as WAV)
+        console.warn('[AudioStorage] No original URI provided, using fallback conversion');
+        await this.samplesToM4A(samples, filePath, sampleRate);
+      }
 
       // Get file size
       const fileInfo = await FileSystem.getInfoAsync(filePath);
@@ -127,7 +143,7 @@ export class AudioStorageService {
       return {
         path: relativePath,
         size,
-        format: 'm4a',
+        format: 'wav', // Changed from 'm4a' since we're keeping WAV format
         durationMs,
       };
     } catch (error) {

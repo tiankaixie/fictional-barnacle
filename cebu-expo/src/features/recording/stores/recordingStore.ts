@@ -198,6 +198,7 @@ export const useRecordingStore = create<RecordingState>((set, get) => ({
         text: transcription.text,
         samples: result.samples,
         durationMs: result.durationMs,
+        uri: result.uri,
       };
     } catch (error) {
       set({

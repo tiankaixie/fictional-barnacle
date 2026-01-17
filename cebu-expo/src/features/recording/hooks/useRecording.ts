@@ -67,7 +67,8 @@ export const useRecording = () => {
           result.samples,
           block.id,
           entry.id,
-          16000 // Sample rate
+          16000, // Sample rate
+          result.uri // Original recording file URI
         );
 
         // Update block with audio metadata
