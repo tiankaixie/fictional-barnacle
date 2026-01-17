@@ -177,12 +177,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cardWrapper: {
-    marginHorizontal: 20, // Card spacing from screen edges
-    marginVertical: 12,   // Card spacing between items (was 8)
+    marginHorizontal: 16, // Slightly narrower margins (was 20) for better space usage
+    marginVertical: 10,   // Slightly reduced vertical spacing (was 12)
   },
   header: {
     paddingHorizontal: 24, // More spacious (was 20)
-    paddingTop: 24,        // More spacious (was 20)
+    paddingTop: 8,         // Reduced since App.tsx adds top padding (was 24)
     paddingBottom: 16,     // More spacious (was 12)
   },
   title: {

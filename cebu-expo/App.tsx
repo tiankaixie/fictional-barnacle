@@ -50,11 +50,9 @@ function MainScreen() {
       <StatusBar style="auto" />
 
       {/* Main content - tab based */}
-      <View style={styles.content}>
-        <View style={styles.contentInner}>
-          {activeTab === 'journal' && <JournalListScreen />}
-          {activeTab === 'record' && <SettingsScreen />}
-        </View>
+      <View style={[styles.content, { paddingTop: Platform.OS === 'ios' ? 50 : 0 }]}>
+        {activeTab === 'journal' && <JournalListScreen />}
+        {activeTab === 'record' && <SettingsScreen />}
       </View>
 
       {/* Bottom tab bar with glass effect */}
@@ -164,10 +162,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-  },
-  contentInner: {
-    flex: 1,
-    paddingBottom: Platform.OS === 'ios' ? 100 : 80, // Space for tab bar + safe area
+    paddingBottom: Platform.OS === 'ios' ? 90 : 75, // Reduced padding (was 100/80)
   },
   tabBarContainer: {
     position: 'absolute',

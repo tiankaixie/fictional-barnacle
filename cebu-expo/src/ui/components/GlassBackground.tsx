@@ -22,40 +22,40 @@ export const GlassBackground: React.FC<GlassBackgroundProps> = ({ children }) =>
 
   return (
     <View style={styles.container}>
-      {/* Base gradient background - more pronounced */}
+      {/* Base gradient background - more pronounced diagonal */}
       <LinearGradient
         colors={[
           colors.background,
           colors.backgroundSecondary,
           colors.background,
         ]}
-        locations={[0, 0.4, 1]}
+        locations={[0, 0.35, 1]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={StyleSheet.absoluteFill}
       />
 
-      {/* Radial-like accent gradient from top */}
+      {/* Enhanced radial-like accent gradient from top */}
       <LinearGradient
         colors={[
-          colors.glassHighlight + '25', // Warmer glow from top
-          'transparent',
+          colors.glassHighlight + '35', // Stronger warm glow (was 25)
+          colors.glassHighlight + '10',
           'transparent',
         ]}
-        locations={[0, 0.3, 1]}
+        locations={[0, 0.25, 0.6]}
         start={{ x: 0.5, y: 0 }}
         end={{ x: 0.5, y: 1 }}
         style={StyleSheet.absoluteFill}
       />
 
-      {/* Subtle bottom shadow for depth */}
+      {/* Stronger bottom shadow for depth */}
       <LinearGradient
         colors={[
           'transparent',
-          'transparent',
-          colors.glassShadow + '12', // Subtle depth at bottom
+          colors.glassShadow + '08',
+          colors.glassShadow + '18', // Stronger depth (was 12)
         ]}
-        locations={[0, 0.7, 1]}
+        locations={[0, 0.75, 1]}
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}
         style={StyleSheet.absoluteFill}
