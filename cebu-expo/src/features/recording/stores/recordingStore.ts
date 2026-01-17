@@ -1,5 +1,5 @@
 /**
- * Input: AudioRecordingService, MockASRService
+ * Input: AudioRecordingService, SenseVoiceService
  * Output: Recording state management with Zustand
  * Pos: Global store for recording lifecycle and transcription state
  * If this file is updated, you must update this header and the parent folder's README.md.
@@ -7,7 +7,7 @@
 
 import { create } from 'zustand';
 import { audioRecordingService } from '../../../core/services/AudioRecordingService';
-import { MockASRService } from '../../../core/services/MockASRService';
+import { SenseVoiceService } from '../../../core/services/SenseVoiceService';
 
 export interface RecordingState {
   // Recording state
@@ -59,7 +59,7 @@ export const useRecordingStore = create<RecordingState>((set, get) => ({
   error: null,
 
   /**
-   * Initialize ASR service
+   * Initialize ASR service (SenseVoice)
    */
   initialize: async () => {
     try {
@@ -67,8 +67,8 @@ export const useRecordingStore = create<RecordingState>((set, get) => ({
         return;
       }
 
-      // Initialize mock ASR service
-      await MockASRService.initialize();
+      // Initialize SenseVoice service (downloads model if needed)
+      await SenseVoiceService.initialize();
 
       // Check microphone permissions
       const hasPermission = await audioRecordingService.hasPermissions();
@@ -79,7 +79,7 @@ export const useRecordingStore = create<RecordingState>((set, get) => ({
         error: null,
       });
 
-      console.log('[RecordingStore] Initialized');
+      console.log('[RecordingStore] Initialized with SenseVoice');
     } catch (error) {
       set({
         error: `Initialization failed: ${error}`,
@@ -180,8 +180,8 @@ export const useRecordingStore = create<RecordingState>((set, get) => ({
 
       console.log(`[RecordingStore] Stopped recording: ${result.durationMs}ms, ${result.samples.length} samples`);
 
-      // Transcribe with mock ASR
-      const transcription = await MockASRService.decode(result.samples);
+      // Transcribe with SenseVoice
+      const transcription = await SenseVoiceService.decode(result.samples);
 
       set({
         isProcessing: false,
