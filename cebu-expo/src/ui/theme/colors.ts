@@ -1,8 +1,14 @@
 /**
- * Input: None (color definitions)
+ * Input: None (color definitions based on official Claude brand palette)
  * Output: Theme color schemes for light and dark modes
- * Pos: Theme color system for Liquid Glass UI
+ * Pos: Theme color system using Claude official colors (Crail, Cloudy, Pampas)
  * If this file is updated, you must update this header and the parent folder's README.md.
+ *
+ * Official Claude Brand Colors:
+ * - Crail: #C15F3C (primary terracotta)
+ * - Cloudy: #B1ADA1 (neutral grey)
+ * - Pampas: #F4F3EE (cream background)
+ * - Alternative Primary: #DA7756 (lighter terracotta)
  */
 
 export interface ThemeColors {
@@ -34,57 +40,57 @@ export interface ThemeColors {
 }
 
 export const lightColors: ThemeColors = {
-  // Background colors - warm cream tones (Claude style)
-  background: '#F4F3EE',          // Pampas cream (was #F5F5F7)
-  backgroundSecondary: '#FDFCFA', // Warmer white (was #FFFFFF)
+  // Background colors - Official Claude Pampas cream (#F4F3EE)
+  background: '#F4F3EE',          // Pampas - Official Claude background
+  backgroundSecondary: '#FFFFFF', // Pure white for cards
 
-  // Glass effect colors - warm amber tints
-  glassBackground: 'rgba(253, 248, 242, 0.75)',  // Warm glass (was pure white)
-  glassBorder: 'rgba(193, 95, 60, 0.25)',        // Amber border (was white)
-  glassHighlight: 'rgba(255, 245, 235, 0.95)',   // Warm highlight
-  glassShadow: 'rgba(120, 60, 40, 0.12)',        // Warm brown shadow (was black)
+  // Glass effect colors - Subtle warm tints based on Crail
+  glassBackground: 'rgba(255, 255, 255, 0.80)',  // Clean white glass
+  glassBorder: 'rgba(193, 95, 60, 0.15)',        // Crail tint border
+  glassHighlight: 'rgba(255, 255, 255, 0.95)',   // Bright highlight
+  glassShadow: 'rgba(193, 95, 60, 0.08)',        // Crail-tinted shadow
 
-  // Text colors - slightly warmer blacks
-  text: '#1A1715',               // Warm near-black (was #000000)
-  textSecondary: '#6B5D57',      // Warm gray (was #666666)
-  textTertiary: '#9C8D87',       // Warm tertiary (was #8E8E93)
+  // Text colors - Warm with Cloudy (#B1ADA1) influence
+  text: '#1A1715',               // Deep warm black
+  textSecondary: '#6B5D57',      // Medium warm grey
+  textTertiary: '#B1ADA1',       // Cloudy - Official Claude grey
 
-  // Accent colors - Claude terracotta/amber palette
-  primary: '#C15F3C',            // Terracotta (was #007AFF blue)
-  secondary: '#D97706',          // Amber (was #5856D6 purple)
-  success: '#16A34A',            // Warm green (was #34C759)
-  warning: '#F59E0B',            // Amber warning (was #FF9500)
-  error: '#DC2626',              // Warm red (was #FF453A)
+  // Accent colors - Official Claude Crail (#C15F3C)
+  primary: '#C15F3C',            // Crail - Official Claude terracotta
+  secondary: '#DA7756',          // Alternative Claude primary (lighter)
+  success: '#16A34A',            // Warm green
+  warning: '#F59E0B',            // Amber
+  error: '#DC2626',              // Warm red
 
-  // Interactive states - warm tints
-  pressedOverlay: 'rgba(120, 60, 40, 0.12)',
-  hoverOverlay: 'rgba(120, 60, 40, 0.06)',
+  // Interactive states - Crail-based overlays
+  pressedOverlay: 'rgba(193, 95, 60, 0.12)',
+  hoverOverlay: 'rgba(193, 95, 60, 0.06)',
 };
 
 export const darkColors: ThemeColors = {
-  // Background colors - warm charcoal instead of true black
-  background: '#1A1715',         // Warm near-black (was #000000)
-  backgroundSecondary: '#2C2825', // Warm charcoal (was #1C1C1E)
+  // Background colors - Deep warm tones
+  background: '#1A1715',         // Deep warm black
+  backgroundSecondary: '#2C2825', // Warm charcoal
 
-  // Glass effect colors - warm dark glass
-  glassBackground: 'rgba(44, 40, 37, 0.75)',
-  glassBorder: 'rgba(193, 95, 60, 0.3)',
-  glassHighlight: 'rgba(255, 245, 235, 0.15)',
-  glassShadow: 'rgba(0, 0, 0, 0.4)',
+  // Glass effect colors - Subtle warm glass on dark
+  glassBackground: 'rgba(44, 40, 37, 0.80)',     // Dark warm glass
+  glassBorder: 'rgba(218, 119, 86, 0.25)',       // Lighter Crail tint
+  glassHighlight: 'rgba(244, 243, 238, 0.12)',   // Pampas-tinted highlight
+  glassShadow: 'rgba(0, 0, 0, 0.40)',            // Deep shadow
 
-  // Text colors - warm whites
-  text: '#FAF9F7',               // Warm white (was #FFFFFF)
-  textSecondary: '#E8E3DF',      // Warm secondary (was #EBEBF5)
-  textTertiary: '#9C8D87',       // Same warm gray
+  // Text colors - Warm tinted whites with Cloudy
+  text: '#F4F3EE',               // Pampas for text on dark
+  textSecondary: '#C9C5BE',      // Lighter version of Cloudy
+  textTertiary: '#B1ADA1',       // Cloudy - Official Claude grey
 
-  // Accent colors - brighter for dark mode
-  primary: '#E07756',            // Lighter terracotta (was #0A84FF)
-  secondary: '#F59E0B',          // Bright amber (was #5E5CE6)
-  success: '#22C55E',            // Bright green (was #32D74B)
-  warning: '#FBBF24',            // Bright amber (was #FF9F0A)
-  error: '#EF4444',              // Bright red (was #FF453A)
+  // Accent colors - Brighter Crail for contrast
+  primary: '#DA7756',            // Lighter Crail for dark mode
+  secondary: '#F59E0B',          // Bright amber
+  success: '#22C55E',            // Bright green
+  warning: '#FBBF24',            // Bright amber
+  error: '#EF4444',              // Bright red
 
-  // Interactive states - warm overlay
-  pressedOverlay: 'rgba(255, 245, 235, 0.12)',
-  hoverOverlay: 'rgba(255, 245, 235, 0.06)',
+  // Interactive states - Warm light overlays
+  pressedOverlay: 'rgba(218, 119, 86, 0.15)',
+  hoverOverlay: 'rgba(218, 119, 86, 0.08)',
 };
