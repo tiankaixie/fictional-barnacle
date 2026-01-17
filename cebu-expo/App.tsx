@@ -57,6 +57,15 @@ function MainScreen() {
 
       {/* Bottom tab bar with glass effect */}
       <View style={styles.tabBarContainer}>
+        {/* Center floating action button - outside wrapper to avoid clipping */}
+        <Pressable
+          style={[styles.fabButton, { backgroundColor: colors.primary }]}
+          onPress={() => setShowRecordingOverlay(true)}
+          disabled={!isInitialized}
+        >
+          <Ionicons name="mic" size={28} color="#FFFFFF" />
+        </Pressable>
+
         <View style={styles.tabBarWrapper}>
           {/* Glass blur background */}
           <BlurView
@@ -81,14 +90,8 @@ function MainScreen() {
               </Text>
             </Pressable>
 
-            {/* Center floating action button */}
-            <Pressable
-              style={[styles.fabButton, { backgroundColor: colors.primary }]}
-              onPress={() => setShowRecordingOverlay(true)}
-              disabled={!isInitialized}
-            >
-              <Ionicons name="mic" size={28} color="#FFFFFF" />
-            </Pressable>
+            {/* Empty spacer for FAB */}
+            <View style={styles.fabSpacer} />
 
             <Pressable
               style={styles.tab}
@@ -193,7 +196,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 4, // Thinner (was 8)
+    paddingVertical: 4,
+  },
+  fabSpacer: {
+    width: 56, // Same as FAB width to maintain spacing
   },
   tabText: {
     fontSize: 11,
@@ -207,13 +213,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
-    top: -20,           // Float above tab bar
-    left: '50%',
-    marginLeft: -28,
+    top: -28,           // Move up to float above (was -20)
+    alignSelf: 'center', // Center horizontally
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
-    shadowRadius: 12,   // Softer shadow (was 8)
+    shadowRadius: 12,
     elevation: 12,
   },
 });
