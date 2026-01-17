@@ -4,8 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Pressable } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Pressable, Platform } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -57,7 +56,7 @@ function MainScreen() {
       </View>
 
       {/* Bottom tab bar with glass effect */}
-      <SafeAreaView edges={['bottom']} style={styles.tabBarContainer}>
+      <View style={styles.tabBarContainer}>
         <View style={styles.tabBarWrapper}>
           {/* Glass blur background */}
           <BlurView
@@ -106,7 +105,7 @@ function MainScreen() {
             </Pressable>
           </View>
         </View>
-      </SafeAreaView>
+      </View>
 
       {/* Recording Overlay */}
       <RecordingOverlay
@@ -185,8 +184,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    paddingTop: 12,     // Thinner (was 8)
-    paddingBottom: 8,   // Thinner (was 20)
+    paddingTop: 12,
+    paddingBottom: Platform.OS === 'ios' ? 24 : 8, // Account for iPhone home indicator
   },
   tab: {
     flex: 1,
