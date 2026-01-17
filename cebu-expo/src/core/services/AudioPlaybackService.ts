@@ -139,19 +139,26 @@ export class AudioPlaybackService {
     try {
       console.log('[AudioPlaybackService] Playing:', relativeUri);
 
-      // Convert relative path to absolute path
-      const absoluteUri = documentDirectory
+      // Convert relative path to absolute file URI
+      // documentDirectory already ends with '/', so just append relativeUri
+      const absolutePath = documentDirectory
         ? `${documentDirectory}${relativeUri}`
         : relativeUri;
 
       // Check if file exists
-      const fileInfo = await FileSystem.getInfoAsync(absoluteUri);
+      const fileInfo = await FileSystem.getInfoAsync(absolutePath);
       if (!fileInfo.exists) {
-        throw new Error(`Audio file not found: ${absoluteUri}`);
+        throw new Error(`Audio file not found: ${absolutePath}`);
       }
 
+      // Create file URI with proper protocol for expo-av
+      // On iOS, we need to ensure the URI has file:// prefix
+      const fileUri = absolutePath.startsWith('file://')
+        ? absolutePath
+        : `file://${absolutePath}`;
+
       // If playing the same file, just resume
-      if (this.currentUri === absoluteUri && this.sound) {
+      if (this.currentUri === fileUri && this.sound) {
         const status = await this.sound.getStatusAsync();
         if (status.isLoaded && !status.isPlaying) {
           await this.sound.playAsync();
@@ -160,13 +167,13 @@ export class AudioPlaybackService {
       }
 
       // Unload previous sound if different file
-      if (this.currentUri !== absoluteUri) {
+      if (this.currentUri !== fileUri) {
         await this.unload();
-        this.currentUri = absoluteUri;
+        this.currentUri = fileUri;
 
         // Create new sound
         const { sound } = await Audio.Sound.createAsync(
-          { uri: absoluteUri },
+          { uri: fileUri },
           { shouldPlay: true, volume: 1.0 },
           this.onPlaybackStatusUpdate
         );
@@ -282,8 +289,11 @@ export class AudioPlaybackService {
    */
   isPlaying(relativeUri: string): boolean {
     if (!this.currentUri || !documentDirectory) return false;
-    const absoluteUri = `${documentDirectory}${relativeUri}`;
-    return this.currentUri === absoluteUri;
+    const absolutePath = `${documentDirectory}${relativeUri}`;
+    const fileUri = absolutePath.startsWith('file://')
+      ? absolutePath
+      : `file://${absolutePath}`;
+    return this.currentUri === fileUri;
   }
 }
 
