@@ -10,7 +10,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from './src/ui/theme';
 import { RecordingOverlay } from './src/features/recording/components';
-import { SimpleJournalList } from './src/features/journal/components/SimpleJournalList';
+import { JournalListScreen } from './src/features/journal/components';
 import { SettingsScreen } from './src/features/settings/components';
 import { useRecording } from './src/features/recording/hooks/useRecording';
 import { database } from './src/core/data/database';
@@ -48,7 +48,7 @@ function MainScreen() {
 
       {/* Main content - tab based */}
       <View style={styles.content}>
-        {activeTab === 'journal' && <SimpleJournalList />}
+        {activeTab === 'journal' && <JournalListScreen />}
         {activeTab === 'record' && <SettingsScreen />}
       </View>
 

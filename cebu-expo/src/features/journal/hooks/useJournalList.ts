@@ -70,7 +70,8 @@ export const useJournalList = () => {
     },
     getNextPageParam: (lastPage, allPages) => {
       const hasMore = lastPage.length === pagination.pageSize;
-      setHasMore(hasMore);
+      // Don't call setHasMore here - it causes setState during render
+      // Use hasNextPage from useInfiniteQuery instead
       return hasMore ? allPages.length : undefined;
     },
     initialPageParam: 0,
