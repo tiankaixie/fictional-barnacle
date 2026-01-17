@@ -37,22 +37,22 @@ export const EntryCard: React.FC<EntryCardProps> = ({
   const [blocks, setBlocks] = useState<TranscriptionBlock[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Reload blocks when entry.id or entry.updatedAt changes
   useEffect(() => {
-    loadBlocks();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const loadBlocks = async () => {
+      try {
+        setIsLoading(true);
+        const entryBlocks = await entry.blocks.fetch();
+        setBlocks(entryBlocks.filter((b: TranscriptionBlock) => !b.deletedFlag));
+      } catch (error) {
+        console.error('[EntryCard] Failed to load blocks:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const loadBlocks = async () => {
-    try {
-      setIsLoading(true);
-      const entryBlocks = await entry.blocks.fetch();
-      setBlocks(entryBlocks.filter((b: TranscriptionBlock) => !b.deletedFlag));
-    } catch (error) {
-      console.error('[EntryCard] Failed to load blocks:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    loadBlocks();
+  }, [entry.id, entry.updatedAt]);
 
   const formatDate = (date: Date) => {
     const year = date.getFullYear();

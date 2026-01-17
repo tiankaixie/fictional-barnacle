@@ -31,6 +31,7 @@ export const useJournalList = () => {
     isError,
     error,
     refetch,
+    isFetching,
   } = useInfiniteQuery({
     queryKey: [QUERY_KEY, filters],
     queryFn: async ({ pageParam = 0 }) => {
@@ -90,11 +91,13 @@ export const useJournalList = () => {
   // Refresh entries
   const refresh = async () => {
     try {
-      console.log('[useJournalList] ★★★ REFRESH V2.0 - WITH INVALIDATE FIX ★★★');
+      console.log('[useJournalList] ★★★ REFRESH V3.0 - WITH REFETCH AWAIT ★★★');
       setRefreshing(true);
       setPage(0);
-      // Invalidate and refetch to get fresh data
+      // Invalidate cache and refetch fresh data
       await queryClient.invalidateQueries({ queryKey: [QUERY_KEY] });
+      // Wait for refetch to complete
+      await refetch();
       console.log('[useJournalList] Refresh complete');
     } catch (error) {
       console.error('[useJournalList] Refresh error:', error);
