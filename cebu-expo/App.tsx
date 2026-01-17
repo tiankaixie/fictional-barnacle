@@ -215,6 +215,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -28,           // Move up to float above (was -20)
     alignSelf: 'center', // Center horizontally
+    zIndex: 10,         // Ensure FAB is above tab bar wrapper
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
