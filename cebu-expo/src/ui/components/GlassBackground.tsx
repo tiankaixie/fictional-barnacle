@@ -22,33 +22,40 @@ export const GlassBackground: React.FC<GlassBackgroundProps> = ({ children }) =>
 
   return (
     <View style={styles.container}>
-      {/* Simple solid base - clean and minimal */}
+      {/* Solid background - clean and simple */}
       <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.background }]} />
 
-      {/* Subtle top-to-bottom gradient for depth */}
-      <LinearGradient
-        colors={[
-          colors.backgroundSecondary + '40', // Very subtle highlight at top
-          'transparent',
-          colors.glassShadow + '08',         // Gentle shadow at bottom
-        ]}
-        locations={[0, 0.5, 1]}
-        start={{ x: 0.5, y: 0 }}
-        end={{ x: 0.5, y: 1 }}
-        style={StyleSheet.absoluteFill}
-      />
+      {/* Glass orbs - subtle decorative elements */}
+      {/* Top-right orb */}
+      <View style={[styles.glassOrb, {
+        width: 300,
+        height: 300,
+        top: -100,
+        right: -100,
+        backgroundColor: colors.glassHighlight,
+        opacity: 0.15,
+      }]} />
 
-      {/* Soft warm accent in top-left corner */}
-      <LinearGradient
-        colors={[
-          colors.glassHighlight + '20', // Gentle warm glow
-          'transparent',
-        ]}
-        locations={[0, 0.5]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0.8 }}
-        style={StyleSheet.absoluteFill}
-      />
+      {/* Middle-left orb */}
+      <View style={[styles.glassOrb, {
+        width: 250,
+        height: 250,
+        top: '35%',
+        left: -80,
+        backgroundColor: colors.primary,
+        opacity: 0.08,
+      }]} />
+
+      {/* Bottom-center orb */}
+      <View style={[styles.glassOrb, {
+        width: 200,
+        height: 200,
+        bottom: -60,
+        left: '50%',
+        marginLeft: -100,
+        backgroundColor: colors.glassHighlight,
+        opacity: 0.12,
+      }]} />
 
       {/* Content */}
       <View style={styles.content}>{children}</View>
@@ -60,6 +67,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: 'relative',
+    overflow: 'hidden', // Clip orbs at edges
+  },
+  glassOrb: {
+    position: 'absolute',
+    borderRadius: 9999, // Perfect circle
   },
   content: {
     flex: 1,
