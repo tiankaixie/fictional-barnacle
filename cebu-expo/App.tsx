@@ -51,8 +51,10 @@ function MainScreen() {
 
       {/* Main content - tab based */}
       <View style={styles.content}>
-        {activeTab === 'journal' && <JournalListScreen />}
-        {activeTab === 'record' && <SettingsScreen />}
+        <View style={styles.contentInner}>
+          {activeTab === 'journal' && <JournalListScreen />}
+          {activeTab === 'record' && <SettingsScreen />}
+        </View>
       </View>
 
       {/* Bottom tab bar with glass effect */}
@@ -163,11 +165,16 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
+  contentInner: {
+    flex: 1,
+    paddingBottom: Platform.OS === 'ios' ? 100 : 80, // Space for tab bar + safe area
+  },
   tabBarContainer: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
+    zIndex: 1000, // Ensure tab bar is above content
   },
   tabBarWrapper: {
     position: 'relative',
