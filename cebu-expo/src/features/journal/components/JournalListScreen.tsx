@@ -8,7 +8,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
 import { GlassBackground } from '../../../ui/components';
-import { useTheme } from '../../../ui/theme';
+import { useTheme, layout } from '../../../ui/theme';
 import { useJournalList } from '../hooks/useJournalList';
 import { useJournalStore } from '../stores/journalStore';
 import { EntryCard } from './EntryCard';
@@ -177,27 +177,27 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cardWrapper: {
-    marginHorizontal: 16, // Slightly narrower margins (was 20) for better space usage
-    marginVertical: 10,   // Slightly reduced vertical spacing (was 12)
+    marginHorizontal: layout.card.margin,
+    marginVertical: layout.list.itemGap,
   },
   header: {
-    paddingHorizontal: 24, // More spacious (was 20)
-    paddingTop: 8,         // Reduced since App.tsx adds top padding (was 24)
-    paddingBottom: 16,     // More spacious (was 12)
+    paddingHorizontal: layout.header.paddingHorizontal,
+    paddingTop: layout.header.paddingTop,
+    paddingBottom: layout.header.paddingBottom,
   },
   title: {
     fontSize: 32,
     fontWeight: '700',
-    letterSpacing: -0.5,   // Tighter tracking
-    marginBottom: 6,       // More space (was 4)
+    letterSpacing: -0.5,
+    marginBottom: layout.header.titleMarginBottom,
   },
   subtitle: {
     fontSize: 14,
     fontWeight: '500',
   },
   list: {
-    paddingVertical: 12, // More comfortable (was 8)
-    paddingBottom: 32,   // More comfortable (was 24)
+    paddingVertical: layout.list.padding,
+    paddingBottom: layout.section.marginBottom + 8, // Extra space for bottom bar
   },
   emptyList: {
     flex: 1,
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 48, // More spacious (was 32)
+    padding: layout.section.gap + 16, // Generous empty state padding
   },
   emptyIcon: {
     fontSize: 64,

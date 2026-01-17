@@ -15,3 +15,5 @@ export { spacing } from './spacing';
 export type { Spacing } from './spacing';
 export { tokens } from './tokens';
 export type { Tokens } from './tokens';
+export { layout } from './layout';
+export type { Layout } from './layout';

@@ -9,7 +9,7 @@ import React from 'react';
 import { StyleSheet, View, Text, ScrollView, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { GlassBackground, GlassCard } from '../../../ui/components';
-import { useTheme, ThemeMode } from '../../../ui/theme';
+import { useTheme, ThemeMode, layout } from '../../../ui/theme';
 import { useSettingsStore } from '../stores/settingsStore';
 import * as Haptics from 'expo-haptics';
 
@@ -178,36 +178,38 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 16,
+    paddingHorizontal: layout.header.paddingHorizontal,
+    paddingTop: layout.header.paddingTop,
+    paddingBottom: layout.header.paddingBottom,
   },
   title: {
     fontSize: 32,
     fontWeight: '700',
+    letterSpacing: -0.5,
+    marginBottom: layout.header.titleMarginBottom,
   },
   section: {
-    paddingHorizontal: 20, // More spacious (was 16)
-    marginBottom: 28,      // More separation (was 24)
+    paddingHorizontal: layout.screen.horizontal,
+    marginBottom: layout.section.marginBottom,
   },
   sectionTitle: {
     fontSize: 16,
     fontWeight: '600',
-    marginBottom: 12,
+    marginBottom: layout.list.itemGap,
     paddingHorizontal: 4,
   },
   settingRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 16,   // More comfortable (was 14)
-    paddingHorizontal: 20, // More spacious (was 16)
-    borderRadius: 12,      // Subtle rounding for better visual
+    paddingVertical: layout.card.gap,
+    paddingHorizontal: layout.card.padding,
+    borderRadius: 12,
   },
   settingLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: layout.list.itemGap,
     flex: 1,
   },
   settingLabel: {
@@ -225,7 +227,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 14,
-    paddingHorizontal: 16,
+    paddingHorizontal: layout.card.margin,
   },
   infoLabel: {
     fontSize: 15,
