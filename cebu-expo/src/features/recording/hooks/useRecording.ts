@@ -85,9 +85,11 @@ export const useRecording = () => {
       };
     },
     onSuccess: (data) => {
+      console.log('[useRecording] ★★★ SAVE SUCCESS V2.0 - WITH AUTO REFRESH ★★★');
       console.log('[useRecording] Saved transcription:', data.transcription);
       // Invalidate journal queries to refresh the list
       queryClient.invalidateQueries({ queryKey: ['journal-entries'] });
+      console.log('[useRecording] Invalidated journal-entries query');
     },
     onError: (error) => {
       console.error('[useRecording] Save failed:', error);

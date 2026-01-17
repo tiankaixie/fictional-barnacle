@@ -137,16 +137,20 @@ export class AudioPlaybackService {
    */
   async play(relativeUri: string): Promise<void> {
     try {
+      console.log('[AudioPlaybackService] ★★★ VERSION 2.0 - WITH FILE URI FIX ★★★');
       console.log('[AudioPlaybackService] Playing:', relativeUri);
 
       // Convert relative path to absolute file URI
       // documentDirectory already ends with '/', so just append relativeUri
+      console.log('[AudioPlaybackService] documentDirectory:', documentDirectory);
       const absolutePath = documentDirectory
         ? `${documentDirectory}${relativeUri}`
         : relativeUri;
+      console.log('[AudioPlaybackService] absolutePath:', absolutePath);
 
       // Check if file exists
       const fileInfo = await FileSystem.getInfoAsync(absolutePath);
+      console.log('[AudioPlaybackService] fileInfo:', JSON.stringify(fileInfo));
       if (!fileInfo.exists) {
         throw new Error(`Audio file not found: ${absolutePath}`);
       }
@@ -156,6 +160,7 @@ export class AudioPlaybackService {
       const fileUri = absolutePath.startsWith('file://')
         ? absolutePath
         : `file://${absolutePath}`;
+      console.log('[AudioPlaybackService] Final fileUri:', fileUri);
 
       // If playing the same file, just resume
       if (this.currentUri === fileUri && this.sound) {

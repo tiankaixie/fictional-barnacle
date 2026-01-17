@@ -90,14 +90,17 @@ export const useJournalList = () => {
   // Refresh entries
   const refresh = async () => {
     try {
+      console.log('[useJournalList] ★★★ REFRESH V2.0 - WITH INVALIDATE FIX ★★★');
       setRefreshing(true);
       setPage(0);
       // Invalidate and refetch to get fresh data
       await queryClient.invalidateQueries({ queryKey: [QUERY_KEY] });
+      console.log('[useJournalList] Refresh complete');
     } catch (error) {
       console.error('[useJournalList] Refresh error:', error);
     } finally {
       setRefreshing(false);
+      console.log('[useJournalList] setRefreshing(false) called');
     }
   };
 
