@@ -25,7 +25,7 @@ export const GlassCard: React.FC<GlassCardProps> = ({
   children,
   style,
   intensity = 20,
-  borderRadius = 12,
+  borderRadius = 16, // Claude uses rounder corners (was 12)
 }) => {
   const { effectiveTheme, colors } = useTheme();
 
@@ -40,7 +40,12 @@ export const GlassCard: React.FC<GlassCardProps> = ({
 
       {/* Background gradient */}
       <LinearGradient
-        colors={[colors.glassBackground, colors.backgroundSecondary + '99']}
+        colors={[
+          colors.glassBackground,
+          colors.backgroundSecondary + 'DD', // Slightly more opaque
+          colors.backgroundSecondary + '99',
+        ]}
+        locations={[0, 0.4, 1]} // Control gradient distribution
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={[StyleSheet.absoluteFill, { borderRadius }]}
@@ -98,8 +103,8 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
+    shadowOpacity: 0.08, // More subtle (was 0.1)
+    shadowRadius: 12,    // Softer (was 8)
     elevation: 4,
   },
 });

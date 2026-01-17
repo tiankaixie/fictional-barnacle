@@ -51,14 +51,15 @@ export const GlassButton: React.FC<GlassButtonProps> = ({
   };
 
   const sizeStyles = {
-    small: { paddingVertical: 8, paddingHorizontal: 16, fontSize: 14 },
-    medium: { paddingVertical: 12, paddingHorizontal: 24, fontSize: 16 },
-    large: { paddingVertical: 16, paddingHorizontal: 32, fontSize: 18 },
+    small: { paddingVertical: 10, paddingHorizontal: 18, fontSize: 14 },  // More comfortable (was 8/16)
+    medium: { paddingVertical: 14, paddingHorizontal: 28, fontSize: 16 }, // More comfortable (was 12/24)
+    large: { paddingVertical: 18, paddingHorizontal: 36, fontSize: 18 },  // More comfortable (was 16/32)
   };
 
   const variantColors = {
     primary: {
-      background: [colors.primary, colors.primary + 'CC'],
+      // Gradient: terracotta → amber for depth
+      background: [colors.primary, '#D97706'], // Was [primary, primary + 'CC']
       text: '#FFFFFF',
     },
     secondary: {
@@ -81,7 +82,8 @@ export const GlassButton: React.FC<GlassButtonProps> = ({
       style={({ pressed }) => [
         styles.container,
         {
-          opacity: disabled ? 0.5 : pressed ? 0.8 : 1,
+          opacity: disabled ? 0.5 : pressed ? 0.85 : 1, // More subtle (was 0.8)
+          transform: [{ scale: pressed ? 0.97 : 1 }],   // Press animation
           width: fullWidth ? '100%' : 'auto',
         },
         style,

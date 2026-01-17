@@ -24,7 +24,12 @@ export const GlassBackground: React.FC<GlassBackgroundProps> = ({ children }) =>
     <View style={styles.container}>
       {/* Base gradient background */}
       <LinearGradient
-        colors={[colors.background, colors.backgroundSecondary]}
+        colors={[
+          colors.background,
+          colors.backgroundSecondary,
+          colors.background, // Creates radial-like effect
+        ]}
+        locations={[0, 0.5, 1]} // Control distribution
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={StyleSheet.absoluteFill}
@@ -33,9 +38,9 @@ export const GlassBackground: React.FC<GlassBackgroundProps> = ({ children }) =>
       {/* Subtle overlay gradient for depth */}
       <LinearGradient
         colors={[
-          colors.glassHighlight + '20',
+          colors.glassHighlight + '15', // More subtle (was '20')
           'transparent',
-          colors.glassShadow + '10',
+          colors.glassShadow + '08',    // More subtle (was '10')
         ]}
         start={{ x: 0, y: 0 }}
         end={{ x: 0.5, y: 1 }}
