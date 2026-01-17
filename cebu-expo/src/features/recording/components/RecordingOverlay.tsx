@@ -149,10 +149,10 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   transcriptionContainer: {
-    borderRadius: 16,
-    padding: 20,
-    marginTop: 32,
-    maxWidth: '90%',
+    borderRadius: 20,  // Rounder (was 16)
+    padding: 24,       // More spacious (was 20)
+    marginTop: 40,     // More separation (was 32)
+    maxWidth: '85%',   // More focused (was 90%)
   },
   transcriptionLabel: {
     fontSize: 14,
@@ -162,7 +162,8 @@ const styles = StyleSheet.create({
   },
   transcriptionText: {
     fontSize: 18,
-    lineHeight: 26,
+    lineHeight: 28,    // More relaxed (was 26)
+    textAlign: 'center',
   },
   hintText: {
     fontSize: 16,

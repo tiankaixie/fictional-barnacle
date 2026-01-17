@@ -143,14 +143,14 @@ export const EntryCard: React.FC<EntryCardProps> = ({
 
 const styles = StyleSheet.create({
   card: {
-    marginHorizontal: 16,
-    marginVertical: 8,
+    // Margins handled by parent wrapper
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 16,
+    padding: 20,  // More spacious (was 16)
+    gap: 12,
   },
   headerLeft: {
     flexDirection: 'row',
@@ -165,15 +165,16 @@ const styles = StyleSheet.create({
   dateText: {
     fontSize: 16,
     fontWeight: '600',
+    letterSpacing: -0.3, // Tighter tracking
     marginLeft: 8,
   },
   audioBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
-    gap: 4,
+    paddingHorizontal: 10, // More refined (was 8)
+    paddingVertical: 5,    // More refined (was 4)
+    borderRadius: 16,      // Rounder (was 12)
+    gap: 6,                // More space (was 4)
   },
   audioBadgeText: {
     fontSize: 12,
@@ -183,8 +184,9 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   content: {
-    paddingHorizontal: 16,
-    paddingBottom: 16,
+    paddingHorizontal: 20, // More spacious (was 16)
+    paddingBottom: 20,     // More spacious (was 16)
+    gap: 12,               // Space between blocks
   },
   loadingText: {
     fontSize: 14,

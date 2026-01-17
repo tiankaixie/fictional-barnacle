@@ -44,13 +44,15 @@ export const JournalListScreen: React.FC = () => {
     filters.dateFrom !== null || filters.dateTo !== null || filters.hasAudio !== null;
 
   const renderItem = ({ item }: { item: JournalEntry }) => (
-    <EntryCard
-      entry={item}
-      onDelete={deleteEntry}
-      onBlockDelete={(blockId) => deleteBlock({ blockId })}
-      onBlockUpdate={(blockId, content) => updateBlock({ blockId, content })}
-      searchQuery={filters.searchQuery}
-    />
+    <View style={styles.cardWrapper}>
+      <EntryCard
+        entry={item}
+        onDelete={deleteEntry}
+        onBlockDelete={(blockId) => deleteBlock({ blockId })}
+        onBlockUpdate={(blockId, content) => updateBlock({ blockId, content })}
+        searchQuery={filters.searchQuery}
+      />
+    </View>
   );
 
   const renderFooter = () => {
@@ -174,23 +176,28 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  cardWrapper: {
+    marginHorizontal: 20, // Card spacing from screen edges
+    marginVertical: 12,   // Card spacing between items (was 8)
+  },
   header: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 12,
+    paddingHorizontal: 24, // More spacious (was 20)
+    paddingTop: 24,        // More spacious (was 20)
+    paddingBottom: 16,     // More spacious (was 12)
   },
   title: {
     fontSize: 32,
     fontWeight: '700',
-    marginBottom: 4,
+    letterSpacing: -0.5,   // Tighter tracking
+    marginBottom: 6,       // More space (was 4)
   },
   subtitle: {
     fontSize: 14,
     fontWeight: '500',
   },
   list: {
-    paddingVertical: 8,
-    paddingBottom: 24,
+    paddingVertical: 12, // More comfortable (was 8)
+    paddingBottom: 32,   // More comfortable (was 24)
   },
   emptyList: {
     flex: 1,
@@ -199,7 +206,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 32,
+    padding: 48, // More spacious (was 32)
   },
   emptyIcon: {
     fontSize: 64,

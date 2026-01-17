@@ -72,7 +72,7 @@ export const SettingsScreen: React.FC = () => {
                 <View style={styles.settingLeft}>
                   <Ionicons
                     name={option.icon as any}
-                    size={22}
+                    size={24}
                     color={mode === option.mode ? colors.primary : colors.textSecondary}
                   />
                   <Text
@@ -88,7 +88,7 @@ export const SettingsScreen: React.FC = () => {
                   </Text>
                 </View>
                 {mode === option.mode && (
-                  <Ionicons name="checkmark-circle" size={22} color={colors.primary} />
+                  <Ionicons name="checkmark-circle" size={24} color={colors.primary} />
                 )}
               </Pressable>
             ))}
@@ -133,7 +133,7 @@ export const SettingsScreen: React.FC = () => {
                   </View>
                 </View>
                 {audioQuality === option.value && (
-                  <Ionicons name="checkmark-circle" size={22} color={colors.primary} />
+                  <Ionicons name="checkmark-circle" size={24} color={colors.primary} />
                 )}
               </Pressable>
             ))}
@@ -187,8 +187,8 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   section: {
-    paddingHorizontal: 16,
-    marginBottom: 24,
+    paddingHorizontal: 20, // More spacious (was 16)
+    marginBottom: 28,      // More separation (was 24)
   },
   sectionTitle: {
     fontSize: 16,
@@ -200,8 +200,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 14,
-    paddingHorizontal: 16,
+    paddingVertical: 16,   // More comfortable (was 14)
+    paddingHorizontal: 20, // More spacious (was 16)
+    borderRadius: 12,      // Subtle rounding for better visual
   },
   settingLeft: {
     flexDirection: 'row',
