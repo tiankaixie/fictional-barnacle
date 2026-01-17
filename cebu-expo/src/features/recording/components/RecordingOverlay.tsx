@@ -18,7 +18,7 @@ interface RecordingOverlayProps {
 }
 
 /**
- * Full-screen recording overlay (simplified without animations)
+ * Full-screen recording overlay (auto-starts recording when opened)
  */
 export const RecordingOverlay: React.FC<RecordingOverlayProps> = ({
   visible,
@@ -35,12 +35,17 @@ export const RecordingOverlay: React.FC<RecordingOverlayProps> = ({
     lastTranscription,
   } = useRecording();
 
+  // Auto-start recording when overlay becomes visible
+  React.useEffect(() => {
+    if (visible && !isRecording && !isProcessing) {
+      startRecording();
+    }
+  }, [visible]);
+
   const handleButtonPress = async () => {
     if (isRecording) {
       await stopRecording();
       setTimeout(() => onClose(), 500);
-    } else {
-      await startRecording();
     }
   };
 
@@ -62,7 +67,7 @@ export const RecordingOverlay: React.FC<RecordingOverlayProps> = ({
         <View style={styles.content}>
           {/* Status text */}
           <Text style={[styles.statusText, { color: colors.text }]}>
-            {isProcessing ? '正在转录...' : isRecording ? '录音中' : '准备录音'}
+            {isProcessing ? '正在转录...' : '录音中'}
           </Text>
 
           {/* Duration display */}

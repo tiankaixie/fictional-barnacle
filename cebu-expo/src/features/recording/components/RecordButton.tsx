@@ -9,6 +9,7 @@ import React from 'react';
 import { StyleSheet, Pressable, View, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
+import { useTheme } from '../../../ui/theme';
 
 interface RecordButtonProps {
   isRecording: boolean;
@@ -26,6 +27,8 @@ export const RecordButton: React.FC<RecordButtonProps> = ({
   onPress,
   size = 80,
 }) => {
+  const { colors } = useTheme();
+
   const handlePress = () => {
     if (isRecording) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -35,7 +38,7 @@ export const RecordButton: React.FC<RecordButtonProps> = ({
     onPress();
   };
 
-  const backgroundColor = isRecording ? '#FF453A' : '#007AFF';
+  const backgroundColor = isRecording ? colors.error : colors.primary;
 
   return (
     <View style={styles.container}>
