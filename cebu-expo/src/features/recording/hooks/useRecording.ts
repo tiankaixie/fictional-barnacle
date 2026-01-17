@@ -5,7 +5,7 @@
  * If this file is updated, you must update this header and the parent folder's README.md.
  */
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRecordingStore } from '../stores/recordingStore';
 import { JournalRepository, UserRepository } from '../../../core/data/repositories';
 import { audioStorageService } from '../../../core/services/AudioStorageService';
@@ -16,6 +16,7 @@ import { useEffect } from 'react';
  * Handles the complete flow: record → transcribe → save to database
  */
 export const useRecording = () => {
+  const queryClient = useQueryClient();
   const {
     isRecording,
     isProcessing,
@@ -85,6 +86,8 @@ export const useRecording = () => {
     },
     onSuccess: (data) => {
       console.log('[useRecording] Saved transcription:', data.transcription);
+      // Invalidate journal queries to refresh the list
+      queryClient.invalidateQueries({ queryKey: ['journal-entries'] });
     },
     onError: (error) => {
       console.error('[useRecording] Save failed:', error);

@@ -89,10 +89,16 @@ export const useJournalList = () => {
 
   // Refresh entries
   const refresh = async () => {
-    setRefreshing(true);
-    setPage(0);
-    await refetch();
-    setRefreshing(false);
+    try {
+      setRefreshing(true);
+      setPage(0);
+      // Invalidate and refetch to get fresh data
+      await queryClient.invalidateQueries({ queryKey: [QUERY_KEY] });
+    } catch (error) {
+      console.error('[useJournalList] Refresh error:', error);
+    } finally {
+      setRefreshing(false);
+    }
   };
 
   // Delete entry mutation
