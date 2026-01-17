@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, Pressable, TextInput, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../../ui/theme';
+import { usePlayback } from '../../recording/hooks/usePlayback';
 import type TranscriptionBlock from '../../../core/data/models/TranscriptionBlock';
 
 interface TranscriptionBlockItemProps {
@@ -32,6 +33,7 @@ export const TranscriptionBlockItem: React.FC<TranscriptionBlockItemProps> = ({
   const { colors } = useTheme();
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(block.content);
+  const { isPlaying, togglePlayPause } = usePlayback(block.audioFilePath || undefined);
 
   /**
    * Highlight search matches in text
@@ -122,8 +124,12 @@ export const TranscriptionBlockItem: React.FC<TranscriptionBlockItemProps> = ({
 
         <View style={styles.headerRight}>
           {block.audioFilePath && (
-            <Pressable style={styles.iconButton}>
-              <Ionicons name="play-circle-outline" size={24} color={colors.primary} />
+            <Pressable style={styles.iconButton} onPress={togglePlayPause}>
+              <Ionicons
+                name={isPlaying ? "pause-circle-outline" : "play-circle-outline"}
+                size={24}
+                color={colors.primary}
+              />
             </Pressable>
           )}
           <Pressable style={styles.iconButton} onPress={() => setIsEditing(!isEditing)}>

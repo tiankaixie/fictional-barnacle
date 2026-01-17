@@ -19,3 +19,9 @@ export {
   type AudioFileInfo,
   type StorageStats,
 } from './AudioStorageService';
+export {
+  AudioPlaybackService,
+  audioPlaybackService,
+  type PlaybackState,
+  type PlaybackCallback,
+} from './AudioPlaybackService';
