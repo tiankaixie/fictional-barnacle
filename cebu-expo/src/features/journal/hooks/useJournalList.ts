@@ -19,7 +19,7 @@ const QUERY_KEY = 'journal-entries';
  */
 export const useJournalList = () => {
   const queryClient = useQueryClient();
-  const { filters, pagination, setPage, setHasMore, isRefreshing, setRefreshing } = useJournalStore();
+  const { filters, pagination, setPage, setHasMore } = useJournalStore();
 
   // Infinite query for paginated journal entries
   const {
@@ -88,23 +88,12 @@ export const useJournalList = () => {
     }
   };
 
-  // Refresh entries
+  // Refresh entries - simplified
   const refresh = async () => {
-    try {
-      console.log('[useJournalList] ★★★ REFRESH V3.0 - WITH REFETCH AWAIT ★★★');
-      setRefreshing(true);
-      setPage(0);
-      // Invalidate cache and refetch fresh data
-      await queryClient.invalidateQueries({ queryKey: [QUERY_KEY] });
-      // Wait for refetch to complete
-      await refetch();
-      console.log('[useJournalList] Refresh complete');
-    } catch (error) {
-      console.error('[useJournalList] Refresh error:', error);
-    } finally {
-      setRefreshing(false);
-      console.log('[useJournalList] setRefreshing(false) called');
-    }
+    console.log('[useJournalList] ★★★ REFRESH V4.0 - SIMPLIFIED ★★★');
+    setPage(0);
+    await queryClient.invalidateQueries({ queryKey: [QUERY_KEY] });
+    console.log('[useJournalList] Refresh triggered');
   };
 
   // Delete entry mutation
@@ -149,7 +138,7 @@ export const useJournalList = () => {
     isLoading,
     isError,
     error,
-    isRefreshing,
+    isRefreshing: isFetching && !isLoading, // Only show refresh indicator when refetching, not on initial load
 
     // Pagination
     hasNextPage,
