@@ -22,42 +22,31 @@ export const GlassBackground: React.FC<GlassBackgroundProps> = ({ children }) =>
 
   return (
     <View style={styles.container}>
-      {/* Base gradient background - more pronounced diagonal */}
-      <LinearGradient
-        colors={[
-          colors.background,
-          colors.backgroundSecondary,
-          colors.background,
-        ]}
-        locations={[0, 0.35, 1]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={StyleSheet.absoluteFill}
-      />
+      {/* Simple solid base - clean and minimal */}
+      <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.background }]} />
 
-      {/* Enhanced radial-like accent gradient from top */}
+      {/* Subtle top-to-bottom gradient for depth */}
       <LinearGradient
         colors={[
-          colors.glassHighlight + '35', // Stronger warm glow (was 25)
-          colors.glassHighlight + '10',
+          colors.backgroundSecondary + '40', // Very subtle highlight at top
           'transparent',
+          colors.glassShadow + '08',         // Gentle shadow at bottom
         ]}
-        locations={[0, 0.25, 0.6]}
+        locations={[0, 0.5, 1]}
         start={{ x: 0.5, y: 0 }}
         end={{ x: 0.5, y: 1 }}
         style={StyleSheet.absoluteFill}
       />
 
-      {/* Stronger bottom shadow for depth */}
+      {/* Soft warm accent in top-left corner */}
       <LinearGradient
         colors={[
+          colors.glassHighlight + '20', // Gentle warm glow
           'transparent',
-          colors.glassShadow + '08',
-          colors.glassShadow + '18', // Stronger depth (was 12)
         ]}
-        locations={[0, 0.75, 1]}
+        locations={[0, 0.5]}
         start={{ x: 0, y: 0 }}
-        end={{ x: 0, y: 1 }}
+        end={{ x: 1, y: 0.8 }}
         style={StyleSheet.absoluteFill}
       />
 
