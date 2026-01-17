@@ -6,19 +6,16 @@ Pod::Spec.new do |s|
   s.name           = 'ExpoSenseVoiceASR'
   s.version        = package['version']
   s.summary        = package['description']
-  s.description    = package['description']
+  s.description    = 'Expo module for SenseVoice ASR using sherpa-onnx for offline on-device speech recognition'
   s.license        = package['license']
   s.author         = package['author']
-  s.homepage       = package['homepage']
-  s.platforms      = { :ios => '13.0', :tvos => '13.0' }
+  s.homepage       = 'https://github.com/tiankaixie/cebu-expo'
+  s.platforms      = { :ios => '15.1', :tvos => '15.1' }
   s.swift_version  = '5.4'
-  s.source         = { git: '' }
+  s.source         = { git: 'https://github.com/tiankaixie/cebu-expo.git', tag: s.version.to_s }
   s.static_framework = true
 
   s.dependency 'ExpoModulesCore'
-
-  # sherpa-onnx dependency
-  s.dependency 'sherpa-onnx', '~> 1.10.0'
 
   # Swift/Objective-C compatibility
   s.pod_target_xcconfig = {
