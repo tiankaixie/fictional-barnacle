@@ -6,10 +6,11 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Pressable, Alert } from 'react-native';
+import { StyleSheet, View, Text, Pressable, Alert, LayoutAnimation } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { GlassCard } from '../../../ui/components';
 import { useTheme } from '../../../ui/theme';
+import { easeInOutTransition } from '../../../ui/animations/transitions';
 import type JournalEntry from '../../../core/data/models/JournalEntry';
 import type TranscriptionBlock from '../../../core/data/models/TranscriptionBlock';
 import { TranscriptionBlockItem } from './TranscriptionBlockItem';
@@ -62,6 +63,11 @@ export const EntryCard: React.FC<EntryCardProps> = ({
     return `${year}年${month}月${day}日 ${weekday}`;
   };
 
+  const handleToggle = () => {
+    LayoutAnimation.configureNext(easeInOutTransition);
+    setIsExpanded(!isExpanded);
+  };
+
   const handleDelete = () => {
     Alert.alert(
       '删除日记',
@@ -85,7 +91,7 @@ export const EntryCard: React.FC<EntryCardProps> = ({
       <View style={styles.header}>
         <Pressable
           style={styles.headerLeft}
-          onPress={() => setIsExpanded(!isExpanded)}
+          onPress={handleToggle}
         >
           <Ionicons
             name={isExpanded ? 'chevron-down' : 'chevron-forward'}
