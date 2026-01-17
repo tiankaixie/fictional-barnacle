@@ -58,8 +58,8 @@ export const GlassButton: React.FC<GlassButtonProps> = ({
 
   const variantColors = {
     primary: {
-      // Gradient: terracotta → amber for depth
-      background: [colors.primary, '#D97706'], // Was [primary, primary + 'CC']
+      // Gradient: Crail → Alternative Claude primary for depth
+      background: [colors.primary, colors.secondary], // Official Claude terracotta gradient
       text: '#FFFFFF',
     },
     secondary: {
@@ -68,7 +68,7 @@ export const GlassButton: React.FC<GlassButtonProps> = ({
     },
     ghost: {
       background: ['transparent', 'transparent'],
-      text: colors.primary,
+      text: colors.primary, // Crail terracotta
     },
   };
 

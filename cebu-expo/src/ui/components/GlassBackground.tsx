@@ -22,40 +22,8 @@ export const GlassBackground: React.FC<GlassBackgroundProps> = ({ children }) =>
 
   return (
     <View style={styles.container}>
-      {/* Solid background - clean and simple */}
+      {/* Pure solid background - clean Claude style */}
       <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.background }]} />
-
-      {/* Glass orbs - subtle decorative elements using Claude brand colors */}
-      {/* Top-right orb - Crail primary */}
-      <View style={[styles.glassOrb, {
-        width: 300,
-        height: 300,
-        top: -100,
-        right: -100,
-        backgroundColor: colors.primary, // Crail terracotta
-        opacity: 0.10,
-      }]} />
-
-      {/* Middle-left orb - Secondary/Cloudy influence */}
-      <View style={[styles.glassOrb, {
-        width: 250,
-        height: 250,
-        top: '35%',
-        left: -80,
-        backgroundColor: colors.secondary, // Alternative Claude primary
-        opacity: 0.08,
-      }]} />
-
-      {/* Bottom-center orb - Tertiary/Cloudy */}
-      <View style={[styles.glassOrb, {
-        width: 200,
-        height: 200,
-        bottom: -60,
-        left: '50%',
-        marginLeft: -100,
-        backgroundColor: colors.textTertiary, // Cloudy grey
-        opacity: 0.12,
-      }]} />
 
       {/* Content */}
       <View style={styles.content}>{children}</View>
@@ -67,11 +35,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: 'relative',
-    overflow: 'hidden', // Clip orbs at edges
-  },
-  glassOrb: {
-    position: 'absolute',
-    borderRadius: 9999, // Perfect circle
   },
   content: {
     flex: 1,
