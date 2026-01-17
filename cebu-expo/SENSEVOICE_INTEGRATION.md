@@ -99,23 +99,58 @@ dependencies {
 
 ### 3. iOS 配置
 
-#### 在 `ios/Podfile` 中添加:
+**注意:** sherpa-onnx 没有 CocoaPods pod，必须手动构建 xcframework。
 
-```ruby
-# SenseVoice ASR module
-pod 'ExpoSenseVoiceASR', path: '../modules/expo-sensevoice-asr/ios'
+#### 步骤 1: 安装构建工具
 
-# sherpa-onnx dependency
-pod 'sherpa-onnx', '~> 1.10.0'
+```bash
+# 安装 cmake（如果未安装）
+brew install cmake
 ```
 
-#### 安装 pods:
+#### 步骤 2: 构建 sherpa-onnx iOS 框架
+
+```bash
+# 克隆 sherpa-onnx 仓库
+cd /tmp
+git clone --depth 1 https://github.com/k2-fsa/sherpa-onnx.git
+
+# 运行 iOS 构建脚本（大约需要 5-10 分钟）
+cd sherpa-onnx
+./build-ios.sh
+
+# 构建完成后，框架位于:
+# /tmp/sherpa-onnx/build-ios/sherpa-onnx.xcframework
+# /tmp/sherpa-onnx/build-ios/ios-onnxruntime/1.17.1/onnxruntime.xcframework
+```
+
+#### 步骤 3: 复制框架到项目
+
+```bash
+# 创建 Frameworks 目录
+mkdir -p /path/to/cebu-expo/ios/Frameworks
+
+# 复制框架
+cp -R /tmp/sherpa-onnx/build-ios/sherpa-onnx.xcframework /path/to/cebu-expo/ios/Frameworks/
+cp -R /tmp/sherpa-onnx/build-ios/ios-onnxruntime/1.17.1/onnxruntime.xcframework /path/to/cebu-expo/ios/Frameworks/
+```
+
+#### 步骤 4: 配置 Podfile
+
+Podfile 已配置为自动链接手动构建的框架（通过 `post_install` hook）。无需额外配置。
+
+#### 步骤 5: 安装 pods
 
 ```bash
 cd ios
 pod install
 cd ..
 ```
+
+**注意:**
+- iOS 框架已在项目中就绪，`pod install` 会自动配置链接
+- 框架文件较大（~100MB），已在 `.gitignore` 中排除
+- 其他开发者需要重复步骤 1-3 来构建框架
 
 ### 4. 预构建和运行
 
@@ -256,14 +291,32 @@ android {
 
 #### 问题: sherpa-onnx pod 找不到
 
-**解决方案**:
-1. 确保 Podfile 中添加了 sherpa-onnx 依赖
-2. 运行 `pod repo update`
-3. 重新 `pod install`
+**原因**: sherpa-onnx 没有官方 CocoaPods pod。
+
+**解决方案**: 必须手动构建 xcframework（参见上方"iOS 配置"部分）:
+1. 安装 cmake: `brew install cmake`
+2. 克隆并构建 sherpa-onnx: `cd /tmp && git clone --depth 1 https://github.com/k2-fsa/sherpa-onnx.git && cd sherpa-onnx && ./build-ios.sh`
+3. 复制框架到项目: `cp -R build-ios/sherpa-onnx.xcframework /path/to/project/ios/Frameworks/`
+4. 复制 onnxruntime: `cp -R build-ios/ios-onnxruntime/1.17.1/onnxruntime.xcframework /path/to/project/ios/Frameworks/`
+5. 运行 `pod install`
+
+#### 问题: iOS 构建脚本失败 "cmake: command not found"
+
+**解决方案**: 安装 cmake
+```bash
+brew install cmake
+```
 
 #### 问题: Swift 模块编译错误
 
 **解决方案**: 确保 Xcode 版本 >= 14.0，Swift >= 5.4
+
+#### 问题: 框架链接错误
+
+**解决方案**: 确保:
+1. 框架文件存在于 `ios/Frameworks/` 目录
+2. Podfile 包含 `post_install` hook 自动配置框架链接
+3. 重新运行 `pod install`
 
 ### 模型下载
 
