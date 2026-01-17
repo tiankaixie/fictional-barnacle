@@ -4,11 +4,13 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, Pressable } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Pressable } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider, useTheme } from './src/ui/theme';
+import { GlassBackground, GlassCard } from './src/ui/components';
 import { RecordingOverlay } from './src/features/recording/components';
 import { JournalListScreen } from './src/features/journal/components';
 import { SettingsScreen } from './src/features/settings/components';
@@ -16,6 +18,7 @@ import { useRecording } from './src/features/recording/hooks/useRecording';
 import { database } from './src/core/data/database';
 import { JournalRepository } from './src/core/data/repositories';
 import { audioStorageService } from './src/core/services';
+import { BlurView } from 'expo-blur';
 
 // Create Query Client
 const queryClient = new QueryClient({
@@ -36,7 +39,7 @@ function MainScreen() {
   const [activeTab, setActiveTab] = useState<TabType>('journal');
   const [showRecordingOverlay, setShowRecordingOverlay] = useState(false);
   const { isInitialized } = useRecording();
-  const { colors } = useTheme();
+  const { colors, effectiveTheme } = useTheme();
 
   // Initialize audio storage on mount
   useEffect(() => {
@@ -44,7 +47,7 @@ function MainScreen() {
   }, []);
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+    <GlassBackground>
       <StatusBar style="auto" />
 
       {/* Main content - tab based */}
@@ -53,52 +56,64 @@ function MainScreen() {
         {activeTab === 'record' && <SettingsScreen />}
       </View>
 
-      {/* Bottom tab bar */}
-      <View style={[styles.tabBar, { backgroundColor: colors.backgroundSecondary, borderTopColor: colors.glassBackground }]}>
-        <Pressable
-          style={[styles.tab, activeTab === 'journal' && styles.tabActive]}
-          onPress={() => setActiveTab('journal')}
-        >
-          <Ionicons
-            name={activeTab === 'journal' ? 'book' : 'book-outline'}
-            size={24}
-            color={activeTab === 'journal' ? colors.primary : colors.textTertiary}
+      {/* Bottom tab bar with glass effect */}
+      <SafeAreaView edges={['bottom']} style={styles.tabBarContainer}>
+        <View style={styles.tabBarWrapper}>
+          {/* Glass blur background */}
+          <BlurView
+            intensity={20}
+            tint={effectiveTheme}
+            style={StyleSheet.absoluteFill}
           />
-          <Text style={[styles.tabText, { color: activeTab === 'journal' ? colors.primary : colors.textTertiary }]}>
-            日记
-          </Text>
-        </Pressable>
 
-        {/* Center floating action button */}
-        <Pressable
-          style={styles.fabButton}
-          onPress={() => setShowRecordingOverlay(true)}
-          disabled={!isInitialized}
-        >
-          <Ionicons name="mic" size={28} color="#FFFFFF" />
-        </Pressable>
+          {/* Tab bar content */}
+          <View style={styles.tabBar}>
+            <Pressable
+              style={styles.tab}
+              onPress={() => setActiveTab('journal')}
+            >
+              <Ionicons
+                name={activeTab === 'journal' ? 'book' : 'book-outline'}
+                size={24}
+                color={activeTab === 'journal' ? colors.primary : colors.textTertiary}
+              />
+              <Text style={[styles.tabText, { color: activeTab === 'journal' ? colors.primary : colors.textTertiary }]}>
+                日记
+              </Text>
+            </Pressable>
 
-        <Pressable
-          style={[styles.tab, activeTab === 'record' && styles.tabActive]}
-          onPress={() => setActiveTab('record')}
-        >
-          <Ionicons
-            name={activeTab === 'record' ? 'settings' : 'settings-outline'}
-            size={24}
-            color={activeTab === 'record' ? colors.primary : colors.textTertiary}
-          />
-          <Text style={[styles.tabText, { color: activeTab === 'record' ? colors.primary : colors.textTertiary }]}>
-            设置
-          </Text>
-        </Pressable>
-      </View>
+            {/* Center floating action button */}
+            <Pressable
+              style={[styles.fabButton, { backgroundColor: colors.primary }]}
+              onPress={() => setShowRecordingOverlay(true)}
+              disabled={!isInitialized}
+            >
+              <Ionicons name="mic" size={28} color="#FFFFFF" />
+            </Pressable>
+
+            <Pressable
+              style={styles.tab}
+              onPress={() => setActiveTab('record')}
+            >
+              <Ionicons
+                name={activeTab === 'record' ? 'settings' : 'settings-outline'}
+                size={24}
+                color={activeTab === 'record' ? colors.primary : colors.textTertiary}
+              />
+              <Text style={[styles.tabText, { color: activeTab === 'record' ? colors.primary : colors.textTertiary }]}>
+                设置
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </SafeAreaView>
 
       {/* Recording Overlay */}
       <RecordingOverlay
         visible={showRecordingOverlay}
         onClose={() => setShowRecordingOverlay(false)}
       />
-    </SafeAreaView>
+    </GlassBackground>
   );
 }
 
@@ -138,9 +153,6 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   loadingContainer: {
     flex: 1,
     alignItems: 'center',
@@ -152,44 +164,35 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
-  recordTab: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 32,
+  tabBarContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
-  recordTabText: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#000000',
-    marginBottom: 8,
-  },
-  recordTabSubtext: {
-    fontSize: 14,
-    color: '#8E8E93',
-    textAlign: 'center',
+  tabBarWrapper: {
+    position: 'relative',
+    overflow: 'hidden',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.12,
+    shadowRadius: 12,
+    elevation: 8,
   },
   tabBar: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    borderTopWidth: 1,
-    paddingBottom: 20,
-    paddingTop: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 8,
+    paddingTop: 12,     // Thinner (was 8)
+    paddingBottom: 8,   // Thinner (was 20)
   },
   tab: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 8,
-  },
-  tabActive: {
-    // Active tab styling handled by icon and text color
+    paddingVertical: 4, // Thinner (was 8)
   },
   tabText: {
     fontSize: 11,
@@ -200,17 +203,16 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: '#FF453A',
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
-    bottom: 20,
+    top: -20,           // Float above tab bar
     left: '50%',
     marginLeft: -28,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
-    shadowRadius: 8,
+    shadowRadius: 12,   // Softer shadow (was 8)
     elevation: 12,
   },
 });
