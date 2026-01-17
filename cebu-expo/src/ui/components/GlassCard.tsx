@@ -8,7 +8,6 @@
 import React, { ReactNode } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
 import { BlurView } from 'expo-blur';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../theme/ThemeProvider';
 
 interface GlassCardProps {
@@ -38,28 +37,28 @@ export const GlassCard: React.FC<GlassCardProps> = ({
         style={[StyleSheet.absoluteFill, { borderRadius }]}
       />
 
-      {/* Background gradient */}
-      <LinearGradient
-        colors={[
-          colors.glassBackground,
-          colors.backgroundSecondary + 'DD', // Slightly more opaque
-          colors.backgroundSecondary + '99',
+      {/* Background - solid color */}
+      <View
+        style={[
+          StyleSheet.absoluteFill,
+          {
+            backgroundColor: colors.glassBackground,
+            borderRadius,
+          },
         ]}
-        locations={[0, 0.4, 1]} // Control gradient distribution
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={[StyleSheet.absoluteFill, { borderRadius }]}
       />
 
-      {/* Border gradient */}
-      <View style={[styles.border, { borderRadius }]}>
-        <LinearGradient
-          colors={[colors.glassHighlight, colors.glassBorder]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={[StyleSheet.absoluteFill, { borderRadius }]}
-        />
-      </View>
+      {/* Border - solid color */}
+      <View
+        style={[
+          styles.border,
+          {
+            borderRadius,
+            borderWidth: 1,
+            borderColor: colors.glassBorder,
+          },
+        ]}
+      />
 
       {/* Content */}
       <View style={styles.content}>{children}</View>
@@ -89,7 +88,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    padding: 1,
     opacity: 0.6,
   },
   content: {

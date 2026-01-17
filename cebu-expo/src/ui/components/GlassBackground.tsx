@@ -1,13 +1,12 @@
 /**
- * Input: React children, gradient colors
- * Output: Full-screen background with animated gradient
- * Pos: Screen-level background component for liquid glass aesthetic
+ * Input: React children
+ * Output: Full-screen solid background
+ * Pos: Screen-level background component for Claude aesthetic
  * If this file is updated, you must update this header and the parent folder's README.md.
  */
 
 import React, { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../theme/ThemeProvider';
 
 interface GlassBackgroundProps {

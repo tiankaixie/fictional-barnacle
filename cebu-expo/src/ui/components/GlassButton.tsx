@@ -8,7 +8,6 @@
 import React, { ReactNode } from 'react';
 import { StyleSheet, Text, Pressable, ViewStyle, TextStyle, View } from 'react-native';
 import { BlurView } from 'expo-blur';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../theme/ThemeProvider';
 import * as Haptics from 'expo-haptics';
 
@@ -98,30 +97,30 @@ export const GlassButton: React.FC<GlassButtonProps> = ({
               tint={effectiveTheme}
               style={[StyleSheet.absoluteFill, { borderRadius: currentSize.paddingVertical }]}
             />
-            <LinearGradient
-              colors={currentVariant.background}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={[StyleSheet.absoluteFill, { borderRadius: currentSize.paddingVertical }]}
+            <View
+              style={[
+                StyleSheet.absoluteFill,
+                {
+                  backgroundColor: currentVariant.background[0], // Use first color as solid
+                  borderRadius: currentSize.paddingVertical,
+                },
+              ]}
             />
           </>
         )}
 
-        {/* Border gradient */}
+        {/* Border */}
         {variant === 'secondary' && (
           <View
             style={[
               styles.border,
-              { borderRadius: currentSize.paddingVertical },
+              {
+                borderRadius: currentSize.paddingVertical,
+                borderWidth: 1,
+                borderColor: colors.glassBorder,
+              },
             ]}
-          >
-            <LinearGradient
-              colors={[colors.glassHighlight, colors.glassBorder]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={[StyleSheet.absoluteFill, { borderRadius: currentSize.paddingVertical }]}
-            />
-          </View>
+          />
         )}
 
         {/* Content */}
@@ -169,7 +168,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    padding: 1,
     opacity: 0.6,
   },
   content: {
