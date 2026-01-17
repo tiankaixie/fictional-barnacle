@@ -185,7 +185,7 @@ export const FilterSheet: React.FC<FilterSheetProps> = ({
           </ScrollView>
 
           {/* Footer */}
-          <View style={styles.footer}>
+          <View style={[styles.footer, { borderTopColor: colors.glassBackground }]}>
             {hasActiveFilters && (
               <GlassButton
                 title="重置"
@@ -275,7 +275,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 16,
     borderTopWidth: 1,
-    borderTopColor: 'rgba(0, 0, 0, 0.1)',
   },
   resetButton: {
     flex: 1,

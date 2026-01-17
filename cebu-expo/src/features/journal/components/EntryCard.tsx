@@ -165,13 +165,11 @@ const styles = StyleSheet.create({
   dateText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#000000',
     marginLeft: 8,
   },
   audioBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#E5F1FF',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 12,
@@ -180,7 +178,6 @@ const styles = StyleSheet.create({
   audioBadgeText: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#007AFF',
   },
   deleteButton: {
     padding: 4,

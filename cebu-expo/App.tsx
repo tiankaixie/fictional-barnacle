@@ -8,7 +8,7 @@ import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, Pre
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ThemeProvider } from './src/ui/theme';
+import { ThemeProvider, useTheme } from './src/ui/theme';
 import { RecordingOverlay } from './src/features/recording/components';
 import { JournalListScreen } from './src/features/journal/components';
 import { SettingsScreen } from './src/features/settings/components';
@@ -36,6 +36,7 @@ function MainScreen() {
   const [activeTab, setActiveTab] = useState<TabType>('journal');
   const [showRecordingOverlay, setShowRecordingOverlay] = useState(false);
   const { isInitialized } = useRecording();
+  const { colors } = useTheme();
 
   // Initialize audio storage on mount
   useEffect(() => {
@@ -43,7 +44,7 @@ function MainScreen() {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar style="auto" />
 
       {/* Main content - tab based */}
@@ -53,7 +54,7 @@ function MainScreen() {
       </View>
 
       {/* Bottom tab bar */}
-      <View style={styles.tabBar}>
+      <View style={[styles.tabBar, { backgroundColor: colors.backgroundSecondary, borderTopColor: colors.glassBackground }]}>
         <Pressable
           style={[styles.tab, activeTab === 'journal' && styles.tabActive]}
           onPress={() => setActiveTab('journal')}
@@ -61,9 +62,9 @@ function MainScreen() {
           <Ionicons
             name={activeTab === 'journal' ? 'book' : 'book-outline'}
             size={24}
-            color={activeTab === 'journal' ? '#007AFF' : '#8E8E93'}
+            color={activeTab === 'journal' ? colors.primary : colors.textTertiary}
           />
-          <Text style={[styles.tabText, activeTab === 'journal' && styles.tabTextActive]}>
+          <Text style={[styles.tabText, { color: activeTab === 'journal' ? colors.primary : colors.textTertiary }]}>
             日记
           </Text>
         </Pressable>
@@ -84,9 +85,9 @@ function MainScreen() {
           <Ionicons
             name={activeTab === 'record' ? 'settings' : 'settings-outline'}
             size={24}
-            color={activeTab === 'record' ? '#007AFF' : '#8E8E93'}
+            color={activeTab === 'record' ? colors.primary : colors.textTertiary}
           />
-          <Text style={[styles.tabText, activeTab === 'record' && styles.tabTextActive]}>
+          <Text style={[styles.tabText, { color: activeTab === 'record' ? colors.primary : colors.textTertiary }]}>
             设置
           </Text>
         </Pressable>
@@ -139,17 +140,14 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F7',
   },
   loadingContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#F5F5F7',
   },
   loadingText: {
     fontSize: 16,
-    color: '#666',
   },
   content: {
     flex: 1,
@@ -175,9 +173,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    backgroundColor: '#FFFFFF',
     borderTopWidth: 1,
-    borderTopColor: '#E5E5EA',
     paddingBottom: 20,
     paddingTop: 8,
     shadowColor: '#000',
@@ -197,13 +193,8 @@ const styles = StyleSheet.create({
   },
   tabText: {
     fontSize: 11,
-    color: '#8E8E93',
     marginTop: 2,
     fontWeight: '500',
-  },
-  tabTextActive: {
-    color: '#007AFF',
-    fontWeight: '600',
   },
   fabButton: {
     width: 56,
