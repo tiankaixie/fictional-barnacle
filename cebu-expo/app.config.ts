@@ -32,6 +32,20 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     favicon: './assets/favicon.png',
   },
   plugins: [
+    // Expo Dev Client and build properties for native modules
+    [
+      'expo-build-properties',
+      {
+        android: {
+          minSdkVersion: 21,
+          compileSdkVersion: 34,
+          targetSdkVersion: 34,
+        },
+        ios: {
+          deploymentTarget: '13.0',
+        },
+      },
+    ],
     // Comment out the plugin for now since we don't have model files yet
     // './plugins/withSenseVoiceModels',
   ],
